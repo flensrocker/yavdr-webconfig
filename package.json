@@ -1,7 +1,7 @@
 {
   "name": "yavdr-webconfig",
-  "version": "0.0.0",
-  "license": "MIT",
+  "version": "0.0.1",
+  "license": "GPL-2.0-or-later",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
