@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 import {
   DashboardService,
-  SystemStatusResponse,
+  SystemStatusData,
 } from './dashboard.service';
 
 @Injectable()
@@ -14,7 +14,7 @@ export class DashboardServiceHttp implements DashboardService {
   ) {
   }
 
-  getSystemStatus(): Observable<SystemStatusResponse> {
-    return this._http.get<SystemStatusResponse>('/api/system/status');
+  getSystemStatus(): Observable<SystemStatusData> {
+    return this._http.get<SystemStatusData>('/api/system/status');
   }
 }

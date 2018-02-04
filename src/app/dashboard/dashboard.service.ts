@@ -1,8 +1,8 @@
 import { Observable } from 'rxjs/Observable';
 
-import { SystemStatusResponse } from './dashboard.servicedata';
-export { SystemStatusResponse };
+import { SystemStatusData } from './dashboard.servicedata';
+export { SystemStatusData };
 
 export abstract class DashboardService {
-  abstract getSystemStatus(): Observable<SystemStatusResponse>;
+  abstract getSystemStatus(): Observable<SystemStatusData>;
 }
