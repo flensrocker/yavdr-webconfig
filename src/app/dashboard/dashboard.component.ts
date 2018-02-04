@@ -1,11 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/finally';
-import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/startWith';
-import 'rxjs/add/operator/switch';
+import 'rxjs/add/operator/switchMap';
 
 import { SpinnerData } from '../tools/tools.module';
 
@@ -19,11 +18,10 @@ import {
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent implements OnDestroy {
+  private _reload = new Subject<boolean>();
 
-  private _reload: Subject<boolean> = new Subject<boolean>();
-
-  public Spinner: SpinnerData = new SpinnerData();
+  public Spinner = new SpinnerData();
   public SystemStatus: Observable<SystemStatusData>;
 
   constructor(
@@ -31,8 +29,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ) {
     this.SystemStatus = this._reload
       .startWith(true)
-      .map((reload: boolean) => {
-        this.Spinner.IncCounter();
+      .switchMap((reload: boolean) => {
+        this.Spinner.Inc();
         return this._service
           .getSystemStatus()
           .catch((err: any) => {
@@ -41,17 +39,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
             return Observable.of<SystemStatusData>(new SystemStatusData());
           })
           .finally(() => {
-            this.Spinner.DecCounter();
+            this.Spinner.Dec();
           });
-      })
-      .switch();
-  }
-
-  ngOnInit(): void {
+      });
   }
 
   ngOnDestroy(): void {
     this._reload.complete();
+    this.Spinner.Destroy();
   }
 
   reload(): void {
