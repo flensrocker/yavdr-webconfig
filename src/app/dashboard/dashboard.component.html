@@ -1,3 +1,12 @@
-<p>
-  dashboard works!
-</p>
+<h2>
+  Dashboard
+  <button mat-mini-fab type="button" (click)="reload()">
+    <span class="fa fa-repeat"></span>
+  </button>
+</h2>
+
+<ng-container *ngIf="SystemStatus | async as status">
+  <div>
+    {{status.cpu_num}}
+  </div>
+</ng-container>

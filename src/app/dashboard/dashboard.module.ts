@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { MaterialModule } from '../material/material.module';
+
 import { DashboardService } from './dashboard.service';
 import { DashboardServiceHttp } from './dashboard.service.http';
 import { DashboardServiceMock } from './dashboard.service.mock';
@@ -12,6 +14,7 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 @NgModule({
   imports: [
     CommonModule,
+    MaterialModule,
     DashboardRoutingModule,
   ],
   declarations: [
