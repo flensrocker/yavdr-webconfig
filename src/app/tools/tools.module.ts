@@ -6,8 +6,6 @@ import {
 
 import { SpinnerComponent } from './spinner.component';
 
-export { SpinnerData } from './spinner.component';
-
 @NgModule({
   imports: [
     CommonModule,

@@ -6,7 +6,7 @@ import 'rxjs/add/operator/finally';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/switchMap';
 
-import { SpinnerData } from '../tools/tools.module';
+import { SpinnerData } from '../tools';
 
 import {
   DashboardService,
