@@ -10,6 +10,8 @@
   </ng-template>
 </h2>
 
+<app-error [Error]="Error"></app-error>
+
 <ng-container *ngIf="SystemStatus | async as status">
   <div>
     {{status.cpu_num}}

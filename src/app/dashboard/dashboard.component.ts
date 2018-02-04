@@ -6,7 +6,10 @@ import 'rxjs/add/operator/finally';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/switchMap';
 
-import { SpinnerData } from '../tools';
+import {
+  ErrorData,
+  SpinnerData,
+} from '../tools';
 
 import {
   DashboardService,
@@ -21,6 +24,7 @@ import {
 export class DashboardComponent implements OnDestroy {
   private _reload = new Subject<boolean>();
 
+  public Error = new ErrorData();
   public Spinner = new SpinnerData();
   public SystemStatus: Observable<SystemStatusData>;
 
@@ -34,8 +38,7 @@ export class DashboardComponent implements OnDestroy {
         return this._service
           .getSystemStatus()
           .catch((err: any) => {
-            // TODO display error
-            console.error('dashboard reload error:', err);
+            this.Error.addError(err);
             return Observable.of<SystemStatusData>(new SystemStatusData());
           })
           .finally(() => {
