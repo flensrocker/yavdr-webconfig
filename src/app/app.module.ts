@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { DashboardModule } from './dashboard/dashboard.module';
-import { MaterialModule } from './material/material.module';
+import { ToolsModule } from './tools/tools.module';
 
 
 @NgModule({
@@ -18,7 +18,7 @@ import { MaterialModule } from './material/material.module';
     BrowserAnimationsModule,
     DashboardModule,
     AppRoutingModule,
-    MaterialModule,
+    ToolsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

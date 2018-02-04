@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { MaterialModule } from '../material/material.module';
+import { ToolsModule } from '../tools/tools.module';
 
 import { DashboardService } from './dashboard.service';
 import { DashboardServiceHttp } from './dashboard.service.http';
@@ -14,7 +14,7 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 @NgModule({
   imports: [
     CommonModule,
-    MaterialModule,
+    ToolsModule,
     DashboardRoutingModule,
   ],
   declarations: [

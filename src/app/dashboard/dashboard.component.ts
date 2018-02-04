@@ -7,6 +7,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/switch';
 
+import { SpinnerData } from '../tools/tools.module';
+
 import {
   DashboardService,
   SystemStatusData,
@@ -21,6 +23,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   private _reload: Subject<boolean> = new Subject<boolean>();
 
+  public Spinner: SpinnerData = new SpinnerData();
   public SystemStatus: Observable<SystemStatusData>;
 
   constructor(
@@ -29,8 +32,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.SystemStatus = this._reload
       .startWith(true)
       .map((reload: boolean) => {
-        // TODO activate spinner
-        console.log('dashboard reloading');
+        this.Spinner.IncCounter();
         return this._service
           .getSystemStatus()
           .catch((err: any) => {
@@ -39,8 +41,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             return Observable.of<SystemStatusData>(new SystemStatusData());
           })
           .finally(() => {
-            // TODO deactivate spinner
-            console.log('dashboard reloaded');
+            this.Spinner.DecCounter();
           });
       })
       .switch();
