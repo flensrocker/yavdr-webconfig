@@ -1,19 +1,18 @@
-<h1>
-  {{ title }}
-</h1>
-
-<mat-sidenav-container>
+<mat-sidenav-container class="mat-typography">
   <mat-sidenav mode="side" opened="true">
     <mat-nav-list>
-      <a mat-list-item [routerLink]="['dashboard']" routerLinkActive="active-link">Dashboard</a>
-      <a mat-list-item [routerLink]="['settings']" routerLinkActive="active-link">Settings</a>
-      <a mat-list-item [routerLink]="['remote-control']" routerLinkActive="active-link">Remote Control</a>
-      <a mat-list-item [routerLink]="['sundtek']" routerLinkActive="active-link">Sundtek</a>
-      <a mat-list-item [routerLink]="['packages']" routerLinkActive="active-link">Packages</a>
-      <a mat-list-item [routerLink]="['system']" routerLinkActive="active-link">System</a>
+      <a mat-list-item [routerLink]="['dashboard']" routerLinkActive="app-active-link">Dashboard</a>
+      <a mat-list-item [routerLink]="['settings']" routerLinkActive="app-active-link">Settings</a>
+      <a mat-list-item [routerLink]="['remote-control']" routerLinkActive="app-active-link">Remote Control</a>
+      <a mat-list-item [routerLink]="['sundtek']" routerLinkActive="app-active-link">Sundtek</a>
+      <a mat-list-item [routerLink]="['packages']" routerLinkActive="app-active-link">Packages</a>
+      <a mat-list-item [routerLink]="['system']" routerLinkActive="app-active-link">System</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
+    <h1>
+      {{ title }}
+    </h1>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
