@@ -1,0 +1,21 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <h3>CPU</h3>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div>
+      <mat-form-field>
+        <input matInput readonly placeholder="Number of CPUs" [value]="SystemStatus.cpu_num">
+      </mat-form-field>
+      <mat-form-field *ngFor="let l of SystemStatus.load_average; let first = first">
+        <input matInput readonly [placeholder]="first ? 'Load' : ''" [value]="l">
+      </mat-form-field>
+      <div>
+        <label>Usage</label>
+        <app-cpu-usage *ngFor="let u of SystemStatus.cpu_usage" [CpuUsage]="u"></app-cpu-usage>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

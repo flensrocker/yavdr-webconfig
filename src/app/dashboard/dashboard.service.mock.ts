@@ -251,7 +251,7 @@ export class DashboardServiceMock implements DashboardService {
         "#35-Ubuntu SMP Thu Jan 25 09:13:46 UTC 2018"
     ],
     "uptime": "-1 day, 23:11:42"
-  }`);
+  }`) as SystemStatusData;
 
   constructor(
   ) {

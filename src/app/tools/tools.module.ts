@@ -4,6 +4,9 @@ import {
   MatButtonModule,
   MatCardModule,
   MatFormFieldModule,
+  MatInputModule,
+  MatListModule,
+  MatProgressBarModule,
 } from '@angular/material';
 
 import { ErrorComponent } from './error.component';
@@ -15,12 +18,18 @@ import { SpinnerComponent } from './spinner.component';
     MatButtonModule,
     MatCardModule,
     MatFormFieldModule,
+    MatInputModule,
+    MatListModule,
+    MatProgressBarModule,
   ],
   exports: [
     CommonModule,
     MatButtonModule,
     MatCardModule,
     MatFormFieldModule,
+    MatInputModule,
+    MatListModule,
+    MatProgressBarModule,
     ErrorComponent,
     SpinnerComponent,
   ],

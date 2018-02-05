@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { ToolsModule } from '../tools/tools.module';
 
@@ -10,15 +11,20 @@ import { DashboardServiceMock } from './dashboard.service.mock';
 import { DashboardComponent } from './dashboard.component';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
+import { CpuComponent } from './cpu.component';
+import { CpuUsageComponent } from './cpu-usage.component';
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     ToolsModule,
     DashboardRoutingModule,
   ],
   declarations: [
     DashboardComponent,
+    CpuComponent,
+    CpuUsageComponent,
   ],
   providers: [
     { provide: DashboardService, useClass: DashboardServiceMock /*DashboardServiceHttp*/ },
