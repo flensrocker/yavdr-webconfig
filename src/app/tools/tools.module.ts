@@ -7,6 +7,7 @@ import {
   MatInputModule,
   MatListModule,
   MatProgressBarModule,
+  MatSidenavModule,
 } from '@angular/material';
 
 import { ErrorComponent } from './error.component';
@@ -21,6 +22,7 @@ import { SpinnerComponent } from './spinner.component';
     MatInputModule,
     MatListModule,
     MatProgressBarModule,
+    MatSidenavModule,
   ],
   exports: [
     CommonModule,
@@ -30,6 +32,7 @@ import { SpinnerComponent } from './spinner.component';
     MatInputModule,
     MatListModule,
     MatProgressBarModule,
+    MatSidenavModule,
     ErrorComponent,
     SpinnerComponent,
   ],

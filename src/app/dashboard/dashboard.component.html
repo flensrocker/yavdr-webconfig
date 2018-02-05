@@ -1,18 +1,20 @@
-<h2>
-  Dashboard
-  <ng-container *ngIf="Spinner.IsLoading | async; else reloadTemplate">
-    <app-spinner [Data]="Spinner"></app-spinner>
+<div>
+  <h2>
+    Dashboard
+    <ng-container *ngIf="Spinner.IsLoading | async; else reloadTemplate">
+      <app-spinner [Data]="Spinner"></app-spinner>
+    </ng-container>
+    <ng-template #reloadTemplate>
+      <button mat-mini-fab type="button" (click)="reload()">
+        <span class="fa fa-repeat"></span>
+      </button>
+    </ng-template>
+  </h2>
+
+  <app-error [Error]="Error"></app-error>
+
+  <ng-container *ngIf="SystemStatus | async as status">
+    <app-system [SystemStatus]="status"></app-system>
+    <app-cpu [SystemStatus]="status"></app-cpu>
   </ng-container>
-  <ng-template #reloadTemplate>
-    <button mat-mini-fab type="button" (click)="reload()">
-      <span class="fa fa-repeat"></span>
-    </button>
-  </ng-template>
-</h2>
-
-<app-error [Error]="Error"></app-error>
-
-<ng-container *ngIf="SystemStatus | async as status">
-  <app-system [SystemStatus]="status"></app-system>
-  <app-cpu [SystemStatus]="status"></app-cpu>
-</ng-container>
+</div>
