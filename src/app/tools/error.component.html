@@ -1,5 +1,10 @@
 <ng-container *ngIf="Error.Errors | async as errors">
   <mat-card *ngIf="errors.length > 0" role="alert">
+    <mat-card-header>
+      <mat-card-title>
+        <h3>Ooops, there has been an error...</h3>
+      </mat-card-title>
+    </mat-card-header>
     <mat-card-content>
       <p *ngFor="let e of errors">
         <mat-error>{{e}}</mat-error>

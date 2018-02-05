@@ -1,0 +1,29 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <h3>System</h3>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div>
+      <mat-form-field *ngFor="let r of SystemStatus.release; let first = first">
+        <input matInput readonly [placeholder]="first ? 'Release' : ''" [value]="r">
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field>
+        <input matInput readonly placeholder="Kernel" [value]="SystemStatus.kernel">
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field *ngFor="let s of SystemStatus.system_alias; let first = first">
+        <input matInput readonly [placeholder]="first ? 'System-Alias' : ''" [value]="s">
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field>
+        <input matInput readonly placeholder="Uptime" [value]="SystemStatus.uptime">
+      </mat-form-field>
+    </div>
+  </mat-card-content>
+</mat-card>

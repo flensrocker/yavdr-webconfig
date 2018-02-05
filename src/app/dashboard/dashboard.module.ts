@@ -13,6 +13,7 @@ import { DashboardComponent } from './dashboard.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { CpuComponent } from './cpu.component';
 import { CpuUsageComponent } from './cpu-usage.component';
+import { SystemComponent } from './system.component';
 
 @NgModule({
   imports: [
@@ -25,6 +26,7 @@ import { CpuUsageComponent } from './cpu-usage.component';
     DashboardComponent,
     CpuComponent,
     CpuUsageComponent,
+    SystemComponent,
   ],
   providers: [
     { provide: DashboardService, useClass: DashboardServiceMock /*DashboardServiceHttp*/ },

@@ -13,5 +13,6 @@
 <app-error [Error]="Error"></app-error>
 
 <ng-container *ngIf="SystemStatus | async as status">
+  <app-system [SystemStatus]="status"></app-system>
   <app-cpu [SystemStatus]="status"></app-cpu>
 </ng-container>
