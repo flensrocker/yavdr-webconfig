@@ -1,12 +1,12 @@
 <ng-container *ngIf="Error.Errors | async as errors">
-  <mat-card *ngIf="errors.length > 0">
+  <mat-card *ngIf="errors.length > 0" role="alert">
     <mat-card-content>
       <p *ngFor="let e of errors">
-        {{e}}
+        <mat-error>{{e}}</mat-error>
       </p>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-button color="warn" (click)="Error.clearErrors()">Dismiss</button>
+      <button mat-button (click)="Error.clearErrors()">Dismiss</button>
     </mat-card-actions>
   </mat-card>
 </ng-container>
