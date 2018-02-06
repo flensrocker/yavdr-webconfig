@@ -13,3 +13,7 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
 .app-active-link {
     background: mat-color($app-primary);
 }
+
+.app-alert {
+    background-color: mat-color($app-warn, lighter);
+}
