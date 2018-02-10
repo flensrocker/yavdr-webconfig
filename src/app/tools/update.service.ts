@@ -3,25 +3,26 @@ import { SwUpdate } from '@angular/service-worker';
 import { UpdateAvailableEvent } from '@angular/service-worker/src/low_level';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { interval } from 'rxjs/observable/interval';
+import { UpdateAppData, AppData } from './update.servicedata';
 
-export { UpdateAvailableEvent };
+export { UpdateAppData, AppData };
 
 @Injectable()
 export class UpdateService {
-  private _version: ReplaySubject<UpdateAvailableEvent> = new ReplaySubject<UpdateAvailableEvent>(1);
-  public version: Observable<UpdateAvailableEvent> = this._version.asObservable();
+  private _available: ReplaySubject<UpdateAppData> = new ReplaySubject<UpdateAppData>(1);
+  public available: Observable<UpdateAppData> = this._available.asObservable();
 
   constructor(private _swUpdate: SwUpdate) {
-    _swUpdate.available.subscribe((e: UpdateAvailableEvent) => this._version.next(e));
-    interval(60 * 1000).subscribe(() => _swUpdate.checkForUpdate());
+    _swUpdate.available.subscribe((e: UpdateAvailableEvent) => {
+      this._available.next(new UpdateAppData(e.current.appData as AppData, e.available.appData as AppData));
+    });
+    setTimeout(() => _swUpdate.checkForUpdate(), 60 * 1000);
   }
 
-  public checkForUpdate(): void {
-    this._swUpdate.checkForUpdate();
-  }
-
-  public update(): void {
-    document.location.reload();
+  public updateApp(): void {
+    this._swUpdate
+      .activateUpdate()
+      .then(() => document.location.href = '/');
+      // .then(() => document.location.reload()); // needs HTML5 pushstate http-server
   }
 }
