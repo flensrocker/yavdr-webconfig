@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   MatButtonModule,
@@ -12,6 +12,8 @@ import {
 
 import { ErrorComponent } from './error.component';
 import { SpinnerComponent } from './spinner.component';
+import { UpdateService } from './update.service';
+import { UpdateComponent } from './update.component';
 
 @NgModule({
   imports: [
@@ -35,10 +37,20 @@ import { SpinnerComponent } from './spinner.component';
     MatSidenavModule,
     ErrorComponent,
     SpinnerComponent,
+    UpdateComponent,
   ],
   declarations: [
     ErrorComponent,
     SpinnerComponent,
+    UpdateComponent,
   ]
 })
-export class ToolsModule { }
+export class ToolsModule {
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: ToolsModule, providers: [
+        UpdateService,
+      ]
+    };
+  }
+}

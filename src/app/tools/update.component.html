@@ -1,0 +1,7 @@
+<ng-container *ngIf="updateService.version | async as version">
+  <a mat-list-item disabled>Version: {{version.current.appData?.version}}</a>
+  <ng-container *ngIf="version.current.hash != version.available.hash">
+    <a mat-list-item (click)="updateService.update()">Update App to {{version.available.appData?.version}}</a>
+  </ng-container>
+</ng-container>
+<a mat-list-item (click)="updateService.checkForUpdate()">Check for Update</a>

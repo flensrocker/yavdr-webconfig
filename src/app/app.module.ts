@@ -21,7 +21,7 @@ import { ToolsModule } from './tools/tools.module';
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
     DashboardModule,
     AppRoutingModule,
-    ToolsModule,
+    ToolsModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]
