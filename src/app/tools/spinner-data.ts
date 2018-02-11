@@ -12,7 +12,7 @@ export class SpinnerData {
     this._isLoading = this._loading.observeOn(asap, 1);
   }
 
-  public Inc(count: number = 1): void {
+  public inc(count: number = 1): void {
     count = Math.floor(count);
     if (count < 1) {
       console.error(`spinner: invalid count ${count}`);
@@ -25,7 +25,7 @@ export class SpinnerData {
     }
   }
 
-  public Dec(): void {
+  public dec(): void {
     if (this._counter > 0) {
       this._counter--;
       if (this._counter === 0) {
@@ -34,11 +34,11 @@ export class SpinnerData {
     }
   }
 
-  public get IsLoading(): Observable<boolean> {
+  public get isLoading(): Observable<boolean> {
     return this._isLoading;
   }
 
-  public Destroy(): void {
+  public destroy(): void {
     this._loading.complete();
   }
 }

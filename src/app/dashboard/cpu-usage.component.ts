@@ -6,7 +6,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./cpu-usage.component.css']
 })
 export class CpuUsageComponent implements OnInit {
-  @Input() CpuUsage: number;
+  @Input() cpuUsage: number;
 
   constructor() { }
 

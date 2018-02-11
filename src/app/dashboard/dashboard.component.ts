@@ -25,32 +25,32 @@ import {
 export class DashboardComponent implements OnDestroy {
   private _reload = new Subject<boolean>();
 
-  public Error = new ErrorData();
-  public Spinner = new SpinnerData();
-  public SystemStatus: Observable<SystemStatusData>;
+  public error = new ErrorData();
+  public spinner = new SpinnerData();
+  public systemStatus: Observable<SystemStatusData>;
 
   constructor(
     private _service: DashboardService,
   ) {
-    this.SystemStatus = this._reload
+    this.systemStatus = this._reload
       .startWith(true)
       .switchMap((reload: boolean) => {
-        this.Spinner.Inc();
+        this.spinner.inc();
         return this._service
           .getSystemStatus()
           .catch((err: any) => {
-            this.Error.addError(err);
+            this.error.addError(err);
             return Observable.of<SystemStatusData>(new SystemStatusData());
           })
           .finally(() => {
-            this.Spinner.Dec();
+            this.spinner.dec();
           });
       });
   }
 
   ngOnDestroy(): void {
     this._reload.complete();
-    this.Spinner.Destroy();
+    this.spinner.destroy();
   }
 
   reload(): void {

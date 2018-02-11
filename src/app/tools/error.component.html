@@ -1,4 +1,4 @@
-<ng-container *ngIf="Error.Errors | async as errors">
+<ng-container *ngIf="error.errors | async as errors">
   <mat-card *ngIf="errors.length > 0" class="app-alert">
     <mat-card-header>
       <mat-card-title>
@@ -11,7 +11,7 @@
       </p>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-button (click)="Error.clearErrors()">Dismiss</button>
+      <button mat-button (click)="error.clearErrors()">Dismiss</button>
     </mat-card-actions>
   </mat-card>
 </ng-container>

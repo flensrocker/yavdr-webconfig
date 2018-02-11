@@ -1,8 +1,8 @@
 <div>
   <h2>
     Dashboard
-    <ng-container *ngIf="Spinner.IsLoading | async; else reloadTemplate">
-      <app-spinner [Data]="Spinner"></app-spinner>
+    <ng-container *ngIf="spinner.isLoading | async; else reloadTemplate">
+      <app-spinner [data]="spinner"></app-spinner>
     </ng-container>
     <ng-template #reloadTemplate>
       <button mat-mini-fab type="button" (click)="reload()">
@@ -11,10 +11,10 @@
     </ng-template>
   </h2>
 
-  <app-error [Error]="Error"></app-error>
+  <app-error [error]="error"></app-error>
 
-  <ng-container *ngIf="SystemStatus | async as status">
-    <app-system [SystemStatus]="status"></app-system>
-    <app-cpu [SystemStatus]="status"></app-cpu>
+  <ng-container *ngIf="systemStatus | async as status">
+    <app-system [systemStatus]="status"></app-system>
+    <app-cpu [systemStatus]="status"></app-cpu>
   </ng-container>
 </div>

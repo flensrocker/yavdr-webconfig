@@ -47,11 +47,11 @@ export class ErrorData {
     constructor() {
     }
 
-    public get Errors(): Observable<string[]> {
+    public get errors(): Observable<string[]> {
         return this._errors.asObservable();
     }
 
-    public get HasErrors(): Observable<boolean> {
+    public get hasErrors(): Observable<boolean> {
         return this._errors.asObservable()
             .map((err: string[]) => (err === undefined) || (err.length === 0) ? false : true);
     }

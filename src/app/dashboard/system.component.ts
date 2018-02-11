@@ -7,7 +7,7 @@ import { SystemStatusData } from './dashboard.servicedata';
   styleUrls: ['./system.component.css']
 })
 export class SystemComponent implements OnInit {
-  @Input() SystemStatus: SystemStatusData;
+  @Input() systemStatus: SystemStatusData;
 
   constructor() { }
 

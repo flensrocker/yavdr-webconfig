@@ -7,7 +7,7 @@ import { ErrorData } from './error-data';
   templateUrl: './error.component.html',
 })
 export class ErrorComponent {
-  @Input() Error: ErrorData;
+  @Input() error: ErrorData;
 
   constructor() { }
 }

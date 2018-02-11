@@ -7,7 +7,7 @@ import { SpinnerData } from './spinner-data';
   templateUrl: './spinner.component.html',
 })
 export class SpinnerComponent {
-  @Input() Data: SpinnerData;
+  @Input() data: SpinnerData;
 
   constructor() {
   }
