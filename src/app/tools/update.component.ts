@@ -7,7 +7,6 @@ import { UpdateService } from './update.service';
   styleUrls: ['./update.component.scss']
 })
 export class UpdateComponent {
-
   constructor(
     public updateService: UpdateService,
   ) {

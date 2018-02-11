@@ -1,11 +1,7 @@
-export interface AppData {
-    version: string;
-}
-
-export class UpdateAppData {
+export class UpdateData {
     constructor(
-        public current: AppData,
-        public available: AppData,
+        public currentHash: string,
+        public availableHash: string,
     ) {
     }
 }
