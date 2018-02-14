@@ -1,0 +1,13 @@
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <input matInput placeholder="Username" formControlName="username">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Password" formControlName="password" type="password">
+  </mat-form-field>
+  <button type="submit" mat-button [disabled]="!loginForm.valid || (spinner.isLoading | async)">
+    <app-spinner [data]="spinner"></app-spinner>
+    login
+  </button>
+  <app-error [error]="error"></app-error>
+</form>
