@@ -21,9 +21,9 @@ const _authOptions: AuthOptions = new AuthOptions('/login', '/dashboard');
     BrowserModule,
     BrowserAnimationsModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
+    ToolsModule.forRoot(),
     DashboardModule,
     AppRoutingModule,
-    ToolsModule.forRoot(),
   ],
   providers: [
     { provide: AuthOptions, useValue: _authOptions },
