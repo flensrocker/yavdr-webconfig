@@ -9,6 +9,7 @@ import {
   MatListModule,
   MatProgressBarModule,
   MatSidenavModule,
+  MatTabsModule,
 } from '@angular/material';
 
 import { ToolsRoutingModule } from './tools-routing.module';
@@ -35,6 +36,7 @@ import { UpdateComponent } from './update.component';
     MatListModule,
     MatProgressBarModule,
     MatSidenavModule,
+    MatTabsModule,
     ToolsRoutingModule,
   ],
   exports: [
@@ -47,6 +49,7 @@ import { UpdateComponent } from './update.component';
     MatListModule,
     MatProgressBarModule,
     MatSidenavModule,
+    MatTabsModule,
     ErrorComponent,
     LoginComponent,
     SpinnerComponent,

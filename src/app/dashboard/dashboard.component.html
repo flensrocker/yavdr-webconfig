@@ -14,7 +14,13 @@
   <app-error [error]="error"></app-error>
 
   <ng-container *ngIf="systemStatus | async as status">
-    <app-system [systemStatus]="status"></app-system>
-    <app-cpu [systemStatus]="status"></app-cpu>
+    <mat-tab-group>
+      <mat-tab label="System">
+        <app-system [systemStatus]="status"></app-system>
+      </mat-tab>
+      <mat-tab label="CPU">
+        <app-cpu [systemStatus]="status"></app-cpu>
+      </mat-tab>
+    </mat-tab-group>
   </ng-container>
 </div>
