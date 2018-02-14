@@ -38,8 +38,16 @@ export class AuthServiceHttp extends AuthService {
     return loginSubject.asObservable();
   }
 
-  logout(): void {
+  logout(): Observable<true> {
+    let logoutSubject: Subject<true> = new Subject<true>();
     this.setLoggedOut();
-    this._http.post('/api/logout', {}).subscribe(() => { });
+    this._http.post('/api/logout', {}).subscribe(() => {
+      logoutSubject.next(true);
+    }, (err: any) => {
+      logoutSubject.error(err);
+    }, () => {
+      logoutSubject.complete();
+    });
+    return logoutSubject.asObservable();
   }
 }

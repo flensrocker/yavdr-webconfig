@@ -5,7 +5,7 @@ import { LoginResponse, LoginRequest, ValidateResponse, AuthState } from "./auth
 export abstract class AuthService {
     abstract validate(): void;
     abstract login(request: LoginRequest): Observable<LoginResponse>;
-    abstract logout(): void;
+    abstract logout(): Observable<true>;
 
     private _authenticated: BehaviorSubject<AuthState> = new BehaviorSubject<AuthState>(AuthState.NotValidated);
     private _username: string = '';

@@ -48,7 +48,8 @@ export class AuthServiceMock extends AuthService {
     return loginSubject.asObservable();
   }
 
-  logout(): void {
+  logout(): Observable<true> {
     this.setLoggedOut();
+    return Observable.of<true>(true);
   }
 }
