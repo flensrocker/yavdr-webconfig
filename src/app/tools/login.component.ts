@@ -44,8 +44,8 @@ export class LoginComponent {
       .subscribe((response: LoginResponse) => {
         this.spinner.dec();
         let url: string = this._authOptions.homeUrl;
-        if (this._route.snapshot.queryParamMap.has('returnUrl')) {
-          url = decodeURIComponent(this._route.snapshot.queryParamMap.get('returnUrl'));
+        if (this._route.snapshot.paramMap.has('returnUrl')) {
+          url = this._route.snapshot.paramMap.get('returnUrl');
         }
         this._router.navigateByUrl(url);
       }, (err: any) => {
