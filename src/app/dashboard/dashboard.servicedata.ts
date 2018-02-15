@@ -1,6 +1,10 @@
 export class ValueUnitData {
   value: string;
   unit: string;
+
+  toString(): string {
+    return `${this.value}${this.unit}`;
+  }
 }
 
 export interface CpuData {

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { SystemData } from './dashboard.servicedata';
+import { SystemData } from '../dashboard.servicedata';
 
 @Component({
   selector: 'app-system',

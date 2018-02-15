@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { CpuData } from './dashboard.servicedata';
+import { CpuData } from '../dashboard.servicedata';
 
 @Component({
   selector: 'app-cpu',

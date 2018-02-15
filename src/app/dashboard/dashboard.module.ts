@@ -11,9 +11,10 @@ import { DashboardServiceMock } from './dashboard.service.mock';
 import { DashboardComponent } from './dashboard.component';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
-import { CpuComponent } from './cpu.component';
-import { CpuUsageComponent } from './cpu-usage.component';
-import { SystemComponent } from './system.component';
+import { CpuComponent } from './cpu/cpu.component';
+import { CpuUsageComponent } from './cpu/cpu-usage.component';
+import { SystemComponent } from './system/system.component';
+import { DiskComponent } from './disk/disk.component';
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import { SystemComponent } from './system.component';
     CpuComponent,
     CpuUsageComponent,
     SystemComponent,
+    DiskComponent,
   ],
   providers: [
     { provide: DashboardService, useClass: DashboardServiceMock /*DashboardServiceHttp*/ },
