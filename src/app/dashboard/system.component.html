@@ -1,24 +1,30 @@
-<mat-card>
+<mat-card *ngIf="systemData | async as data">
   <mat-card-content>
     <div>
-      <mat-form-field *ngFor="let r of systemData.release; let first = first">
+      <mat-form-field *ngFor="let r of data.release; let first = first">
         <input matInput readonly [placeholder]="first ? 'Release' : ''" [value]="r">
       </mat-form-field>
     </div>
     <div>
       <mat-form-field>
-        <input matInput readonly placeholder="Kernel" [value]="systemData.kernel">
+        <input matInput readonly placeholder="Kernel" [value]="data.kernel">
       </mat-form-field>
     </div>
     <div>
-      <mat-form-field *ngFor="let s of systemData.system_alias; let first = first">
+      <mat-form-field *ngFor="let s of data.system_alias; let first = first">
         <input matInput readonly [placeholder]="first ? 'System-Alias' : ''" [value]="s">
       </mat-form-field>
     </div>
     <div>
       <mat-form-field>
-        <input matInput readonly placeholder="Uptime" [value]="systemData.uptime">
+        <input matInput readonly placeholder="Uptime" [value]="data.uptime">
       </mat-form-field>
     </div>
   </mat-card-content>
 </mat-card>
+
+<ng-container *ngIf="spinner.isLoading | async">
+  <app-spinner [data]="spinner"></app-spinner>
+</ng-container>
+
+<app-error [error]="error"></app-error>

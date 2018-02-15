@@ -8,10 +8,11 @@ import {
 } from './dashboard.service';
 
 @Injectable()
-export class DashboardServiceHttp implements DashboardService {
+export class DashboardServiceHttp extends DashboardService {
   constructor(
     private _http: HttpClient,
   ) {
+    super();
   }
 
   getSystemStatus(): Observable<SystemStatusData> {
