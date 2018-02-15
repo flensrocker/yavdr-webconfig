@@ -9,8 +9,10 @@ import {
   MatListModule,
   MatProgressBarModule,
   MatSidenavModule,
+  MatProgressSpinnerModule,
   MatTabsModule,
 } from '@angular/material';
+import { ChartsModule } from 'ng2-charts';
 
 import { ToolsRoutingModule } from './tools-routing.module';
 
@@ -36,7 +38,9 @@ import { UpdateComponent } from './update.component';
     MatListModule,
     MatProgressBarModule,
     MatSidenavModule,
+    MatProgressSpinnerModule,
     MatTabsModule,
+    ChartsModule,
     ToolsRoutingModule,
   ],
   exports: [
@@ -49,7 +53,9 @@ import { UpdateComponent } from './update.component';
     MatListModule,
     MatProgressBarModule,
     MatSidenavModule,
+    MatProgressSpinnerModule,
     MatTabsModule,
+    ChartsModule,
     ErrorComponent,
     LoginComponent,
     SpinnerComponent,

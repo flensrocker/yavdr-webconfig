@@ -4,26 +4,15 @@
       <mat-form-field>
         <input matInput readonly placeholder="Device" [value]="diskData.device">
       </mat-form-field>
-    </div>
-    <div>
       <mat-form-field>
         <input matInput readonly placeholder="Mountpoint" [value]="diskData.mountpoint">
       </mat-form-field>
-    </div>
-    <div>
       <mat-form-field>
-        <input matInput readonly [placeholder]="'Total ' + diskData.total_human.unit" [value]="diskData.total_human.value">
+        <input matInput readonly placeholder="Total" [value]="diskData.total_human.value + ' ' + diskData.total_human.unit">
       </mat-form-field>
     </div>
-    <div>
-      <mat-form-field>
-          <input matInput readonly [placeholder]="'Used ' + diskData.used_human.unit" [value]="diskData.used_human.value">
-      </mat-form-field>
-    </div>
-    <div>
-      <mat-form-field>
-          <input matInput readonly [placeholder]="'Free ' + diskData.free_human.unit" [value]="diskData.free_human.value">
-      </mat-form-field>
+    <div style="max-width: 300px; width: 100%">
+      <canvas baseChart chartType="pie" [options]="chartOptions" [data]="chartData" [labels]="chartLabels"></canvas>
     </div>
   </mat-card-content>
 </mat-card>
