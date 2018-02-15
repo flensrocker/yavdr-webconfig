@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { MatSidenav } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 
 import { AuthService, AuthState, AuthOptions, ErrorData } from './tools';
@@ -14,6 +15,11 @@ export class AppComponent {
   public showSidenav: Observable<boolean>;
   public error: ErrorData = new ErrorData();
 
+  private _sidenav: MatSidenav;
+  @ViewChild('sidenav') set sidenav(sn: MatSidenav) {
+    this._sidenav = sn;
+  }
+
   constructor(
     private _router: Router,
     private _authOptions: AuthOptions,
@@ -23,6 +29,10 @@ export class AppComponent {
       .map((authState: AuthState) => (authState === AuthState.LoggedIn));
 
     this._authService.validate();
+  }
+
+  toggleSidenav(): void {
+    this._sidenav.toggle();
   }
 
   logout(): void {
