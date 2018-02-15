@@ -1,22 +1,16 @@
-<mat-card *ngIf="cpuData | async as data">
+<mat-card *ngIf="cpuData">
   <mat-card-content>
     <div>
       <mat-form-field>
-        <input matInput readonly placeholder="Number of CPUs" [value]="data.cpu_num">
+        <input matInput readonly placeholder="Number of CPUs" [value]="cpuData.cpu_num">
       </mat-form-field>
-      <mat-form-field *ngFor="let l of data.load_average; let first = first">
+      <mat-form-field *ngFor="let l of cpuData.load_average; let first = first">
         <input matInput readonly [placeholder]="first ? 'Load' : ''" [value]="l">
       </mat-form-field>
       <div>
         <label>Usage</label>
-        <app-cpu-usage *ngFor="let u of data.cpu_usage" [cpuUsage]="u"></app-cpu-usage>
+        <app-cpu-usage *ngFor="let u of cpuData.cpu_usage" [cpuUsage]="u"></app-cpu-usage>
       </div>
     </div>
   </mat-card-content>
 </mat-card>
-
-<ng-container *ngIf="spinner.isLoading | async">
-  <app-spinner [data]="spinner"></app-spinner>
-</ng-container>
-
-<app-error [error]="error"></app-error>

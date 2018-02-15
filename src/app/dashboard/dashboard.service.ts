@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs/Observable';
 
-import { SystemStatusData, SystemData, CpuData } from './dashboard.servicedata';
+import { SystemStatusData } from './dashboard.servicedata';
 export {
   ValueUnitData,
   CpuData,
@@ -15,12 +15,4 @@ export {
 
 export abstract class DashboardService {
   abstract getSystemStatus(): Observable<SystemStatusData>;
-
-  getCpuData(): Observable<CpuData> {
-    return this.getSystemStatus().map((data: SystemStatusData) => data as CpuData);
-  }
-
-  getSystemData(): Observable<SystemData> {
-    return this.getSystemStatus().map((data: SystemStatusData) => data as SystemData);
-  }
 }
