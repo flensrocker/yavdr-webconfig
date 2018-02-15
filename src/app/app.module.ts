@@ -11,7 +11,10 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { ToolsModule } from './tools/tools.module';
 import { AuthOptions } from './tools';
 
-const _authOptions: AuthOptions = new AuthOptions('/login', '/dashboard');
+const _authOptions: AuthOptions = {
+  homeUrl: '/dashboard',
+  loginUrl: '/login',
+};
 
 @NgModule({
   declarations: [
