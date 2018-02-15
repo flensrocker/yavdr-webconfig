@@ -3,6 +3,19 @@ export class ValueUnitData {
   unit: string;
 }
 
+export interface CpuData {
+  cpu_usage: number[];
+  cpu_num: number;
+  load_average: number[];
+}
+
+export interface SystemData {
+  release: string[];
+  kernel: string;
+  system_alias: string[];
+  uptime: string;
+}
+
 export class DiskUsageData {
   total: number;
   used: number;
@@ -65,7 +78,7 @@ export class FanData {
   current: number;
 }
 
-export class SystemStatusData {
+export class SystemStatusData implements CpuData, SystemData {
   cpu_usage: number[];
   cpu_num: number;
   load_average: number[];

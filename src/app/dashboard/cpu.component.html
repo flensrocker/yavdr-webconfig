@@ -2,14 +2,14 @@
   <mat-card-content>
     <div>
       <mat-form-field>
-        <input matInput readonly placeholder="Number of CPUs" [value]="systemStatus.cpu_num">
+        <input matInput readonly placeholder="Number of CPUs" [value]="cpuData.cpu_num">
       </mat-form-field>
-      <mat-form-field *ngFor="let l of systemStatus.load_average; let first = first">
+      <mat-form-field *ngFor="let l of cpuData.load_average; let first = first">
         <input matInput readonly [placeholder]="first ? 'Load' : ''" [value]="l">
       </mat-form-field>
       <div>
         <label>Usage</label>
-        <app-cpu-usage *ngFor="let u of systemStatus.cpu_usage" [cpuUsage]="u"></app-cpu-usage>
+        <app-cpu-usage *ngFor="let u of cpuData.cpu_usage" [cpuUsage]="u"></app-cpu-usage>
       </div>
     </div>
   </mat-card-content>

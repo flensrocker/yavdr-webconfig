@@ -16,10 +16,10 @@
   <ng-container *ngIf="systemStatus | async as status">
     <mat-tab-group>
       <mat-tab label="System">
-        <app-system [systemStatus]="status"></app-system>
+        <app-system [systemData]="status"></app-system>
       </mat-tab>
       <mat-tab label="CPU">
-        <app-cpu [systemStatus]="status"></app-cpu>
+        <app-cpu [cpuData]="status"></app-cpu>
       </mat-tab>
     </mat-tab-group>
   </ng-container>

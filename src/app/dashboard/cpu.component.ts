@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { SystemStatusData } from './dashboard.servicedata';
+import { CpuData } from './dashboard.servicedata';
 
 @Component({
   selector: 'app-cpu',
@@ -7,7 +7,7 @@ import { SystemStatusData } from './dashboard.servicedata';
   styleUrls: ['./cpu.component.css']
 })
 export class CpuComponent implements OnInit {
-  @Input() systemStatus: SystemStatusData;
+  @Input() cpuData: CpuData;
 
   constructor() {
    }

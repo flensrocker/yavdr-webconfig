@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { SystemStatusData } from './dashboard.servicedata';
+import { SystemData } from './dashboard.servicedata';
 
 @Component({
   selector: 'app-system',
@@ -7,7 +7,7 @@ import { SystemStatusData } from './dashboard.servicedata';
   styleUrls: ['./system.component.css']
 })
 export class SystemComponent implements OnInit {
-  @Input() systemStatus: SystemStatusData;
+  @Input() systemData: SystemData;
 
   constructor() { }
 
