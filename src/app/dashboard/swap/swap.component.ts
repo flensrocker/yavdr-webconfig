@@ -21,7 +21,7 @@ export class SwapComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['swapData']) {
-      let newData: SwapUsageData = changes['swapData'].currentValue as SwapUsageData;
+      const newData: SwapUsageData = changes['swapData'].currentValue as SwapUsageData;
       this.chartData = [
         newData.used,
         newData.free

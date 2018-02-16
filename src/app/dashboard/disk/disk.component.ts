@@ -21,14 +21,14 @@ export class DiskComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['diskData']) {
-      let newDiskData: DiskUsageData = changes['diskData'].currentValue as DiskUsageData;
+      const newData: DiskUsageData = changes['diskData'].currentValue as DiskUsageData;
       this.chartData = [
-        newDiskData.used,
-        newDiskData.free
+        newData.used,
+        newData.free
       ];
       this.chartLabels = [
-        newDiskData.used_human.value + ' ' + newDiskData.used_human.unit + ' used',
-        newDiskData.free_human.value + ' ' + newDiskData.free_human.unit + ' free'
+        newData.used_human.value + ' ' + newData.used_human.unit + ' used',
+        newData.free_human.value + ' ' + newData.free_human.unit + ' free'
       ];
     }
   }

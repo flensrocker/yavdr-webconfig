@@ -12,7 +12,6 @@ import { DashboardComponent } from './dashboard.component';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { CpuComponent } from './cpu/cpu.component';
-import { CpuUsageComponent } from './cpu/cpu-usage.component';
 import { SystemComponent } from './system/system.component';
 import { DiskComponent } from './disk/disk.component';
 import { SwapComponent } from './swap/swap.component';
@@ -27,7 +26,6 @@ import { SwapComponent } from './swap/swap.component';
   declarations: [
     DashboardComponent,
     CpuComponent,
-    CpuUsageComponent,
     SystemComponent,
     DiskComponent,
     SwapComponent,
