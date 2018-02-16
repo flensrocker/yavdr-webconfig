@@ -18,6 +18,12 @@ export class CpuComponent {
     scales: {
       xAxes: [{
         barPercentage: 0.5,
+      }],
+      yAxes: [{
+        ticks: {
+          beginAtZero: true,
+          suggestedMax: 100.0
+        }
       }]
     }
   };
@@ -28,6 +34,10 @@ export class CpuComponent {
     title: {
       display: true,
       text: 'no load found'
+    },
+    ticks: {
+      beginAtZero: true,
+      suggestedMax: 1.0
     },
     scales: {
       xAxes: [{
@@ -46,6 +56,7 @@ export class CpuComponent {
         this.cpuChartOptions.title.text = 'CPU usage';
         this.cpuChartData = newData.cpu_usage.map((usage: number, index: number) => { return { data: [usage], label: `CPU ${index + 1}` }; });
         this.loadChartOptions.title.text = 'Load';
+        this.loadChartOptions.ticks.suggestedMax = newData.cpu_num;
         this.loadChartData = newData.load_average.map((load: number, index: number) => {
           return {
             data: [load],

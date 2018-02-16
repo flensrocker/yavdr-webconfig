@@ -15,6 +15,7 @@ import { CpuComponent } from './cpu/cpu.component';
 import { SystemComponent } from './system/system.component';
 import { DiskComponent } from './disk/disk.component';
 import { SwapComponent } from './swap/swap.component';
+import { MemoryComponent } from './memory/memory.component';
 
 @NgModule({
   imports: [
@@ -29,6 +30,7 @@ import { SwapComponent } from './swap/swap.component';
     SystemComponent,
     DiskComponent,
     SwapComponent,
+    MemoryComponent,
   ],
   providers: [
     { provide: DashboardService, useClass: DashboardServiceMock /*DashboardServiceHttp*/ },

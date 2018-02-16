@@ -1,0 +1,7 @@
+<mat-card *ngIf="memoryData">
+  <mat-card-content>
+    <div style="max-width: 600px">
+      <canvas baseChart chartType="bar" [options]="chartOptions" [datasets]="chartData"></canvas>
+    </div>
+  </mat-card-content>
+</mat-card>
