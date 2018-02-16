@@ -24,6 +24,9 @@
       <mat-tab label="Disks">
         <app-disk *ngFor="let du of status.disk_usage" [diskData]="du"></app-disk>
       </mat-tab>
+      <mat-tab label="Swap">
+        <app-swap [swapData]="status.swap_usage"></app-swap>
+      </mat-tab>
     </mat-tab-group>
   </ng-container>
 </div>
