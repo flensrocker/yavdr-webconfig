@@ -8,11 +8,26 @@ import { CpuData } from '../dashboard.servicedata';
 })
 export class CpuComponent {
   @Input() cpuData: CpuData;
-  public chartData: any[] = [];
-  public chartOptions = {
+
+  public cpuChartData: any[] = [];
+  public cpuChartOptions = {
     title: {
       display: true,
       text: 'no CPU usage found'
+    },
+    scales: {
+      xAxes: [{
+        barPercentage: 0.5,
+      }]
+    }
+  };
+
+  private readonly _loadLabels: string[] = ['1 min', '5 min', '15 min'];
+  public loadChartData: any[] = [];
+  public loadChartOptions = {
+    title: {
+      display: true,
+      text: 'no load found'
     },
     scales: {
       xAxes: [{
@@ -28,11 +43,20 @@ export class CpuComponent {
     if (changes['cpuData']) {
       const newData: CpuData = changes['cpuData'].currentValue as CpuData;
       if (newData) {
-        this.chartOptions.title.text = 'CPU usage';
-        this.chartData = newData.cpu_usage.map((usage: number, index: number) => { return { data: [usage], label: `CPU ${index + 1}` }; });
+        this.cpuChartOptions.title.text = 'CPU usage';
+        this.cpuChartData = newData.cpu_usage.map((usage: number, index: number) => { return { data: [usage], label: `CPU ${index + 1}` }; });
+        this.loadChartOptions.title.text = 'Load';
+        this.loadChartData = newData.load_average.map((load: number, index: number) => {
+          return {
+            data: [load],
+            label: (index < this._loadLabels.length ? this._loadLabels[index] : '')
+          };
+        });
       } else {
-        this.chartOptions.title.text = 'no CPU usage found';
-        this.chartData = [];
+        this.cpuChartOptions.title.text = 'no CPU usage found';
+        this.cpuChartData = [];
+        this.loadChartOptions.title.text = 'no load found';
+        this.loadChartData = [];
       }
     }
   }

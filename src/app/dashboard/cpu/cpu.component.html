@@ -1,15 +1,10 @@
 <mat-card *ngIf="cpuData">
   <mat-card-content>
-    <div>
-      <mat-form-field>
-        <input matInput readonly placeholder="Number of CPUs" [value]="cpuData.cpu_num">
-      </mat-form-field>
-      <mat-form-field *ngFor="let l of cpuData.load_average; let first = first">
-        <input matInput readonly [placeholder]="first ? 'Load' : ''" [value]="l">
-      </mat-form-field>
-      <div style="max-width: 300px">
-        <canvas baseChart chartType="bar" [options]="chartOptions" [datasets]="chartData"></canvas>
-      </div>
+    <div style="max-width: 300px">
+      <canvas baseChart chartType="horizontalBar" [options]="cpuChartOptions" [datasets]="cpuChartData"></canvas>
+    </div>
+    <div style="max-width: 300px">
+      <canvas baseChart chartType="horizontalBar" [options]="loadChartOptions" [datasets]="loadChartData"></canvas>
     </div>
   </mat-card-content>
 </mat-card>
