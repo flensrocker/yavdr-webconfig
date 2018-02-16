@@ -11,12 +11,8 @@ export class SwapComponent implements OnChanges {
   public chartData: number[] = [];
   public chartLabels: string[] = [];
   public chartOptions = {
-    title: {
-      display: true,
-      text: 'no swap usage found'
-    },
-    tooltips: {
-      enabled: false
+    legend: {
+      display: false
     }
   };
 
@@ -27,7 +23,6 @@ export class SwapComponent implements OnChanges {
     if (changes['swapData']) {
       const newData: SwapUsageData = changes['swapData'].currentValue as SwapUsageData;
       if (newData) {
-        this.chartOptions.title.text = `Total swap: ${newData.total_human.value} ${newData.total_human.unit}`;
         this.chartData = [
           newData.used,
           newData.free,
@@ -37,7 +32,6 @@ export class SwapComponent implements OnChanges {
           `${newData.free_human.value} ${newData.free_human.unit} free`,
         ];
       } else {
-        this.chartOptions.title.text = `no swap found`;
         this.chartData = [];
         this.chartLabels = [];
       }

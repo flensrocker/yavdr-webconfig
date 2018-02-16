@@ -9,39 +9,20 @@ import { CpuData } from '../dashboard.servicedata';
 export class CpuComponent {
   @Input() cpuData: CpuData;
 
-  public cpuChartData: any[] = [];
-  public cpuChartOptions = {
-    title: {
-      display: true,
-      text: 'no CPU usage found'
+  public chartData: any[] = [];
+  public chartOptions = {
+    legend: {
+      display: false
     },
     scales: {
       xAxes: [{
-        barPercentage: 0.5,
+        barPercentage: 0.5
       }],
       yAxes: [{
         ticks: {
           beginAtZero: true,
           suggestedMax: 100.0
         }
-      }]
-    }
-  };
-
-  private readonly _loadLabels: string[] = ['1 min', '5 min', '15 min'];
-  public loadChartData: any[] = [];
-  public loadChartOptions = {
-    title: {
-      display: true,
-      text: 'no load found'
-    },
-    ticks: {
-      beginAtZero: true,
-      suggestedMax: 1.0
-    },
-    scales: {
-      xAxes: [{
-        barPercentage: 0.5,
       }]
     }
   };
@@ -53,21 +34,9 @@ export class CpuComponent {
     if (changes['cpuData']) {
       const newData: CpuData = changes['cpuData'].currentValue as CpuData;
       if (newData) {
-        this.cpuChartOptions.title.text = 'CPU usage';
-        this.cpuChartData = newData.cpu_usage.map((usage: number, index: number) => { return { data: [usage], label: `CPU ${index + 1}` }; });
-        this.loadChartOptions.title.text = 'Load';
-        this.loadChartOptions.ticks.suggestedMax = newData.cpu_num;
-        this.loadChartData = newData.load_average.map((load: number, index: number) => {
-          return {
-            data: [load],
-            label: (index < this._loadLabels.length ? this._loadLabels[index] : '')
-          };
-        });
+        this.chartData = newData.cpu_usage.map((usage: number, index: number) => { return { data: [usage], label: `CPU ${index + 1}` }; });
       } else {
-        this.cpuChartOptions.title.text = 'no CPU usage found';
-        this.cpuChartData = [];
-        this.loadChartOptions.title.text = 'no load found';
-        this.loadChartData = [];
+        this.chartData = [];
       }
     }
   }

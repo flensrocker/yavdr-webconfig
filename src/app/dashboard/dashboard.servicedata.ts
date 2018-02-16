@@ -6,6 +6,9 @@ export class ValueUnitData {
 export interface CpuData {
   cpu_usage: number[];
   cpu_num: number;
+}
+
+export interface LoadData {
   load_average: number[];
 }
 

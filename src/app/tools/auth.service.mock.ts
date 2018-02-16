@@ -18,7 +18,8 @@ export class AuthServiceMock extends AuthService {
     Observable.of<false>(false)
       .delay(1000)
       .subscribe((response: false) => {
-        this.setLoggedOut();
+        // this.setLoggedOut();
+        this.setLoggedIn('user', ['user']);
       }, (err: any) => {
         this.setLoggedOut();
       });

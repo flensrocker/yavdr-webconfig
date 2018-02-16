@@ -11,15 +11,16 @@ export class MemoryComponent implements OnChanges {
 
   public chartData: any[] = [];
   public chartOptions = {
-    title: {
-      display: true,
-      text: 'no memory usage found'
+    legend: {
+      display: false
     },
     scales: {
+      xAxes: [{
+        barPercentage: 0.5
+      }],
       yAxes: [{
         ticks: {
-          beginAtZero: true,
-          suggestedMax: 1
+          beginAtZero: true
         }
       }]
     }
@@ -32,30 +33,26 @@ export class MemoryComponent implements OnChanges {
     if (changes['memoryData']) {
       const newData: MemoryUsageData = changes['memoryData'].currentValue as MemoryUsageData;
       if (newData) {
-        this.chartOptions.title.text = `total memory: ${newData.total_human.value} ${newData.total_human.unit}`
-        this.chartOptions.scales.yAxes[0].ticks.suggestedMax = newData.total;
         this.chartData = [{
-          label: 'used',
-          data: [newData.used]
+          data: [newData.used],
+          label: 'used'
         }, {
-          label: 'cached',
-          data: [newData.cached]
+          data: [newData.cached],
+          label: 'cached'
         }, {
-          label: 'buffers',
-          data: [newData.buffers]
+          data: [newData.buffers],
+          label: 'buffers'
         }, {
-          label: 'free',
-          data: [newData.free]
+          data: [newData.free],
+          label: 'free'
         }, {
-          label: 'available',
-          data: [newData.available]
+          data: [newData.available],
+          label: 'available'
         }, {
-          label: 'total',
-          data: [newData.total]
+          data: [newData.total],
+          label: 'total'
         }];
       } else {
-        this.chartOptions.title.text = 'no memory usage found';
-        this.chartOptions.scales.yAxes[0].ticks.suggestedMax = 1;
         this.chartData = [];
       }
     }

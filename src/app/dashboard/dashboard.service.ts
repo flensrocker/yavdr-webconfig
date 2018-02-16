@@ -4,6 +4,7 @@ import { SystemStatusData } from './dashboard.servicedata';
 export {
   ValueUnitData,
   CpuData,
+  LoadData,
   SystemData,
   DiskUsageData,
   MemoryUsageData,

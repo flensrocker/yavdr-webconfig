@@ -1,6 +1,7 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import {
   MatButtonModule,
   MatCardModule,
@@ -31,6 +32,7 @@ import { UpdateComponent } from './update.component';
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    FlexLayoutModule,
     MatButtonModule,
     MatCardModule,
     MatFormFieldModule,
@@ -46,6 +48,7 @@ import { UpdateComponent } from './update.component';
   exports: [
     CommonModule,
     ReactiveFormsModule,
+    FlexLayoutModule,
     MatButtonModule,
     MatCardModule,
     MatFormFieldModule,

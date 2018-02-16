@@ -1,4 +1,9 @@
 <mat-card *ngIf="systemData">
+  <mat-card-header>
+    <mat-card-title>
+      System
+    </mat-card-title>
+  </mat-card-header>
   <mat-card-content>
     <div>
       <mat-form-field *ngFor="let r of systemData.release; let first = first">

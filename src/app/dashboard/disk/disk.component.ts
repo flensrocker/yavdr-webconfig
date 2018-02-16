@@ -11,12 +11,8 @@ export class DiskComponent implements OnChanges {
   public chartData: number[] = [];
   public chartLabels: string[] = [];
   public chartOptions = {
-    title: {
-      display: true,
-      text: 'no disk usage found'
-    },
-    tooltips: {
-      enabled: false
+    legend: {
+      display: false
     }
   };
 
@@ -27,7 +23,6 @@ export class DiskComponent implements OnChanges {
     if (changes['diskData']) {
       const newData: DiskUsageData = changes['diskData'].currentValue as DiskUsageData;
       if (newData) {
-        this.chartOptions.title.text = `${newData.device} mounted on ${newData.mountpoint} (total: ${newData.total_human.value} ${newData.total_human.unit})`;
         this.chartData = [
           newData.used,
           newData.free,
@@ -37,7 +32,6 @@ export class DiskComponent implements OnChanges {
           `${newData.free_human.value} ${newData.free_human.unit} free`,
         ];
       } else {
-        this.chartOptions.title.text = `no disk usage found`;
         this.chartData = [];
         this.chartLabels = [];
       }

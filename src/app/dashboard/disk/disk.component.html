@@ -1,6 +1,14 @@
 <mat-card *ngIf="diskData">
+  <mat-card-header>
+    <mat-card-title>
+      {{diskData.device}} mounted on {{diskData.mountpoint}}
+    </mat-card-title>
+    <mat-card-subtitle>
+      Total: {{diskData.total_human.value}} {{diskData.total_human.unit}}
+    </mat-card-subtitle>
+  </mat-card-header>
   <mat-card-content>
-    <div style="max-width: 300px; width: 100%">
+    <div>
       <canvas baseChart chartType="pie" [options]="chartOptions" [data]="chartData" [labels]="chartLabels"></canvas>
     </div>
   </mat-card-content>
