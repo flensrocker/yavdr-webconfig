@@ -1,10 +1,5 @@
 <mat-card *ngIf="swapData">
   <mat-card-content>
-    <div>
-      <mat-form-field>
-        <input matInput readonly placeholder="Total" [value]="swapData.total_human.value + ' ' + swapData.total_human.unit">
-      </mat-form-field>
-    </div>
     <div style="max-width: 300px; width: 100%">
       <canvas baseChart chartType="pie" [options]="chartOptions" [data]="chartData" [labels]="chartLabels"></canvas>
     </div>

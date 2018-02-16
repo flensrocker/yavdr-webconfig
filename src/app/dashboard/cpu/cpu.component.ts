@@ -12,7 +12,7 @@ export class CpuComponent {
   public chartOptions = {
     title: {
       display: true,
-      text: 'CPU Usage'
+      text: 'no CPU usage found'
     },
     scales: {
       xAxes: [{
@@ -27,7 +27,13 @@ export class CpuComponent {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['cpuData']) {
       const newData: CpuData = changes['cpuData'].currentValue as CpuData;
-      this.chartData = newData.cpu_usage.map((usage: number, index: number) => { return { data: [usage], label: `CPU ${index + 1}` }; });
+      if (newData) {
+        this.chartOptions.title.text = 'CPU usage';
+        this.chartData = newData.cpu_usage.map((usage: number, index: number) => { return { data: [usage], label: `CPU ${index + 1}` }; });
+      } else {
+        this.chartOptions.title.text = 'no CPU usage found';
+        this.chartData = [];
+      }
     }
   }
 }

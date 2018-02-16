@@ -1,16 +1,5 @@
 <mat-card *ngIf="diskData">
   <mat-card-content>
-    <div>
-      <mat-form-field>
-        <input matInput readonly placeholder="Device" [value]="diskData.device">
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput readonly placeholder="Mountpoint" [value]="diskData.mountpoint">
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput readonly placeholder="Total" [value]="diskData.total_human.value + ' ' + diskData.total_human.unit">
-      </mat-form-field>
-    </div>
     <div style="max-width: 300px; width: 100%">
       <canvas baseChart chartType="pie" [options]="chartOptions" [data]="chartData" [labels]="chartLabels"></canvas>
     </div>
