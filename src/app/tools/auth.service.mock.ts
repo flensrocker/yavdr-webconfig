@@ -14,12 +14,11 @@ export class AuthServiceMock extends AuthService {
   }
 
   validate(): void {
-    // force login on every reload
     Observable.of<false>(false)
       .delay(1000)
       .subscribe((response: false) => {
-        // this.setLoggedOut();
-        this.setLoggedIn('user', ['user']);
+        this.setLoggedOut(); // force login on every reload
+        // this.setLoggedIn('user', ['user']); // auto login
       }, (err: any) => {
         this.setLoggedOut();
       });
