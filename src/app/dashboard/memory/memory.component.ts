@@ -12,15 +12,15 @@ export class MemoryComponent implements OnChanges {
   public chartData: any[] = [];
   public chartOptions = {
     legend: {
-      display: false
+      display: true,
+      position: 'bottom',
     },
     scales: {
       xAxes: [{
-        barPercentage: 0.5
-      }],
-      yAxes: [{
+        barPercentage: 0.5,
         ticks: {
-          beginAtZero: true
+          min: 0,
+          max: 1
         }
       }]
     }
@@ -33,24 +33,19 @@ export class MemoryComponent implements OnChanges {
     if (changes['memoryData']) {
       const newData: MemoryUsageData = changes['memoryData'].currentValue as MemoryUsageData;
       if (newData) {
+        this.chartOptions.scales.xAxes[0].ticks.max = newData.total;
         this.chartData = [{
           data: [newData.used],
-          label: 'used'
+          label: `${newData.used_human.value} ${newData.used_human.unit} used`
         }, {
           data: [newData.cached],
-          label: 'cached'
+          label: `${newData.cached_human.value} ${newData.cached_human.unit} cached`
         }, {
           data: [newData.buffers],
-          label: 'buffers'
-        }, {
-          data: [newData.free],
-          label: 'free'
+          label: `${newData.buffers_human.value} ${newData.buffers_human.unit} buffers`
         }, {
           data: [newData.available],
-          label: 'available'
-        }, {
-          data: [newData.total],
-          label: 'total'
+          label: `${newData.available_human.value} ${newData.available_human.unit} available`
         }];
       } else {
         this.chartData = [];

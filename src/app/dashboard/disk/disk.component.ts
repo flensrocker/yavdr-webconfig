@@ -12,7 +12,8 @@ export class DiskComponent implements OnChanges {
   public chartLabels: string[] = [];
   public chartOptions = {
     legend: {
-      display: false
+      display: true,
+      position: 'bottom',
     }
   };
 

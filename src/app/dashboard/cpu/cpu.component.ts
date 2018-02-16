@@ -12,7 +12,8 @@ export class CpuComponent {
   public chartData: any[] = [];
   public chartOptions = {
     legend: {
-      display: false
+      display: true,
+      position: 'bottom',
     },
     scales: {
       xAxes: [{

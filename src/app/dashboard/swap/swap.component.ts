@@ -12,7 +12,8 @@ export class SwapComponent implements OnChanges {
   public chartLabels: string[] = [];
   public chartOptions = {
     legend: {
-      display: false
+      display: true,
+      position: 'bottom',
     }
   };
 
