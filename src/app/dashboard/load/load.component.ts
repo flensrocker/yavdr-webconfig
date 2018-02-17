@@ -6,7 +6,7 @@ import { LoadData } from '../dashboard.servicedata';
   templateUrl: './load.component.html',
   styleUrls: ['./load.component.scss']
 })
-export class LoadComponent {
+export class LoadComponent implements OnChanges {
   @Input() loadData: LoadData;
 
   private readonly _loadLabels: string[] = ['1 min', '5 min', '15 min'];
@@ -27,6 +27,16 @@ export class LoadComponent {
       }]
     }
   };
+  public chartColors: Array<any> = [{
+    backgroundColor: 'rgba(80, 80, 80, 0.6)',
+    borderColor: 'rgba(80, 80, 80, 1)'
+  }, {
+    backgroundColor: 'rgba(120, 120, 120, 0.6)',
+    borderColor: 'rgba(120, 120, 120, 1)'
+  }, {
+    backgroundColor: 'rgba(160, 160, 160, 0.6)',
+    borderColor: 'rgba(160, 160, 160, 1)'
+  }];
 
   constructor() {
   }

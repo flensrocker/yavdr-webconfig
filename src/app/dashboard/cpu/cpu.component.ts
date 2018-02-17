@@ -6,7 +6,7 @@ import { CpuData } from '../dashboard.servicedata';
   templateUrl: './cpu.component.html',
   styleUrls: ['./cpu.component.css']
 })
-export class CpuComponent {
+export class CpuComponent implements OnChanges {
   @Input() cpuData: CpuData;
 
   public chartData: any[] = [];
@@ -27,6 +27,14 @@ export class CpuComponent {
       }]
     }
   };
+  private _chartColors: Array<any> = [{
+    backgroundColor: 'rgba(80, 80, 80, 0.6)',
+    borderColor: 'rgba(80, 80, 80, 1)'
+  }, {
+    backgroundColor: 'rgba(120, 120, 120, 0.6)',
+    borderColor: 'rgba(120, 120, 120, 1)'
+  }];
+  public chartColors: Array<any> = [];
 
   constructor() {
   }
@@ -35,7 +43,11 @@ export class CpuComponent {
     if (changes['cpuData']) {
       const newData: CpuData = changes['cpuData'].currentValue as CpuData;
       if (newData) {
-        this.chartData = newData.cpu_usage.map((usage: number, index: number) => { return { data: [usage], label: `CPU ${index + 1}` }; });
+        this.chartData = newData.cpu_usage.map((usage: number, index: number) => ({ data: [usage], label: `CPU ${index + 1}` }));
+        this.chartColors.length = newData.cpu_num;
+        for (let i = 0; i < newData.cpu_num; i++) {
+          this.chartColors[i] = this._chartColors[i % 2];
+        }
       } else {
         this.chartData = [];
       }

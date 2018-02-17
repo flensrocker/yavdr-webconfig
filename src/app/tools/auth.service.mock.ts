@@ -25,7 +25,7 @@ export class AuthServiceMock extends AuthService {
   }
 
   login(request: LoginRequest): Observable<LoginResponse> {
-    let loginSubject: Subject<LoginResponse> = new Subject<LoginResponse>();
+    const loginSubject: Subject<LoginResponse> = new Subject<LoginResponse>();
     Observable.of<LoginResponse>(new LoginResponse())
       .delay(1000)
       .map((response: LoginResponse) => {
