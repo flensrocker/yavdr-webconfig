@@ -16,6 +16,9 @@ export class SwapComponent implements OnChanges {
       position: 'bottom',
     }
   };
+  public chartColors: any[] = [{
+    backgroundColor: ['rgba(200, 0, 0, 0.6)', 'rgba(0, 200, 0, 0.6)']
+  }];
 
   constructor() {
   }
