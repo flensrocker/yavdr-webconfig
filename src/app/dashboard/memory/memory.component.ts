@@ -16,7 +16,7 @@ export class MemoryComponent implements OnChanges {
       position: 'bottom',
     },
     tooltips: {
-      enabled: false
+      enabled: true
     },
     scales: {
       xAxes: [{
@@ -51,14 +51,14 @@ export class MemoryComponent implements OnChanges {
       const newData: MemoryUsageData = changes['memoryData'].currentValue as MemoryUsageData;
       if (newData) {
         this.chartData = [{
-          data: [100.0 * newData.used / newData.total],
-          label: `${newData.used_human.value} ${newData.used_human.unit} used`
+          data: [(100.0 * newData.used / newData.total).toFixed(2)],
+          label: 'used'
         }, {
-          data: [100.0 * newData.buffers / newData.total],
-          label: `${newData.buffers_human.value} ${newData.buffers_human.unit} buffers`
+          data: [(100.0 * newData.buffers / newData.total).toFixed(2)],
+          label: 'buffers'
         }, {
-          data: [100.0 * newData.cached / newData.total],
-          label: `${newData.cached_human.value} ${newData.cached_human.unit} cached`
+          data: [(100.0 * newData.cached / newData.total).toFixed(2)],
+          label: 'cached'
         }];
       } else {
         this.chartData = [];
