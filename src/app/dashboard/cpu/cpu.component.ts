@@ -17,13 +17,16 @@ export class CpuComponent implements OnChanges {
     },
     scales: {
       xAxes: [{
-        barPercentage: 0.5
+        ticks: {
+          beginAtZero: true,
+          min: 0.0,
+          max: 100.0,
+          callback: (value, index, values) => `${value}%`
+        }
       }],
       yAxes: [{
-        ticks: {
-          min: 0,
-          max: 100.0
-        }
+        barPercentage: 0.5,
+        categoryPercentage: 1.0,
       }]
     }
   };

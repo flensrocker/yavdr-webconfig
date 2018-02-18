@@ -12,7 +12,7 @@ export class DashboardServiceMock extends DashboardService {
   {
     "cpu_usage": [
         90.0,
-        0.0
+        5.0
     ],
     "cpu_num": 2,
     "load_average": [

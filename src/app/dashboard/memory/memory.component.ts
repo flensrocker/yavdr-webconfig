@@ -15,16 +15,22 @@ export class MemoryComponent implements OnChanges {
       display: true,
       position: 'bottom',
     },
+    tooltips: {
+      enabled: false
+    },
     scales: {
       xAxes: [{
         stacked: true,
         ticks: {
-          min: 0,
-          max: 1
+          beginAtZero: true,
+          min: 0.0,
+          max: 100.0,
+          callback: (value, index, values) => `${value}%`
         }
       }],
       yAxes: [{
         barPercentage: 0.5,
+        categoryPercentage: 1.0,
         stacked: true
       }]
     }
@@ -44,15 +50,14 @@ export class MemoryComponent implements OnChanges {
     if (changes['memoryData']) {
       const newData: MemoryUsageData = changes['memoryData'].currentValue as MemoryUsageData;
       if (newData) {
-        this.chartOptions.scales.xAxes[0].ticks.max = newData.total;
         this.chartData = [{
-          data: [newData.used],
+          data: [100.0 * newData.used / newData.total],
           label: `${newData.used_human.value} ${newData.used_human.unit} used`
         }, {
-          data: [newData.buffers],
+          data: [100.0 * newData.buffers / newData.total, NaN],
           label: `${newData.buffers_human.value} ${newData.buffers_human.unit} buffers`
         }, {
-          data: [newData.cached],
+          data: [100.0 * newData.cached / newData.total, NaN],
           label: `${newData.cached_human.value} ${newData.cached_human.unit} cached`
         }];
       } else {
