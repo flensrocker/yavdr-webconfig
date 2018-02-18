@@ -21,8 +21,8 @@ export class CpuComponent implements OnChanges {
       }],
       yAxes: [{
         ticks: {
-          beginAtZero: true,
-          suggestedMax: 100.0
+          min: 0,
+          max: 100.0
         }
       }]
     }
