@@ -1,7 +1,9 @@
 <mat-card *ngIf="diskData">
   <mat-card-header>
     <mat-card-title>
-      {{diskData.device}} mounted on {{diskData.mountpoint}}
+      {{diskData.device}}
+      <i class="fa fa-folder-open"></i>
+      {{diskData.mountpoint}}
     </mat-card-title>
     <mat-card-subtitle>
       Total: {{diskData.total_human.value}} {{diskData.total_human.unit}}
