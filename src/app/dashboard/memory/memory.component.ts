@@ -17,14 +17,25 @@ export class MemoryComponent implements OnChanges {
     },
     scales: {
       xAxes: [{
-        barPercentage: 0.5,
+        stacked: true,
         ticks: {
           min: 0,
           max: 1
         }
+      }],
+      yAxes: [{
+        barPercentage: 0.5,
+        stacked: true
       }]
     }
   };
+  public chartColors: any[] = [{
+    backgroundColor: 'rgba(200, 0, 0, 0.6)',
+  }, {
+    backgroundColor: 'rgba(48, 48, 255, 0.8)',
+  }, {
+    backgroundColor: 'rgba(200, 200, 0, 0.6)',
+  }];
 
   constructor() {
   }
@@ -38,14 +49,11 @@ export class MemoryComponent implements OnChanges {
           data: [newData.used],
           label: `${newData.used_human.value} ${newData.used_human.unit} used`
         }, {
-          data: [newData.cached],
-          label: `${newData.cached_human.value} ${newData.cached_human.unit} cached`
-        }, {
           data: [newData.buffers],
           label: `${newData.buffers_human.value} ${newData.buffers_human.unit} buffers`
         }, {
-          data: [newData.available],
-          label: `${newData.available_human.value} ${newData.available_human.unit} available`
+          data: [newData.cached],
+          label: `${newData.cached_human.value} ${newData.cached_human.unit} cached`
         }];
       } else {
         this.chartData = [];

@@ -28,13 +28,11 @@ export class CpuComponent implements OnChanges {
     }
   };
   private _chartColors: Array<any> = [{
-    backgroundColor: 'rgba(80, 80, 80, 0.6)',
-    borderColor: 'rgba(80, 80, 80, 1)'
+    backgroundColor: 'rgba(80, 80, 80, 0.6)'
   }, {
-    backgroundColor: 'rgba(120, 120, 120, 0.6)',
-    borderColor: 'rgba(120, 120, 120, 1)'
+    backgroundColor: 'rgba(120, 120, 120, 0.6)'
   }];
-  public chartColors: Array<any> = [];
+  public chartColors: any[] = [];
 
   constructor() {
   }

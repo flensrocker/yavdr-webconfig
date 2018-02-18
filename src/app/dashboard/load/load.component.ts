@@ -27,15 +27,12 @@ export class LoadComponent implements OnChanges {
       }]
     }
   };
-  public chartColors: Array<any> = [{
-    backgroundColor: 'rgba(80, 80, 80, 0.6)',
-    borderColor: 'rgba(80, 80, 80, 1)'
+  public chartColors: any[] = [{
+    backgroundColor: 'rgba(80, 80, 80, 0.6)'
   }, {
-    backgroundColor: 'rgba(120, 120, 120, 0.6)',
-    borderColor: 'rgba(120, 120, 120, 1)'
+    backgroundColor: 'rgba(120, 120, 120, 0.6)'
   }, {
-    backgroundColor: 'rgba(160, 160, 160, 0.6)',
-    borderColor: 'rgba(160, 160, 160, 1)'
+    backgroundColor: 'rgba(160, 160, 160, 0.6)'
   }];
 
   constructor() {
@@ -45,12 +42,10 @@ export class LoadComponent implements OnChanges {
     if (changes['loadData']) {
       const newData: LoadData = changes['loadData'].currentValue as LoadData;
       if (newData) {
-        this.chartData = newData.load_average.map((load: number, index: number) => {
-          return {
-            data: [load],
-            label: (index < this._loadLabels.length ? this._loadLabels[index] : '')
-          };
-        });
+        this.chartData = newData.load_average.map((load: number, index: number) => ({
+          data: [load],
+          label: (index < this._loadLabels.length ? this._loadLabels[index] : '')
+        }));
       } else {
         this.chartData = [];
       }
