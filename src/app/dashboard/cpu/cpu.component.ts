@@ -12,8 +12,7 @@ export class CpuComponent implements OnChanges {
   public chartData: any[] = [];
   public chartOptions = {
     legend: {
-      display: true,
-      position: 'bottom',
+      display: false,
     },
     scales: {
       xAxes: [{
@@ -21,7 +20,7 @@ export class CpuComponent implements OnChanges {
           beginAtZero: true,
           min: 0.0,
           max: 100.0,
-          callback: (value, index, values) => `${value}%`
+          callback: (value, index, values) => `${value}%`,
         }
       }],
       yAxes: [{
@@ -30,6 +29,7 @@ export class CpuComponent implements OnChanges {
       }]
     }
   };
+  public chartLabels: string[] = [];
   private _chartColors: Array<any> = [{
     backgroundColor: 'rgba(80, 80, 80, 0.6)'
   }, {
@@ -44,11 +44,9 @@ export class CpuComponent implements OnChanges {
     if (changes['cpuData']) {
       const newData: CpuData = changes['cpuData'].currentValue as CpuData;
       if (newData) {
-        this.chartData = newData.cpu_usage.map((usage: number, index: number) => ({ data: [usage], label: `CPU ${index + 1}` }));
-        this.chartColors.length = newData.cpu_num;
-        for (let i = 0; i < newData.cpu_num; i++) {
-          this.chartColors[i] = this._chartColors[i % 2];
-        }
+        this.chartData = [{ data: newData.cpu_usage }];
+        this.chartLabels = newData.cpu_usage.map((usage: number, index: number) => `CPU ${index + 1}`);
+        this.chartColors = newData.cpu_usage.map((usage: number, index: number) => this._chartColors[index % 2]);
       } else {
         this.chartData = [];
       }
