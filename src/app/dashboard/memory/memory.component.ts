@@ -54,10 +54,10 @@ export class MemoryComponent implements OnChanges {
           data: [100.0 * newData.used / newData.total],
           label: `${newData.used_human.value} ${newData.used_human.unit} used`
         }, {
-          data: [100.0 * newData.buffers / newData.total, NaN],
+          data: [100.0 * newData.buffers / newData.total],
           label: `${newData.buffers_human.value} ${newData.buffers_human.unit} buffers`
         }, {
-          data: [100.0 * newData.cached / newData.total, NaN],
+          data: [100.0 * newData.cached / newData.total],
           label: `${newData.cached_human.value} ${newData.cached_human.unit} cached`
         }];
       } else {
