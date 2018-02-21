@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { SystemData } from '../dashboard.servicedata';
 
 @Component({
-  selector: 'app-system',
+  selector: 'app-dashboard-system',
   templateUrl: './system.component.html',
   styleUrls: ['./system.component.css']
 })

@@ -11,6 +11,7 @@ export class UsageComponent implements OnChanges {
 
   public chartData: any[] = [];
   public chartOptions = {
+    maintainAspectRatio: false,
     legend: {
       display: true,
       position: 'right',

@@ -11,12 +11,7 @@ import { DashboardServiceMock } from './dashboard.service.mock';
 import { DashboardComponent } from './dashboard.component';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
-import { CpuComponent } from './cpu/cpu.component';
 import { SystemComponent } from './system/system.component';
-import { DiskComponent } from './disk/disk.component';
-import { SwapComponent } from './swap/swap.component';
-import { MemoryComponent } from './memory/memory.component';
-import { LoadComponent } from './load/load.component';
 import { UsageComponent } from './usage/usage.component';
 
 @NgModule({
@@ -28,12 +23,7 @@ import { UsageComponent } from './usage/usage.component';
   ],
   declarations: [
     DashboardComponent,
-    CpuComponent,
     SystemComponent,
-    DiskComponent,
-    SwapComponent,
-    MemoryComponent,
-    LoadComponent,
     UsageComponent,
   ],
   providers: [

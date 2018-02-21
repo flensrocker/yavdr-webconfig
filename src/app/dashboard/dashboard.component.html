@@ -14,30 +14,15 @@
   <app-error [error]="error"></app-error>
 
   <ng-container *ngIf="systemStatus | async as status">
-    <div fxLayoutWrap>
-      <div fxFlex="1 1 800px">
-        <app-system [systemData]="status"></app-system>
+    <div fxLayout>
+      <div fxFlex>
+        <app-dashboard-system [systemData]="status"></app-dashboard-system>
       </div>
-      <div fxFlex="1 1 800px">
+    </div>
+    <div fxLayout>
+      <div fxFlex>
         <app-dashboard-usage [usageData]="status"></app-dashboard-usage>
       </div>
     </div>
-    <!-- <div fxLayoutWrap>
-      <div fxFlex="1 1 400px">
-        <app-cpu [cpuData]="status"></app-cpu>
-      </div>
-      <div fxFlex="1 1 400px">
-        <app-load [loadData]="status"></app-load>
-      </div>
-      <div fxFlex="1 1 400px">
-        <app-memory [memoryData]="status.memory_usage"></app-memory>
-      </div>
-      <div fxFlex="1 1 400px">
-        <app-swap [swapData]="status.swap_usage"></app-swap>
-      </div>
-      <div fxFlex="1 1 400px" *ngFor="let du of status.disk_usage">
-        <app-disk [diskData]="du"></app-disk>
-      </div>
-    </div> -->
   </ng-container>
 </div>
