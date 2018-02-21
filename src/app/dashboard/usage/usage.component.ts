@@ -1,6 +1,30 @@
 import { Component, Input, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
 import { SystemStatusData, ValueUnitData } from '../dashboard.servicedata';
 
+class UsageColor {
+  threshold: number;
+  color: string;
+}
+
+class UsageColors {
+  readonly colors: UsageColor[] = [
+    { threshold: 0, color: 'rgba(76, 175, 80, 0.6)' },
+    { threshold: 50, color: 'rgba(255, 152, 0, 0.6)' },
+    { threshold: 90, color: 'rgba(244, 67, 54, 0.6)' },
+  ];
+
+  getColor(usage: number): string {
+    let i = this.colors.length - 1;
+    while (i > 0) {
+      if (usage > this.colors[i].threshold) {
+        return this.colors[i].color;
+      }
+      i--;
+    }
+    return this.colors[0].color;
+  }
+}
+
 @Component({
   selector: 'app-dashboard-usage',
   templateUrl: './usage.component.html',
@@ -38,18 +62,9 @@ export class UsageComponent implements OnChanges {
   public chartColors: any[] = [];
 
   private _loadLabels: string[] = ['1 min', '5 min', '15 min'];
-  private _usageColors: string[] = [
-    'rgba(244, 67, 54, 0.6)',
-    'rgba(255, 152, 0, 0.6)',
-    'rgba(76, 175, 80, 0.6)',
-  ];
+  private _usageColors: UsageColors = new UsageColors();
 
   constructor() {
-  }
-
-  getColor(usage: number): string {
-    const index = (usage >= 90) ? 0 : ((usage >= 50) ? 1 : 2);
-    return this._usageColors[index % this._usageColors.length];
   }
 
   getValueString(data: ValueUnitData): string {
@@ -60,55 +75,55 @@ export class UsageComponent implements OnChanges {
     return `${this.getValueString(data.used_human)} / ${this.getValueString(data.total_human)}`;
   }
 
+  createData(usage: number, label: string, color: string): any {
+    return {
+      data: [usage],
+      label: label,
+      backgroundColor: color,
+      borderColor: this._usageColors.getColor(usage),
+      borderWidth: 4,
+    };
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['usageData']) {
       const newData: SystemStatusData = changes['usageData'].currentValue as SystemStatusData;
       if (newData) {
         const chartData: any[] = [];
 
-        chartData.push(...newData.cpu_usage.map((u: number, i: number) => ({
-          data: [u],
-          label: `CPU ${i + 1}: ${u}%`,
-          backgroundColor: 'rgba(205, 220, 57, 0.6)',
-          borderColor: this.getColor(u),
-          borderWidth: 4,
-        })));
+        chartData.push(...newData.cpu_usage.map((u: number, i: number) =>
+          this.createData(u,
+            `CPU ${i + 1}: ${u}%`,
+            'rgba(205, 220, 57, 0.6)')
+        ));
 
-        chartData.push(...newData.load_average.map((u: number, i: number) => ({
-          data: [100.0 * u / newData.cpu_num],
-          label: `Load ${this._loadLabels[i % this._loadLabels.length]}: ${u}`,
-          backgroundColor: 'rgba(158, 158, 158, 0.6)',
-          borderColor: this.getColor(100.0 * u / newData.cpu_num),
-          borderWidth: 4,
-        })));
+        chartData.push(...newData.load_average.map((u: number, i: number) =>
+          this.createData(100.0 * u / newData.cpu_num,
+            `Load ${this._loadLabels[i % this._loadLabels.length]}: ${u}`,
+            'rgba(158, 158, 158, 0.6)')
+        ));
 
         const mem_used = +(100.0 * newData.memory_usage.used / newData.memory_usage.total).toFixed(2);
-        chartData.push({
-          data: [mem_used],
-          label: `Memory: ${this.getString(newData.memory_usage)}`,
-          backgroundColor: 'rgba(63, 81, 181, 0.8)',
-          borderColor: this.getColor(mem_used),
-          borderWidth: 4,
-        });
+        chartData.push(
+          this.createData(mem_used,
+            `Memory: ${this.getString(newData.memory_usage)}`,
+            'rgba(63, 81, 181, 0.8)')
+        );
 
         const swap_used = +(100.0 * newData.swap_usage.used / newData.swap_usage.total).toFixed(2);
-        chartData.push({
-          data: [swap_used],
-          label: `Swap: ${this.getString(newData.swap_usage)}`,
-          backgroundColor: 'rgba(63, 81, 181, 0.6)',
-          borderColor: this.getColor(swap_used),
-          borderWidth: 4,
-        });
+        chartData.push(
+          this.createData(swap_used,
+            `Swap: ${this.getString(newData.swap_usage)}`,
+            'rgba(63, 81, 181, 0.6)')
+        );
 
         for (const du of newData.disk_usage) {
           const disk_used = +(100.0 * du.used / du.total).toFixed(2);
-          chartData.push({
-            data: [disk_used],
-            label: `${du.mountpoint} [ ${du.device} ]: ${this.getString(du)}`,
-            backgroundColor: 'rgba(33, 150, 243, 0.6)',
-            borderColor: this.getColor(disk_used),
-            borderWidth: 4,
-          });
+          chartData.push(
+            this.createData(disk_used,
+              `${du.mountpoint} [ ${du.device} ]: ${this.getString(du)}`,
+              'rgba(33, 150, 243, 0.6)')
+          );
         }
 
         this.chartData = chartData;
