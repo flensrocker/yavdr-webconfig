@@ -11,8 +11,8 @@ export class DashboardServiceMock extends DashboardService {
     private static _systemStatus: SystemStatusData = JSON.parse(`
   {
     "cpu_usage": [
-        90.0,
-        5.0
+        90.1,
+        51.0
     ],
     "cpu_num": 2,
     "load_average": [

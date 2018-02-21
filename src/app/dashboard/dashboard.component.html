@@ -19,6 +19,11 @@
         <app-system [systemData]="status"></app-system>
       </div>
     </div>
+    <div fxLayout>
+      <div fxFlex="1 1 800px">
+        <app-status [statusData]="status"></app-status>
+      </div>
+    </div>
     <div fxLayoutWrap>
       <div fxFlex="1 1 400px">
         <app-cpu [cpuData]="status"></app-cpu>

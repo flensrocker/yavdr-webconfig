@@ -1,0 +1,12 @@
+<mat-card *ngIf="statusData">
+  <mat-card-header>
+    <mat-card-title>
+      Status
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div>
+      <canvas baseChart chartType="horizontalBar" [options]="chartOptions" [datasets]="chartData" [colors]="chartColors" [labels]="chartLabels"></canvas>
+    </div>
+  </mat-card-content>
+</mat-card>
