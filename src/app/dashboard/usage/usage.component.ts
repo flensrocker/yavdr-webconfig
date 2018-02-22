@@ -1,29 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
+
+import { UsageColors } from '../../tools';
 import { SystemStatusData, ValueUnitData } from '../dashboard.servicedata';
-
-class UsageColor {
-  threshold: number;
-  color: string;
-}
-
-class UsageColors {
-  readonly colors: UsageColor[] = [
-    { threshold: 0, color: 'rgba(76, 175, 80, 0.6)' },
-    { threshold: 50, color: 'rgba(255, 152, 0, 0.6)' },
-    { threshold: 90, color: 'rgba(244, 67, 54, 0.6)' },
-  ];
-
-  getColor(usage: number): string {
-    let i = this.colors.length - 1;
-    while (i > 0) {
-      if (usage > this.colors[i].threshold) {
-        return this.colors[i].color;
-      }
-      i--;
-    }
-    return this.colors[0].color;
-  }
-}
 
 @Component({
   selector: 'app-dashboard-usage',
