@@ -3,6 +3,13 @@ import { Component, Input, OnChanges, SimpleChanges, SimpleChange } from '@angul
 import { UsageColors } from '../../tools';
 import { SystemStatusData, ValueUnitData } from '../dashboard.servicedata';
 
+class ChartData {
+  data: number[] = [];
+  backgroundColor: string[] = [];
+  borderColor: string[] = [];
+  borderWidth: number[] = [];
+}
+
 @Component({
   selector: 'app-dashboard-usage',
   templateUrl: './usage.component.html',
@@ -11,12 +18,11 @@ import { SystemStatusData, ValueUnitData } from '../dashboard.servicedata';
 export class UsageComponent implements OnChanges {
   @Input() usageData: SystemStatusData;
 
-  public chartData: any[] = [];
+  public chartData: ChartData[] = [];
   public chartOptions = {
     maintainAspectRatio: false,
     legend: {
-      display: true,
-      position: 'right',
+      display: false,
     },
     tooltips: {
       enabled: false,
@@ -36,7 +42,7 @@ export class UsageComponent implements OnChanges {
       }]
     }
   };
-  public chartLabels: string[] = [''];
+  public chartLabels: string[] = [];
   public chartColors: any[] = [];
 
   private _loadLabels: string[] = ['1 min', '5 min', '15 min'];
@@ -53,61 +59,68 @@ export class UsageComponent implements OnChanges {
     return `${this.getValueString(data.used_human)} / ${this.getValueString(data.total_human)}`;
   }
 
-  createData(usage: number, label: string, color: string): any {
-    return {
-      data: [usage],
-      label: label,
-      backgroundColor: color,
-      borderColor: this._usageColors.getColor(usage),
-      borderWidth: 4,
-    };
+  pushData(labels: string[], data: ChartData, label: string, usage: number, color: string): void {
+    labels.push(label);
+    data.data.push(usage);
+    data.backgroundColor.push(color);
+    data.borderColor.push(this._usageColors.getColor(usage));
+    data.borderWidth.push(4);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['usageData']) {
       const newData: SystemStatusData = changes['usageData'].currentValue as SystemStatusData;
       if (newData) {
-        const chartData: any[] = [];
+        const chartLabels: string[] = [];
+        const chartData: ChartData = new ChartData();
 
-        chartData.push(...newData.cpu_usage.map((u: number, i: number) =>
-          this.createData(u,
+        newData.cpu_usage.forEach((u: number, i: number) => {
+          this.pushData(chartLabels, chartData,
             `CPU ${i + 1}: ${u}%`,
-            'rgba(205, 220, 57, 0.6)')
-        ));
+            u,
+            'rgba(205, 220, 57, 0.6)'
+          );
+        });
 
-        chartData.push(...newData.load_average.map((u: number, i: number) =>
-          this.createData(100.0 * u / newData.cpu_num,
+        newData.load_average.forEach((u: number, i: number) => {
+          const load = 100.0 * u / newData.cpu_num;
+          this.pushData(chartLabels, chartData,
             `Load ${this._loadLabels[i % this._loadLabels.length]}: ${u}`,
-            'rgba(158, 158, 158, 0.6)')
-        ));
+            load,
+            'rgba(158, 158, 158, 0.6)'
+          );
+        });
 
         const mem_used = +(100.0 * newData.memory_usage.used / newData.memory_usage.total).toFixed(2);
-        chartData.push(
-          this.createData(mem_used,
-            `Memory: ${this.getString(newData.memory_usage)}`,
-            'rgba(63, 81, 181, 0.8)')
+        this.pushData(chartLabels, chartData,
+          `Memory: ${this.getString(newData.memory_usage)}`,
+          mem_used,
+          'rgba(63, 81, 181, 0.8)'
         );
 
         const swap_used = +(100.0 * newData.swap_usage.used / newData.swap_usage.total).toFixed(2);
-        chartData.push(
-          this.createData(swap_used,
-            `Swap: ${this.getString(newData.swap_usage)}`,
-            'rgba(63, 81, 181, 0.6)')
+        this.pushData(chartLabels, chartData,
+          `Swap: ${this.getString(newData.swap_usage)}`,
+          swap_used,
+          'rgba(63, 81, 181, 0.6)'
         );
 
         for (const du of newData.disk_usage) {
           const disk_used = +(100.0 * du.used / du.total).toFixed(2);
-          chartData.push(
-            this.createData(disk_used,
-              `${du.mountpoint} [ ${du.device} ]: ${this.getString(du)}`,
-              'rgba(33, 150, 243, 0.6)')
+          this.pushData(chartLabels, chartData,
+            `${du.mountpoint} [ ${du.device} ]: ${this.getString(du)}`,
+            disk_used,
+            'rgba(33, 150, 243, 0.6)'
           );
         }
 
-        this.chartData = chartData;
-        this.chartColors = [{ backgroundColor: chartData[0].backgroundColor }];
+        this.chartLabels = chartLabels;
+        this.chartData = [chartData];
+        this.chartColors = [{ backgroundColor: chartData.backgroundColor }];
       } else {
+        this.chartLabels = [];
         this.chartData = [];
+        this.chartColors = [];
       }
     }
   }
