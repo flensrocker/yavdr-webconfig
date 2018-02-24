@@ -6,8 +6,6 @@ import { SystemStatusData, ValueUnitData } from '../dashboard.servicedata';
 class ChartData {
   data: number[] = [];
   backgroundColor: string[] = [];
-  borderColor: string[] = [];
-  borderWidth: number[] = [];
 }
 
 @Component({
@@ -29,6 +27,13 @@ export class UsageComponent implements OnChanges {
     },
     scales: {
       xAxes: [{
+        barPercentage: 0.8,
+        categoryPercentage: 1.0,
+        ticks: {
+          autoSkip: false
+        }
+      }],
+      yAxes: [{
         ticks: {
           beginAtZero: true,
           min: 0.0,
@@ -36,10 +41,6 @@ export class UsageComponent implements OnChanges {
           callback: (value, index, values) => `${value}%`,
         }
       }],
-      yAxes: [{
-        barPercentage: 0.8,
-        categoryPercentage: 1.0,
-      }]
     }
   };
   public chartLabels: string[] = [];
@@ -59,12 +60,10 @@ export class UsageComponent implements OnChanges {
     return `${this.getValueString(data.used_human)} / ${this.getValueString(data.total_human)}`;
   }
 
-  pushData(labels: string[], data: ChartData, label: string, usage: number, color: string): void {
+  pushData(labels: string[], data: ChartData, label: string, usage: number): void {
     labels.push(label);
     data.data.push(usage);
-    data.backgroundColor.push(color);
-    data.borderColor.push(this._usageColors.getColor(usage));
-    data.borderWidth.push(4);
+    data.backgroundColor.push(this._usageColors.getColor(usage));
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -77,8 +76,7 @@ export class UsageComponent implements OnChanges {
         newData.cpu_usage.forEach((u: number, i: number) => {
           this.pushData(chartLabels, chartData,
             `CPU ${i + 1}: ${u}%`,
-            u,
-            'rgba(205, 220, 57, 0.6)'
+            u
           );
         });
 
@@ -86,37 +84,59 @@ export class UsageComponent implements OnChanges {
           const load = 100.0 * u / newData.cpu_num;
           this.pushData(chartLabels, chartData,
             `Load ${this._loadLabels[i % this._loadLabels.length]}: ${u}`,
-            load,
-            'rgba(158, 158, 158, 0.6)'
+            load
           );
         });
 
         const mem_used = +(100.0 * newData.memory_usage.used / newData.memory_usage.total).toFixed(2);
         this.pushData(chartLabels, chartData,
           `Memory: ${this.getString(newData.memory_usage)}`,
-          mem_used,
-          'rgba(63, 81, 181, 0.8)'
+          mem_used
         );
 
         const swap_used = +(100.0 * newData.swap_usage.used / newData.swap_usage.total).toFixed(2);
         this.pushData(chartLabels, chartData,
           `Swap: ${this.getString(newData.swap_usage)}`,
-          swap_used,
-          'rgba(63, 81, 181, 0.6)'
+          swap_used
         );
 
         for (const du of newData.disk_usage) {
           const disk_used = +(100.0 * du.used / du.total).toFixed(2);
           this.pushData(chartLabels, chartData,
             `${du.mountpoint} [ ${du.device} ]: ${this.getString(du)}`,
-            disk_used,
-            'rgba(33, 150, 243, 0.6)'
+            disk_used
           );
         }
 
+        const criticalData: any = {
+          label: 'critical',
+          type: 'line',
+          pointStyle: 'line',
+          fill: false,
+          data: chartData.data.map((d: number) => this._usageColors.critical),
+          backgroundColor: this._usageColors.criticalColor,
+          borderColor: this._usageColors.criticalColor,
+          borderWidth: 2,
+        };
+
+        const highData: any = {
+          label: 'high',
+          type: 'line',
+          pointStyle: 'line',
+          fill: false,
+          data: chartData.data.map((d: number) => this._usageColors.high),
+          backgroundColor: this._usageColors.highColor,
+          borderColor: this._usageColors.highColor,
+          borderWidth: 2,
+        };
+
         this.chartLabels = chartLabels;
-        this.chartData = [chartData];
-        this.chartColors = [{ backgroundColor: chartData.backgroundColor }];
+        this.chartData = [chartData, criticalData, highData];
+        this.chartColors = [{
+          backgroundColor: chartData.backgroundColor,
+          borderColor: chartData.borderColor,
+          borderWidth: chartData.borderWidth,
+        }];
       } else {
         this.chartLabels = [];
         this.chartData = [];
