@@ -13,6 +13,7 @@ import { DashboardComponent } from './dashboard.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { SystemComponent } from './system/system.component';
 import { UsageComponent } from './usage/usage.component';
+import { TemperatureComponent } from './temperature/temperature.component';
 
 @NgModule({
   imports: [
@@ -25,6 +26,7 @@ import { UsageComponent } from './usage/usage.component';
     DashboardComponent,
     SystemComponent,
     UsageComponent,
+    TemperatureComponent,
   ],
   providers: [
     { provide: DashboardService, useClass: DashboardServiceMock /*DashboardServiceHttp*/ },

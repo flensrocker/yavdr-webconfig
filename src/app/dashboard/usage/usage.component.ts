@@ -27,7 +27,7 @@ export class UsageComponent implements OnChanges {
     },
     scales: {
       xAxes: [{
-        barPercentage: 0.8,
+        barPercentage: 0.6,
         categoryPercentage: 1.0,
         ticks: {
           autoSkip: false
@@ -108,30 +108,32 @@ export class UsageComponent implements OnChanges {
           );
         }
 
-        const criticalData: any = {
-          label: 'critical',
-          type: 'line',
-          pointStyle: 'line',
-          fill: false,
-          data: chartData.data.map((d: number) => this._usageColors.critical),
-          backgroundColor: this._usageColors.criticalColor,
-          borderColor: this._usageColors.criticalColor,
-          borderWidth: 2,
-        };
-
         const highData: any = {
           label: 'high',
           type: 'line',
           pointStyle: 'line',
           fill: false,
+          showLine: false,
           data: chartData.data.map((d: number) => this._usageColors.high),
           backgroundColor: this._usageColors.highColor,
           borderColor: this._usageColors.highColor,
-          borderWidth: 2,
+          borderWidth: 3,
+        };
+
+        const criticalData: any = {
+          label: 'critical',
+          type: 'line',
+          pointStyle: 'line',
+          fill: false,
+          showLine: false,
+          data: chartData.data.map((d: number) => this._usageColors.critical),
+          backgroundColor: this._usageColors.criticalColor,
+          borderColor: this._usageColors.criticalColor,
+          borderWidth: 3,
         };
 
         this.chartLabels = chartLabels;
-        this.chartData = [chartData, criticalData, highData];
+        this.chartData = [chartData, highData, criticalData];
         this.chartColors = [{
           backgroundColor: chartData.backgroundColor,
         }];

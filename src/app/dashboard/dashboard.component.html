@@ -19,9 +19,12 @@
         <app-dashboard-system [systemData]="status"></app-dashboard-system>
       </div>
     </div>
-    <div fxLayout>
+    <div fxLayoutWrap>
       <div fxFlex>
         <app-dashboard-usage [usageData]="status"></app-dashboard-usage>
+      </div>
+      <div fxFlex>
+        <app-dashboard-temperature [temperatureData]="status.temperatures"></app-dashboard-temperature>
       </div>
     </div>
   </ng-container>
