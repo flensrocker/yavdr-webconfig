@@ -134,8 +134,6 @@ export class UsageComponent implements OnChanges {
         this.chartData = [chartData, criticalData, highData];
         this.chartColors = [{
           backgroundColor: chartData.backgroundColor,
-          borderColor: chartData.borderColor,
-          borderWidth: chartData.borderWidth,
         }];
       } else {
         this.chartLabels = [];
