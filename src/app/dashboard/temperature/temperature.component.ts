@@ -27,7 +27,7 @@ export class TemperatureComponent implements OnChanges {
       display: false,
     },
     tooltips: {
-      enabled: false,
+      enabled: true,
     },
     scales: {
       xAxes: [{

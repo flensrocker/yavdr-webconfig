@@ -23,7 +23,7 @@ export class UsageComponent implements OnChanges {
       display: false,
     },
     tooltips: {
-      enabled: false,
+      enabled: true,
     },
     scales: {
       xAxes: [{
