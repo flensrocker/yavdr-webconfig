@@ -8,7 +8,7 @@ class ChartData {
   backgroundColor: string[] = [];
 }
 
-interface TempData {
+interface InputTemperatureData {
   [key: string]: TemperatureData[];
 }
 
@@ -18,7 +18,7 @@ interface TempData {
   styleUrls: ['./temperature.component.scss']
 })
 export class TemperatureComponent implements OnChanges {
-  @Input() temperatureData: TempData;
+  @Input() temperatureData: InputTemperatureData;
 
   public chartData: ChartData[] = [];
   public chartOptions = {
@@ -57,7 +57,7 @@ export class TemperatureComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['temperatureData']) {
-      const newData: TempData = changes['temperatureData'].currentValue as TempData;
+      const newData: InputTemperatureData = changes['temperatureData'].currentValue as InputTemperatureData;
       if (newData) {
         const chartLabels: string[] = [];
         const chartData: ChartData = new ChartData();

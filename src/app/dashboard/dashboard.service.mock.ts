@@ -222,7 +222,7 @@ export class DashboardServiceMock extends DashboardService {
         "nct6775": [
             {
                 "label": "",
-                "current": 0
+                "current": 126
             },
             {
                 "label": "",
@@ -230,11 +230,11 @@ export class DashboardServiceMock extends DashboardService {
             },
             {
                 "label": "",
-                "current": 0
+                "current": 341
             },
             {
                 "label": "",
-                "current": 0
+                "current": 533
             }
         ]
     },
