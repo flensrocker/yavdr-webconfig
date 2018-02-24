@@ -87,10 +87,13 @@ export class TemperatureComponent implements OnChanges {
         };
 
         for (const key of Object.keys(newData)) {
+          this.pushData(chartLabels, chartData, key, NaN, this._usageColors);
+          highData.data.push(NaN);
+          criticalData.data.push(NaN);
           for (const t of newData[key]) {
             const critical = t.critical > 0 ? t.critical : NaN;
             const high = t.high > 0 ? t.high : NaN;
-            this.pushData(chartLabels, chartData, `${key} - ${t.label}`, t.current, new UsageColors(high, critical));
+            this.pushData(chartLabels, chartData, t.label, t.current, new UsageColors(high, critical));
             highData.data.push(high);
             criticalData.data.push(critical);
           }

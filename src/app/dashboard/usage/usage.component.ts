@@ -72,25 +72,32 @@ export class UsageComponent implements OnChanges {
       if (newData) {
         const chartLabels: string[] = [];
         const chartData: ChartData = new ChartData();
+        const labelIndex = new Set<number>();
 
+        labelIndex.add(chartLabels.length);
+        this.pushData(chartLabels, chartData, 'CPU', NaN);
         newData.cpu_usage.forEach((u: number, i: number) => {
           this.pushData(chartLabels, chartData,
-            `CPU ${i + 1}: ${u}%`,
+            `${i + 1}: ${u}%`,
             u
           );
         });
 
+        labelIndex.add(chartLabels.length);
+        this.pushData(chartLabels, chartData, 'Load', NaN);
         newData.load_average.forEach((u: number, i: number) => {
           const load = 100.0 * u / newData.cpu_num;
           this.pushData(chartLabels, chartData,
-            `Load ${this._loadLabels[i % this._loadLabels.length]}: ${u}`,
+            `${this._loadLabels[i % this._loadLabels.length]}: ${u}`,
             load
           );
         });
 
+        labelIndex.add(chartLabels.length);
+        this.pushData(chartLabels, chartData, 'Memory', NaN);
         const mem_used = +(100.0 * newData.memory_usage.used / newData.memory_usage.total).toFixed(2);
         this.pushData(chartLabels, chartData,
-          `Memory: ${this.getString(newData.memory_usage)}`,
+          `RAM: ${this.getString(newData.memory_usage)}`,
           mem_used
         );
 
@@ -100,10 +107,12 @@ export class UsageComponent implements OnChanges {
           swap_used
         );
 
+        labelIndex.add(chartLabels.length);
+        this.pushData(chartLabels, chartData, 'Disks', NaN);
         for (const du of newData.disk_usage) {
           const disk_used = +(100.0 * du.used / du.total).toFixed(2);
           this.pushData(chartLabels, chartData,
-            `${du.mountpoint} [ ${du.device} ]: ${this.getString(du)}`,
+            `${du.mountpoint}: ${this.getString(du)}`,
             disk_used
           );
         }
@@ -114,7 +123,7 @@ export class UsageComponent implements OnChanges {
           pointStyle: 'line',
           fill: false,
           showLine: false,
-          data: chartData.data.map((d: number) => this._usageColors.high),
+          data: chartData.data.map((d: number, i: number) => (labelIndex.has(i) ? NaN : this._usageColors.high)),
           backgroundColor: this._usageColors.highColor,
           borderColor: this._usageColors.highColor,
           borderWidth: 3,
@@ -126,7 +135,7 @@ export class UsageComponent implements OnChanges {
           pointStyle: 'line',
           fill: false,
           showLine: false,
-          data: chartData.data.map((d: number) => this._usageColors.critical),
+          data: chartData.data.map((d: number, i: number) => (labelIndex.has(i) ? NaN : this._usageColors.critical)),
           backgroundColor: this._usageColors.criticalColor,
           borderColor: this._usageColors.criticalColor,
           borderWidth: 3,
