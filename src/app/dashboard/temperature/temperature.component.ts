@@ -22,7 +22,6 @@ export class TemperatureComponent implements OnChanges {
 
   public chartData: ChartData[] = [];
   public chartOptions = {
-    maintainAspectRatio: false,
     legend: {
       display: false,
     },
@@ -31,8 +30,8 @@ export class TemperatureComponent implements OnChanges {
     },
     scales: {
       xAxes: [{
-        barPercentage: 0.6,
-        categoryPercentage: 1.0,
+        barPercentage: 1.0,
+        categoryPercentage: 0.4,
         ticks: {
           autoSkip: false
         }

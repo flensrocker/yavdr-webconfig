@@ -14,17 +14,17 @@
   <app-error [error]="error"></app-error>
 
   <ng-container *ngIf="systemStatus | async as status">
-    <div fxLayout="row wrap" fxLayoutGap="2px">
-      <div fxFlex>
+    <div fxLayout="row wrap" fxLayout.lt-md="column">
+      <div fxFlex="calc(50% - 20px)" fxFlex.gt-lg="calc(25% - 20px)" class="status-card">
         <app-dashboard-system [systemData]="status"></app-dashboard-system>
       </div>
-      <div fxFlex>
+      <div fxFlex="calc(50% - 20px)" fxFlex.gt-lg="calc(25% - 20px)" class="status-card">
         <app-dashboard-usage [usageData]="status"></app-dashboard-usage>
       </div>
-      <div fxFlex>
+      <div fxFlex="calc(50% - 20px)" fxFlex.gt-lg="calc(25% - 20px)" class="status-card">
         <app-dashboard-temperature [temperatureData]="status.temperatures"></app-dashboard-temperature>
       </div>
-      <div fxFlex>
+      <div fxFlex="calc(50% - 20px)" fxFlex.gt-lg="calc(25% - 20px)" class="status-card">
         <app-dashboard-fan [fanData]="status.fans"></app-dashboard-fan>
       </div>
     </div>
