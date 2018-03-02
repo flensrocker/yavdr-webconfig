@@ -1,5 +1,5 @@
 <mat-sidenav-container class="mat-typography">
-  <mat-sidenav #sidenav mode="side" [opened]="openSidenav | async">
+  <mat-sidenav #sidenav mode="side" [opened]="openSidenav | async" *ngIf="isLoggedIn | async">
     <mat-nav-list>
       <a mat-list-item [routerLink]="['dashboard']" routerLinkActive="app-active-link">Dashboard</a>
       <a mat-list-item [routerLink]="['settings']" routerLinkActive="app-active-link">Settings</a>
@@ -13,7 +13,7 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <h1>
-      <button type="button" mat-button (click)="toggleSidenav()" *ngIf="showSidenavButton | async">
+      <button type="button" mat-button (click)="toggleSidenav()" fxShow fxHide.gt-sm="true" *ngIf="isLoggedIn | async">
         <i class="fa fa-bars"></i>
       </button>
       {{title}}

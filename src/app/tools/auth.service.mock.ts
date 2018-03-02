@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/delay';
+import { async } from 'rxjs/scheduler/async';
 import 'rxjs/add/operator/map';
 
 import { AuthService } from './auth.service';
@@ -15,7 +15,7 @@ export class AuthServiceMock extends AuthService {
 
   validate(): void {
     Observable.of<false>(false)
-      .delay(1000)
+      .observeOn(async)
       .subscribe((response: false) => {
         this.setLoggedOut(); // force login on every reload
         // this.setLoggedIn('user', ['user']); // auto login
@@ -27,7 +27,7 @@ export class AuthServiceMock extends AuthService {
   login(request: LoginRequest): Observable<LoginResponse> {
     const loginSubject: Subject<LoginResponse> = new Subject<LoginResponse>();
     Observable.of<LoginResponse>(new LoginResponse())
-      .delay(1000)
+      .observeOn(async)
       .map((response: LoginResponse) => {
         if ((request.username === 'invalid') || (request.password === 'invalid')) {
           throw new Error('invalid username or password');

@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { async } from 'rxjs/scheduler/async';
+import 'rxjs/add/operator/delay';
 
 import {
     DashboardService,
@@ -259,6 +261,7 @@ export class DashboardServiceMock extends DashboardService {
 
     getSystemStatus(): Observable<SystemStatusData> {
         return Observable.of<SystemStatusData>(DashboardServiceMock._systemStatus)
-            .delay(1000);
+            .observeOn(async)
+            .delay(200);
     }
 }
