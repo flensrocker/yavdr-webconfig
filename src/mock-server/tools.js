@@ -28,8 +28,9 @@ const createController = (logicFunc) => {
 const setupRoutes = (routes) => {
     var router = express.Router();
     if (Array.isArray(routes)) {
-        routes.forEach((r) => {
-            if (r instanceof Route) {
+        routes.filter((r) => (r instanceof Route))
+            .forEach((r) => {
+                console.log('add route ' + r.method + ' ' + r.path);
                 switch (r.method) {
                     case 'get': {
                         router.get(r.path, createController(r.logic));
@@ -44,14 +45,13 @@ const setupRoutes = (routes) => {
                         break;
                     }
                 }
-            }
-        });
+            });
     }
     return router;
 };
 
 module.exports = {
-    newRoute: (method, path, logic) => new Route(method, path, logic),
-    createController: (logicFunc) => createController(logicFunc),
-    setupRoutes: (routes) => setupRoutes(routes),
+    Route: Route,
+    createController: createController,
+    setupRoutes: setupRoutes,
 };

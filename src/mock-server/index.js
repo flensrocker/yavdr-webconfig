@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use(express.static(root));
 
 app.use('/api', auth);
-app.use('/api/system', system);
+app.use('/api', system);
 
 // don't send index.html for unknown api requests
 app.all('/api/*', (req, res) => {
