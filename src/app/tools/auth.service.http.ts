@@ -24,7 +24,7 @@ export class AuthServiceHttp extends AuthService {
   }
 
   login(request: LoginRequest): Observable<LoginResponse> {
-    let loginSubject: Subject<LoginResponse> = new Subject<LoginResponse>();
+    const loginSubject: Subject<LoginResponse> = new Subject<LoginResponse>();
     this._http.post<LoginResponse>('/api/login', request)
       .subscribe((response: LoginResponse) => {
         this.setLoggedIn(request.username, response.groups);
@@ -39,7 +39,7 @@ export class AuthServiceHttp extends AuthService {
   }
 
   logout(): Observable<true> {
-    let logoutSubject: Subject<true> = new Subject<true>();
+    const logoutSubject: Subject<true> = new Subject<true>();
     this.setLoggedOut();
     this._http.post('/api/logout', {}).subscribe(() => {
       logoutSubject.next(true);

@@ -1,15 +1,15 @@
-import { Observable } from "rxjs/Observable";
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
-import { LoginResponse, LoginRequest, ValidateResponse, AuthState } from "./auth.servicedata";
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { LoginResponse, LoginRequest, ValidateResponse, AuthState } from './auth.servicedata';
 
 export abstract class AuthService {
+    private _authenticated: BehaviorSubject<AuthState> = new BehaviorSubject<AuthState>(AuthState.NotValidated);
+    private _username = '';
+    private _groups: string[] = [];
+
     abstract validate(): void;
     abstract login(request: LoginRequest): Observable<LoginResponse>;
     abstract logout(): Observable<true>;
-
-    private _authenticated: BehaviorSubject<AuthState> = new BehaviorSubject<AuthState>(AuthState.NotValidated);
-    private _username: string = '';
-    private _groups: string[] = [];
 
     public get authenticated(): Observable<AuthState> {
         return this._authenticated.asObservable();

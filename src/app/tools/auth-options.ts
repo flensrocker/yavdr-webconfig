@@ -1,9 +1,9 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
 @Injectable()
 export class AuthOptions {
-    public loginUrl: string = '/login';
-    public homeUrl: string = '/home';
+    public loginUrl = '/login';
+    public homeUrl = '/home';
 
     constructor() {
     }

@@ -35,7 +35,7 @@ export class LoginComponent {
   }
 
   onSubmit(): void {
-    let loginRequest: LoginRequest = new LoginRequest(
+    const loginRequest: LoginRequest = new LoginRequest(
       this._username.value as string,
       this._password.value as string,
     );
