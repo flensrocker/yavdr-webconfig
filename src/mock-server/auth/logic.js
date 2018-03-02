@@ -5,7 +5,7 @@ module.exports = {
     isAuthticated: () => {
         return authState;
     },
-    authError: ()=>{
+    authError: () => {
         return {
             status: 401,
             response: {

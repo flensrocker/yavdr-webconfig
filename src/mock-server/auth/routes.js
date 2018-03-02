@@ -1,16 +1,8 @@
 var tools = require('../tools');
 var logic = require('./logic');
 
-module.exports = tools.setupRoutes([{
-    method: 'get',
-    path: '/login',
-    logic: logic.validate,
-}, {
-    method: 'post',
-    path: '/login',
-    logic: logic.login,
-}, {
-    method: 'post',
-    path: '/logout',
-    logic: logic.logout,
-}]);
+module.exports = tools.setupRoutes([
+    tools.newRoute('get', '/login', logic.validate),
+    tools.newRoute('post', '/login', logic.login),
+    tools.newRoute('post', '/logout', logic.logout),
+]);

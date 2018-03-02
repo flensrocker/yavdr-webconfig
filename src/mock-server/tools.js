@@ -1,6 +1,12 @@
 var express = require('express');
 
-const controller = (logicFunc) => {
+function Route(method, path, logic) {
+    this.method = method;
+    this.path = path;
+    this.logic = logic;
+};
+
+const createController = (logicFunc) => {
     return (req, res) => {
         try {
             var ret = logicFunc(req.body);
@@ -19,22 +25,33 @@ const controller = (logicFunc) => {
     };
 };
 
-module.exports = {
-    controller: controller,
-    setupRoutes: (routes) => {
-        var router = express.Router();
-        routes.forEach((route) => {
-            switch (route.method) {
-                case 'get': {
-                    router.get(route.path, controller(route.logic));
-                    break;
-                }
-                case 'post': {
-                    router.post(route.path, controller(route.logic));
-                    break;
+const setupRoutes = (routes) => {
+    var router = express.Router();
+    if (Array.isArray(routes)) {
+        routes.forEach((r) => {
+            if (r instanceof Route) {
+                switch (r.method) {
+                    case 'get': {
+                        router.get(r.path, createController(r.logic));
+                        break;
+                    }
+                    case 'post': {
+                        router.post(r.path, createController(r.logic));
+                        break;
+                    }
+                    default: {
+                        console.error('unknown router method "' + r.method + '" on path "' + r.path + '"');
+                        break;
+                    }
                 }
             }
         });
-        return router;
-    },
+    }
+    return router;
+};
+
+module.exports = {
+    newRoute: (method, path, logic) => new Route(method, path, logic),
+    createController: (logicFunc) => createController(logicFunc),
+    setupRoutes: (routes) => setupRoutes(routes),
 };
