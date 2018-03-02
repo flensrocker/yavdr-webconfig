@@ -1,4 +1,4 @@
-const auth = require('./auth-logic');
+const auth = require('../auth/logic');
 
 const status = {
     "cpu_usage": [

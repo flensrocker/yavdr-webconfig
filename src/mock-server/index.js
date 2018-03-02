@@ -3,8 +3,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 
-const auth = require('./auth-routes');
-const system = require('./system-routes');
+const auth = require('./auth/routes');
+const system = require('./system/routes');
 
 const app = express();
 const root = path.join(__dirname, '../../dist');
