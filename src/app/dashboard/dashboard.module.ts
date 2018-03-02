@@ -1,12 +1,9 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 
 import { ToolsModule } from '../tools/tools.module';
 
 import { DashboardService } from './dashboard.service';
 import { DashboardServiceHttp } from './dashboard.service.http';
-import { DashboardServiceMock } from './dashboard.service.mock';
 
 import { DashboardComponent } from './dashboard.component';
 
@@ -18,8 +15,6 @@ import { FanComponent } from './fan/fan.component';
 
 @NgModule({
   imports: [
-    CommonModule,
-    FormsModule,
     ToolsModule,
     DashboardRoutingModule,
   ],
@@ -31,7 +26,7 @@ import { FanComponent } from './fan/fan.component';
     FanComponent,
   ],
   providers: [
-    { provide: DashboardService, useClass: DashboardServiceMock /*DashboardServiceHttp*/ },
+    { provide: DashboardService, useClass: DashboardServiceHttp },
   ]
 })
 export class DashboardModule { }

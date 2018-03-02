@@ -51,8 +51,12 @@ export class FanComponent implements OnChanges {
           }
         }
 
-        this.chartLabels = chartLabels;
-        this.chartData = [chartData];
+        // workaround for not refreshing chart
+        this.chartLabels = undefined;
+        setTimeout(() => {
+          this.chartLabels = chartLabels;
+          this.chartData = [chartData];
+        }, 1);
       } else {
         this.chartLabels = [];
         this.chartData = [];

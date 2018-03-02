@@ -3,7 +3,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 
-const auth = require('./auth-routing');
+const auth = require('./auth-routes');
+const system = require('./system-routes');
 
 const app = express();
 const root = path.join(__dirname, '../../dist');
@@ -13,6 +14,7 @@ app.use(bodyParser.json());
 app.use(express.static(root));
 
 app.use('/api', auth);
+app.use('/api/system', system);
 
 // don't send index.html for unknown api requests
 app.all('/api/*', (req, res) => {

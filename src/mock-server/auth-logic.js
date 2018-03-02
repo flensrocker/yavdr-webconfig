@@ -2,6 +2,17 @@ var authState = false;
 var username = '';
 
 module.exports = {
+    isAuthticated: () => {
+        return authState;
+    },
+    authError: ()=>{
+        return {
+            status: 401,
+            response: {
+                msg: 'Access denied',
+            },
+        };
+    },
     validate: (request) => {
         if (authState) {
             return {

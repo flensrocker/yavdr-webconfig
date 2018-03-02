@@ -98,11 +98,15 @@ export class TemperatureComponent implements OnChanges {
           }
         }
 
-        this.chartLabels = chartLabels;
-        this.chartData = [chartData, highData, criticalData];
-        this.chartColors = [{
-          backgroundColor: chartData.backgroundColor,
-        }];
+        // workaround for not refreshing chart
+        this.chartLabels = undefined;
+        setTimeout(() => {
+          this.chartLabels = chartLabels;
+          this.chartData = [chartData, highData, criticalData];
+          this.chartColors = [{
+            backgroundColor: chartData.backgroundColor,
+          }];
+        }, 1);
       } else {
         this.chartLabels = [];
         this.chartData = [];

@@ -1,17 +1,6 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { async } from 'rxjs/scheduler/async';
-import 'rxjs/add/operator/delay';
+const auth = require('./auth-logic');
 
-import {
-    DashboardService,
-    SystemStatusData,
-} from './dashboard.service';
-
-@Injectable()
-export class DashboardServiceMock extends DashboardService {
-    private static _systemStatus: SystemStatusData = JSON.parse(`
-  {
+const status = {
     "cpu_usage": [
         90.1,
         51.0
@@ -252,16 +241,17 @@ export class DashboardServiceMock extends DashboardService {
         "#35-Ubuntu SMP Thu Jan 25 09:13:46 UTC 2018"
     ],
     "uptime": "-1 day, 23:11:42"
-  }`) as SystemStatusData;
+};
 
-    constructor(
-    ) {
-        super();
-    }
-
-    getSystemStatus(): Observable<SystemStatusData> {
-        return Observable.of<SystemStatusData>(DashboardServiceMock._systemStatus)
-            .observeOn(async)
-            .delay(200);
-    }
-}
+module.exports = {
+    status: (request) => {
+        if (auth.isAuthticated()) {
+            status.cpu_usage[0] = Math.round(100 * Math.random(), 2);
+            status.cpu_usage[1] = Math.round(100 * Math.random(), 2);
+            return {
+                response: status,
+            };
+        }
+        return auth.authError();
+    },
+};

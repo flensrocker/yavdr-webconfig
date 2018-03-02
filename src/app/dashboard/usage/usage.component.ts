@@ -140,11 +140,15 @@ export class UsageComponent implements OnChanges {
           borderWidth: 3,
         };
 
-        this.chartLabels = chartLabels;
-        this.chartData = [chartData, highData, criticalData];
-        this.chartColors = [{
-          backgroundColor: chartData.backgroundColor,
-        }];
+        // workaround for not refreshing chart
+        this.chartLabels = undefined;
+        setTimeout(() => {
+          this.chartLabels = chartLabels;
+          this.chartData = [chartData, highData, criticalData];
+          this.chartColors = [{
+            backgroundColor: chartData.backgroundColor,
+          }];
+        }, 1);
       } else {
         this.chartLabels = [];
         this.chartData = [];
