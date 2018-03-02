@@ -1,5 +1,6 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {
@@ -20,7 +21,6 @@ import { ToolsRoutingModule } from './tools-routing.module';
 import { AuthGuard } from './auth-guard';
 import { AuthService } from './auth.service';
 import { AuthServiceHttp } from './auth.service.http';
-import { AuthServiceMock } from './auth.service.mock';
 import { UpdateService } from './update.service';
 
 import { ErrorComponent } from './error.component';
@@ -31,6 +31,7 @@ import { UpdateComponent } from './update.component';
 @NgModule({
   imports: [
     CommonModule,
+    HttpClientModule,
     ReactiveFormsModule,
     FlexLayoutModule,
     MatButtonModule,
@@ -47,6 +48,7 @@ import { UpdateComponent } from './update.component';
   ],
   exports: [
     CommonModule,
+    HttpClientModule,
     ReactiveFormsModule,
     FlexLayoutModule,
     MatButtonModule,
@@ -78,7 +80,7 @@ export class ToolsModule {
     return {
       ngModule: ToolsModule, providers: [
         AuthGuard,
-        { provide: AuthService, useClass: AuthServiceMock /*AuthServiceHttp*/ },
+        { provide: AuthService, useClass: AuthServiceHttp },
         UpdateService,
       ]
     };

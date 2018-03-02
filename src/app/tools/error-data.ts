@@ -19,6 +19,8 @@ export class ErrorData {
                 ret = error.message;
             } else if (typeof error === 'string') {
                 ret = error;
+            } else if (error.msg && (typeof error.msg === 'string')) {
+                ret = error.msg;
             } else if (error instanceof HttpErrorResponse) {
                 let e: any = error.error;
                 try {
