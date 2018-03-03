@@ -20,7 +20,7 @@ function User(username, password, groups) {
     };
 }
 
-var users = [
+const users = [
     new User('a', 'a', ['users', 'adm', 'sudo']),
 ];
 
@@ -37,6 +37,7 @@ const authenticateUser = (username, password) => {
         }
         user.isLoggedIn = false;
     }
+
     return null;
 };
 
@@ -55,6 +56,7 @@ const getTokenPayload = (token) => {
         }
     } catch (err) {
     }
+
     return null;
 };
 
@@ -65,6 +67,7 @@ const getTokenFromHeaders = (headers) => {
             return parts[1];
         }
     }
+
     return null;
 };
 
@@ -73,15 +76,21 @@ const getUsernameFromHeaders = (headers) => {
     if (payload) {
         return payload.username;
     }
+
     return null;
 };
 
 const getUsername = (headers, cookies) => {
-    var username = getUsernameFromHeaders(headers);
-    if (!username) {
-        username = cookies.username;
+    const username = getUsernameFromHeaders(headers);
+    if (username) {
+        return username;
     }
-    return username;
+
+    if (cookies.auth) {
+        return cookies.auth.username;
+    }
+
+    return null;
 };
 
 const logoutUser = (username) => {
@@ -126,7 +135,10 @@ module.exports = {
         const user = authenticateUser(request.username, request.password);
         if (user) {
             return {
-                cookie: user.username,
+                cookieName: 'auth',
+                cookie: {
+                    username: user.username,
+                },
                 response: {
                     msg: 'Login successfull',
                     groups: user.groups,
@@ -163,6 +175,7 @@ module.exports = {
         const username = getUsername(headers, cookies);
         logoutUser(username);
         return {
+            cookieName: 'auth',
             response: {
                 msg: 'Logout successfull',
             }

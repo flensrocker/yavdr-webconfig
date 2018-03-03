@@ -11,12 +11,16 @@ function Route(method, path, logic, needsAuthentication) {
 const createHandler = (logicFunc) => {
     return (req, res) => {
         try {
-            var ret = logicFunc(req.body, req.headers, req.cookies);
+            var ret = logicFunc(req.body, req.headers, req.signedCookies);
             if (ret.status) {
                 res.status(ret.status);
             }
-            if (ret.cookie) {
-                res.cookie('username', ret.cookie);
+            if (ret.cookieName) {
+                if (ret.cookie) {
+                    res.cookie(ret.cookieName, ret.cookie);
+                } else {
+                    res.clearCookie(ret.cookieName);
+                }
             }
             if (ret.response) {
                 res.json(ret.response);
