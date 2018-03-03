@@ -29,4 +29,4 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(root, 'index.html'))
 });
 
-app.listen(4200, () => console.log('Mock-Server listening on port 4200'));
+app.listen(4200, () => console.log('Server listening on port 4200'));

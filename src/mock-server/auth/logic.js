@@ -1,25 +1,27 @@
-var authState = false;
-var username = '';
+function User(username, password, groups) {
+    this.username = username;
+    this.password = password;
+    this.groups = groups;
+}
+
+var theUser = undefined;
 
 module.exports = {
-    isAuthticated: () => {
-        return authState;
-    },
-    authError: () => {
-        return {
-            status: 401,
-            response: {
-                msg: 'Access denied',
-            },
-        };
+    authenticate: (request, response, next) => {
+        if (theUser instanceof User) {
+            next();
+        } else {
+            response.status(401)
+                .json({ msg: 'Access denied' });
+        }
     },
     validate: (request) => {
-        if (authState) {
+        if (theUser instanceof User) {
             return {
                 response: {
                     msg: 'Validation successfull',
-                    username: username,
-                    groups: [username, 'users', 'adm', 'sudo'],
+                    username: theUser.username,
+                    groups: theUser.groups,
                 }
             };
         }
@@ -32,10 +34,10 @@ module.exports = {
     },
     login: (request) => {
         if (!(request.username) || !(request.password)
+            || (request.username !== request.password)
             || (request.username === 'invalid')
             || (request.password === 'invalid')) {
-            authState = false;
-            username = '';
+            theUser = undefined;
             return {
                 status: 401,
                 response: {
@@ -44,18 +46,16 @@ module.exports = {
             };
         }
 
-        authState = true;
-        username = request.username;
+        theUser = new User(request.username, request.password, ['users', 'adm', 'sudo']);
         return {
             response: {
                 msg: 'Login successfull',
-                groups: [username, 'users', 'adm', 'sudo'],
+                groups: theUser.groups,
             }
         };
     },
     logout: (request) => {
-        authState = false;
-        username = '';
+        theUser = undefined;
         return {
             response: {
                 msg: 'Logout successfull',

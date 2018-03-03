@@ -1,12 +1,14 @@
 var express = require('express');
+var auth = require('./auth/logic');
 
-function Route(method, path, logic) {
+function Route(method, path, logic, needsAuthentication) {
     this.method = method;
     this.path = path;
     this.logic = logic;
+    this.needsAuthentication = Boolean(needsAuthentication);
 };
 
-const createController = (logicFunc) => {
+const createHandler = (logicFunc) => {
     return (req, res) => {
         try {
             var ret = logicFunc(req.body);
@@ -30,14 +32,16 @@ const setupRoutes = (routes) => {
     if (Array.isArray(routes)) {
         routes.filter((r) => (r instanceof Route))
             .forEach((r) => {
-                console.log('add route ' + r.method + ' ' + r.path);
+                console.log('add route ' + r.method + ' ' + r.path + (r.needsAuthentication ? ' with authentication' : ''));
+                var handlers = (r.needsAuthentication ? [auth.authenticate] : []);
+                handlers.push(createHandler(r.logic));
                 switch (r.method) {
                     case 'get': {
-                        router.get(r.path, createController(r.logic));
+                        router.get(r.path, handlers);
                         break;
                     }
                     case 'post': {
-                        router.post(r.path, createController(r.logic));
+                        router.post(r.path, handlers);
                         break;
                     }
                     default: {
@@ -52,6 +56,5 @@ const setupRoutes = (routes) => {
 
 module.exports = {
     Route: Route,
-    createController: createController,
     setupRoutes: setupRoutes,
 };

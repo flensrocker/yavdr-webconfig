@@ -1,5 +1,3 @@
-const auth = require('../auth/logic');
-
 const status = {
     "cpu_usage": [
         90.1,
@@ -245,13 +243,10 @@ const status = {
 
 module.exports = {
     status: (request) => {
-        if (auth.isAuthticated()) {
-            status.cpu_usage[0] = Math.round(100 * Math.random(), 2);
-            status.cpu_usage[1] = Math.round(100 * Math.random(), 2);
-            return {
-                response: status,
-            };
-        }
-        return auth.authError();
+        status.cpu_usage[0] = Math.round(100 * Math.random(), 2);
+        status.cpu_usage[1] = Math.round(100 * Math.random(), 2);
+        return {
+            response: status,
+        };
     },
 };
