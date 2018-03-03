@@ -1,30 +1,120 @@
+const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
+
+const config = require('../config');
+
+const hashPassword = (password) => {
+    return crypto.createHash('md5')
+        .update(password)
+        .digest('hex');
+};
+
 function User(username, password, groups) {
     this.username = username;
-    this.password = password;
+    this.password = hashPassword(password);
     this.groups = groups;
+    this.isLoggedIn = false;
+
+    this.checkPassword = (password) => {
+        return (this.password === hashPassword(password));
+    };
 }
 
-var theUser = undefined;
+var users = [
+    new User('a', 'a', ['users', 'adm', 'sudo']),
+];
+
+const findUser = (username) => {
+    return users.find((u) => u.username === username);
+};
+
+const authenticateUser = (username, password) => {
+    const user = findUser(username);
+    if (user) {
+        if (user.checkPassword(password)) {
+            user.isLoggedIn = true;
+            return user;
+        }
+        user.isLoggedIn = false;
+    }
+    return null;
+};
+
+const createToken = (user) => {
+    const payload = {
+        username: user.username,
+        groups: user.groups,
+    };
+    return jwt.sign(payload, config.jwtSecret, { expiresIn: '60m' });
+};
+
+const getTokenPayload = (token) => {
+    try {
+        if (token) {
+            return jwt.verify(token, config.jwtSecret);
+        }
+    } catch (err) {
+    }
+    return null;
+};
+
+const getTokenFromHeaders = (headers) => {
+    if (headers && headers.authorization) {
+        const parts = headers.authorization.split(' ');
+        if ((parts.length === 2) && (parts[0] === 'Bearer')) {
+            return parts[1];
+        }
+    }
+    return null;
+};
+
+const getUsernameFromHeaders = (headers) => {
+    const payload = getTokenPayload(getTokenFromHeaders(headers));
+    if (payload) {
+        return payload.username;
+    }
+    return null;
+};
+
+const getUsername = (headers, cookies) => {
+    var username = getUsernameFromHeaders(headers);
+    if (!username) {
+        username = cookies.username;
+    }
+    return username;
+};
+
+const logoutUser = (username) => {
+    const user = findUser(username);
+    if (user) {
+        user.isLoggedIn = false;
+    }
+};
 
 module.exports = {
     authenticate: (request, response, next) => {
-        if (theUser instanceof User) {
+        const username = getUsername(request.headers, request.cookies);
+        const user = findUser(username);
+        if (user && user.isLoggedIn) {
             next();
         } else {
             response.status(401)
                 .json({ msg: 'Access denied' });
         }
     },
-    validate: (request) => {
-        if (theUser instanceof User) {
+    validate: (request, headers, cookies) => {
+        const username = getUsername(headers, cookies);
+        const user = findUser(username);
+        if (user && user.isLoggedIn) {
             return {
                 response: {
                     msg: 'Validation successfull',
-                    username: theUser.username,
-                    groups: theUser.groups,
+                    username: user.username,
+                    groups: user.groups,
                 }
             };
         }
+
         return {
             status: 401,
             response: {
@@ -33,29 +123,45 @@ module.exports = {
         };
     },
     login: (request) => {
-        if (!(request.username) || !(request.password)
-            || (request.username !== request.password)
-            || (request.username === 'invalid')
-            || (request.password === 'invalid')) {
-            theUser = undefined;
+        const user = authenticateUser(request.username, request.password);
+        if (user) {
             return {
-                status: 401,
+                cookie: user.username,
                 response: {
-                    msg: 'invalid username or password',
+                    msg: 'Login successfull',
+                    groups: user.groups,
+                },
+            };
+        }
+
+        return {
+            status: 401,
+            response: {
+                msg: 'invalid username or password',
+            }
+        };
+    },
+    token: (request) => {
+        const user = authenticateUser(request.username, request.password);
+        if (user) {
+            return {
+                response: {
+                    msg: 'Login successfull',
+                    token: createToken(user),
                 }
             };
         }
 
-        theUser = new User(request.username, request.password, ['users', 'adm', 'sudo']);
         return {
+            status: 401,
             response: {
-                msg: 'Login successfull',
-                groups: theUser.groups,
+                msg: 'invalid username or password',
             }
         };
     },
-    logout: (request) => {
-        theUser = undefined;
+    logout: (request, headers, cookies) => {
+        const username = getUsername(headers, cookies);
+        logoutUser(username);
         return {
             response: {
                 msg: 'Logout successfull',

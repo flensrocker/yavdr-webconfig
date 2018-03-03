@@ -1,8 +1,10 @@
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 
+const config = require('./config');
 const routes = [
     require('./routes/auth'),
     require('./routes/system'),
@@ -13,6 +15,7 @@ const root = path.join(__dirname, '../../dist');
 
 app.use(morgan('tiny'));
 app.use(bodyParser.json());
+app.use(cookieParser(config.cookieParser));
 app.use(express.static(root));
 
 // register api routes
