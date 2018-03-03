@@ -3,8 +3,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 
-const auth = require('./auth/routes');
-const system = require('./system/routes');
+const routes = [
+    require('./routes/auth'),
+    require('./routes/system'),
+];
 
 const app = express();
 const root = path.join(__dirname, '../../dist');
@@ -13,8 +15,8 @@ app.use(morgan('tiny'));
 app.use(bodyParser.json());
 app.use(express.static(root));
 
-app.use('/api', auth);
-app.use('/api', system);
+// register api routes
+routes.forEach((r) => app.use('/api', r));
 
 // don't send index.html for unknown api requests
 app.all('/api/*', (req, res) => {

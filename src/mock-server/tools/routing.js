@@ -1,5 +1,5 @@
 var express = require('express');
-var auth = require('./auth/logic');
+var auth = require('./auth');
 
 function Route(method, path, logic, needsAuthentication) {
     this.method = method;
