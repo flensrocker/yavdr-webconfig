@@ -1,21 +1,25 @@
-const path = require('path');
-const express = require('express');
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const morgan = require('morgan');
+import * as path from 'path';
+import * as express from 'express';
+import * as bodyParser from 'body-parser';
+import * as cookieParser from 'cookie-parser';
+import * as morgan from 'morgan';
+import { Router } from 'express-serve-static-core';
 
-const config = require('./config');
-const routes = [
-    require('./routes/auth'),
+import config from './config';
+
+import authRoutes from './routes/auth';
+
+const routes: Router[] = [
+    authRoutes,
     require('./routes/system'),
 ];
 
-const app = express();
+const app: express.Application = express();
 const root = path.join(__dirname, '../../dist');
 
 app.use(morgan('tiny'));
 app.use(bodyParser.json());
-app.use(cookieParser(config.cookieParser));
+app.use(cookieParser(config.cookieSecret));
 app.use(express.static(root));
 
 // register api routes
@@ -31,7 +35,7 @@ app.all('/api/*', (req, res) => {
 // (support for HTML5 Client-URLs)
 app.get('*', (req, res) => {
     console.log('fallback to index.html for', req.url);
-    res.sendFile(path.join(root, 'index.html'))
+    res.sendFile(path.join(root, 'index.html'));
 });
 
 app.listen(4200, () => console.log('Server listening on port 4200'));
