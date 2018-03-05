@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../config');
 
 const hashPassword = (password) => {
-    return crypto.createHash('md5')
+    return crypto.createHash('sha256')
         .update(password)
         .digest('hex');
 };
