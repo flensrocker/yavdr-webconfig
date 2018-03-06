@@ -1,35 +1,44 @@
-const crypto = require('crypto');
-const jwt = require('jsonwebtoken');
+import * as crypto from 'crypto';
+import * as express from 'express';
+import * as jwt from 'jsonwebtoken';
 
-const config = require('../config');
+import config from '../config';
+import { IncomingHttpHeaders, Route, RouteDelegate, RouteResponse } from './route';
 
-const hashPassword = (password) => {
+const hashPassword = (password: string): string => {
     return crypto.createHash('sha256')
         .update(password)
         .digest('hex');
 };
 
-function User(username, password, groups) {
-    this.username = username;
-    this.password = hashPassword(password);
-    this.groups = groups;
-    this.isLoggedIn = false;
+class User {
+    private _hashedPassword: string;
 
-    this.checkPassword = (password) => {
-        return (this.password === hashPassword(password));
-    };
+    public isLoggedIn = false;
+
+    constructor(
+        public username: string,
+        password: string,
+        public groups: string[]
+    ) {
+        this._hashedPassword = hashPassword(password);
+    }
+
+    checkPassword(password: string): boolean {
+        return (this._hashedPassword === hashPassword(password));
+    }
 }
 
-const users = [
+const users: User[] = [
     new User('a', 'a', ['users', 'adm', 'sudo']),
 ];
 
-const findUser = (username) => {
+const findUser = (username: string): User => {
     return users.find((u) => u.username === username);
 };
 
-const authenticateUser = (username, password) => {
-    const user = findUser(username);
+const authenticateUser = (username: string, password: string): User | null => {
+    const user: User = findUser(username);
     if (user) {
         if (user.checkPassword(password)) {
             user.isLoggedIn = true;
@@ -41,18 +50,23 @@ const authenticateUser = (username, password) => {
     return null;
 };
 
-const createToken = (user) => {
-    const payload = {
+interface TokenPayload {
+    username: string;
+    groups: string[];
+}
+
+const createToken = (user: User): string => {
+    const payload: TokenPayload = {
         username: user.username,
         groups: user.groups,
     };
     return jwt.sign(payload, config.jwtSecret, { expiresIn: '60m' });
 };
 
-const getTokenPayload = (token) => {
+const getTokenPayload = (token: string): TokenPayload | null => {
     try {
         if (token) {
-            return jwt.verify(token, config.jwtSecret);
+            return jwt.verify(token, config.jwtSecret) as TokenPayload;
         }
     } catch (err) {
     }
@@ -60,9 +74,9 @@ const getTokenPayload = (token) => {
     return null;
 };
 
-const getTokenFromHeaders = (headers) => {
-    if (headers && headers.authorization) {
-        const parts = headers.authorization.split(' ');
+const getTokenFromHeaders = (headers: IncomingHttpHeaders): string | null => {
+    if (headers && headers.authorization && (typeof headers.authorization === 'string')) {
+        const parts: string[] = (headers.authorization as string).split(' ');
         if ((parts.length === 2) && (parts[0] === 'Bearer')) {
             return parts[1];
         }
@@ -71,8 +85,8 @@ const getTokenFromHeaders = (headers) => {
     return null;
 };
 
-const getUsernameFromHeaders = (headers) => {
-    const payload = getTokenPayload(getTokenFromHeaders(headers));
+const getUsernameFromHeaders = (headers: IncomingHttpHeaders): string | null => {
+    const payload: TokenPayload = getTokenPayload(getTokenFromHeaders(headers));
     if (payload) {
         return payload.username;
     }
@@ -80,8 +94,8 @@ const getUsernameFromHeaders = (headers) => {
     return null;
 };
 
-const getUsername = (headers, cookies) => {
-    const username = getUsernameFromHeaders(headers);
+const getUsername = (headers: IncomingHttpHeaders, cookies: any): string | null => {
+    const username: string = getUsernameFromHeaders(headers);
     if (username) {
         return username;
     }
@@ -93,27 +107,28 @@ const getUsername = (headers, cookies) => {
     return null;
 };
 
-const logoutUser = (username) => {
-    const user = findUser(username);
+const logoutUser = (username: string): void => {
+    const user: User = findUser(username);
     if (user) {
         user.isLoggedIn = false;
     }
 };
 
-module.exports = {
-    authenticate: (request, response, next) => {
+class Auth {
+    authenticate(request: express.Request, response: express.Response, next: express.NextFunction): void {
         const username = getUsername(request.headers, request.cookies);
-        const user = findUser(username);
+        const user: User = findUser(username);
         if (user && user.isLoggedIn) {
             next();
         } else {
             response.status(401)
                 .json({ msg: 'Access denied' });
         }
-    },
-    validate: (request, headers, cookies) => {
+    }
+
+    validate(request: any, headers: IncomingHttpHeaders, cookies: any): RouteResponse {
         const username = getUsername(headers, cookies);
-        const user = findUser(username);
+        const user: User = findUser(username);
         if (user && user.isLoggedIn) {
             return {
                 response: {
@@ -130,9 +145,10 @@ module.exports = {
                 msg: 'invalid authorization, please log in and try again',
             }
         };
-    },
-    login: (request) => {
-        const user = authenticateUser(request.username, request.password);
+    }
+
+    login(request: any): RouteResponse {
+        const user: User = authenticateUser(request.username, request.password);
         if (user) {
             return {
                 cookieName: 'auth',
@@ -152,9 +168,10 @@ module.exports = {
                 msg: 'invalid username or password',
             }
         };
-    },
-    token: (request) => {
-        const user = authenticateUser(request.username, request.password);
+    }
+
+    token(request: any): RouteResponse {
+        const user: User = authenticateUser(request.username, request.password);
         if (user) {
             return {
                 response: {
@@ -170,8 +187,9 @@ module.exports = {
                 msg: 'invalid username or password',
             }
         };
-    },
-    logout: (request, headers, cookies) => {
+    }
+
+    logout(request: any, headers: IncomingHttpHeaders, cookies: any): RouteResponse {
         const username = getUsername(headers, cookies);
         logoutUser(username);
         return {
@@ -180,5 +198,7 @@ module.exports = {
                 msg: 'Logout successfull',
             }
         };
-    },
-};
+    }
+}
+
+export default new Auth();
