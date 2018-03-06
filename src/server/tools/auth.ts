@@ -94,14 +94,29 @@ const getUsernameFromHeaders = (headers: IncomingHttpHeaders): string | null => 
     return null;
 };
 
+const getUsernameFromCookie = (cookies: any): string | null => {
+    if (cookies[config.cookieName] && (typeof cookies[config.cookieName] === 'string')) {
+        const token = cookies[config.cookieName] as string;
+        if (token) {
+            const payload = getTokenPayload(token);
+            if (payload) {
+                return payload.username;
+            }
+        }
+    }
+
+    return null;
+};
+
 const getUsername = (headers: IncomingHttpHeaders, cookies: any): string | null => {
-    const username: string = getUsernameFromHeaders(headers);
+    let username: string = getUsernameFromHeaders(headers);
     if (username) {
         return username;
     }
 
-    if (cookies.auth) {
-        return cookies.auth.username;
+    username = getUsernameFromCookie(cookies);
+    if (username) {
+        return username;
     }
 
     return null;
@@ -151,10 +166,8 @@ class Auth {
         const user: User = authenticateUser(request.username, request.password);
         if (user) {
             return {
-                cookieName: 'auth',
-                cookie: {
-                    username: user.username,
-                },
+                cookieName: config.cookieName,
+                cookie: createToken(user),
                 response: {
                     msg: 'Login successfull',
                     groups: user.groups,
@@ -193,7 +206,7 @@ class Auth {
         const username = getUsername(headers, cookies);
         logoutUser(username);
         return {
-            cookieName: 'auth',
+            cookieName: config.cookieName,
             response: {
                 msg: 'Logout successfull',
             }

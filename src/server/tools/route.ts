@@ -15,7 +15,7 @@ export class Route {
         public method: 'get' | 'post',
         public path: string,
         public logic: RouteDelegate,
-        public needsAuthentication: boolean = false,
+        public needsAuthentication: boolean,
     ) {
     }
 }
