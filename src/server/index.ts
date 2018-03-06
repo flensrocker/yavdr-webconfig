@@ -5,14 +5,14 @@ import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import * as morgan from 'morgan';
 
-import config from './config';
+import { Config } from './config';
 
-import authRoutes from './routes/auth';
-import systemRoutes from './routes/system';
+import { AuthRoutes } from './routes/auth';
+import { SystemRoutes } from './routes/system';
 
 const routes: Router[] = [
-    authRoutes,
-    systemRoutes,
+    AuthRoutes,
+    SystemRoutes,
 ];
 
 const app: Application = express();
@@ -20,7 +20,7 @@ const root = path.join(__dirname, '../../dist');
 
 app.use(morgan('tiny'));
 app.use(bodyParser.json());
-app.use(cookieParser(config.cookieSecret));
+app.use(cookieParser(Config.cookieSecret));
 app.use(express.static(root));
 
 // register api routes

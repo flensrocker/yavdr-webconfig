@@ -1,13 +1,13 @@
 import * as express from 'express';
 import { Request, RequestHandler, Response, Router } from 'express';
 
-import { IncomingHttpHeaders, Route, RouteDelegate, RouteResponse } from './route';
-import auth from './auth';
+import { Route, RouteDelegate, RouteResponse } from './route';
+import { Auth } from './auth';
 
-const createHandler = (logicFunc: RouteDelegate): RequestHandler => {
+const createHandler = (delegate: RouteDelegate): RequestHandler => {
     return (req: Request, res: Response) => {
         try {
-            const ret = logicFunc(req.body, req.headers, req.signedCookies);
+            const ret = delegate(req.body, req.headers, req.signedCookies);
             if (ret.status) {
                 res.status(ret.status);
             }
@@ -30,12 +30,12 @@ const createHandler = (logicFunc: RouteDelegate): RequestHandler => {
     };
 };
 
-class Routing {
-    setupRoutes(routes: Route[]): Router {
+export namespace Routing {
+    export const setupRoutes = (routes: Route[]): Router => {
         const router: Router = express.Router();
         routes.forEach((r) => {
-            const handlers = (r.needsAuthentication ? [auth.authenticate] : []);
-            handlers.push(createHandler(r.logic));
+            const handlers = (r.needsAuthentication ? [Auth.authenticate] : []);
+            handlers.push(createHandler(r.delegate));
             switch (r.method) {
                 case 'get': {
                     router.get(r.path, handlers);
@@ -52,7 +52,5 @@ class Routing {
             }
         });
         return router;
-    }
+    };
 }
-
-export const routing = new Routing();

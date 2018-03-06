@@ -10,12 +10,14 @@ export interface RouteResponse {
 
 export type RouteDelegate = (body: any, headers: IncomingHttpHeaders, cookies: any) => RouteResponse;
 
+export type RouteMethod = 'get' | 'post';
+
 export class Route {
     constructor(
-        public method: 'get' | 'post',
-        public path: string,
-        public logic: RouteDelegate,
-        public needsAuthentication: boolean,
+        public readonly method: RouteMethod,
+        public readonly path: string,
+        public readonly delegate: RouteDelegate,
+        public readonly needsAuthentication: boolean,
     ) {
     }
 }

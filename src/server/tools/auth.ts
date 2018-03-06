@@ -2,7 +2,7 @@ import * as crypto from 'crypto';
 import * as express from 'express';
 import * as jwt from 'jsonwebtoken';
 
-import config from '../config';
+import { Config } from '../config';
 import { IncomingHttpHeaders, Route, RouteDelegate, RouteResponse } from './route';
 
 const hashPassword = (password: string): string => {
@@ -60,13 +60,13 @@ const createToken = (user: User): string => {
         username: user.username,
         groups: user.groups,
     };
-    return jwt.sign(payload, config.jwtSecret, { expiresIn: '60m' });
+    return jwt.sign(payload, Config.jwtSecret, { expiresIn: '60m' });
 };
 
 const getTokenPayload = (token: string): TokenPayload | null => {
     try {
         if (token) {
-            return jwt.verify(token, config.jwtSecret) as TokenPayload;
+            return jwt.verify(token, Config.jwtSecret) as TokenPayload;
         }
     } catch (err) {
     }
@@ -95,8 +95,8 @@ const getUsernameFromHeaders = (headers: IncomingHttpHeaders): string | null => 
 };
 
 const getUsernameFromCookie = (cookies: any): string | null => {
-    if (cookies[config.cookieName] && (typeof cookies[config.cookieName] === 'string')) {
-        const token = cookies[config.cookieName] as string;
+    if (cookies[Config.cookieName] && (typeof cookies[Config.cookieName] === 'string')) {
+        const token = cookies[Config.cookieName] as string;
         if (token) {
             const payload = getTokenPayload(token);
             if (payload) {
@@ -129,8 +129,8 @@ const logoutUser = (username: string): void => {
     }
 };
 
-class Auth {
-    authenticate(request: express.Request, response: express.Response, next: express.NextFunction): void {
+export namespace Auth {
+    export const authenticate = (request: express.Request, response: express.Response, next: express.NextFunction): void => {
         const username = getUsername(request.headers, request.signedCookies);
         const user: User = findUser(username);
         if (user && user.isLoggedIn) {
@@ -139,9 +139,9 @@ class Auth {
             response.status(401)
                 .json({ msg: 'Access denied' });
         }
-    }
+    };
 
-    validate(request: any, headers: IncomingHttpHeaders, cookies: any): RouteResponse {
+    export const validate = (request: any, headers: IncomingHttpHeaders, cookies: any): RouteResponse => {
         const username = getUsername(headers, cookies);
         const user: User = findUser(username);
         if (user && user.isLoggedIn) {
@@ -160,13 +160,13 @@ class Auth {
                 msg: 'invalid authorization, please log in and try again',
             }
         };
-    }
+    };
 
-    login(request: any): RouteResponse {
+    export const login = (request: any): RouteResponse => {
         const user: User = authenticateUser(request.username, request.password);
         if (user) {
             return {
-                cookieName: config.cookieName,
+                cookieName: Config.cookieName,
                 cookie: createToken(user),
                 response: {
                     msg: 'Login successfull',
@@ -181,9 +181,9 @@ class Auth {
                 msg: 'invalid username or password',
             }
         };
-    }
+    };
 
-    token(request: any): RouteResponse {
+    export const token = (request: any): RouteResponse => {
         const user: User = authenticateUser(request.username, request.password);
         if (user) {
             return {
@@ -200,18 +200,16 @@ class Auth {
                 msg: 'invalid username or password',
             }
         };
-    }
+    };
 
-    logout(request: any, headers: IncomingHttpHeaders, cookies: any): RouteResponse {
+    export const logout = (request: any, headers: IncomingHttpHeaders, cookies: any): RouteResponse => {
         const username = getUsername(headers, cookies);
         logoutUser(username);
         return {
-            cookieName: config.cookieName,
+            cookieName: Config.cookieName,
             response: {
                 msg: 'Logout successfull',
             }
         };
-    }
+    };
 }
-
-export default new Auth();

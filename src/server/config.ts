@@ -1,7 +1,5 @@
-class Config {
-    jwtSecret = '5uper5ecretP4ssw0rd!';
-    cookieSecret = '5uper5ecretP4ssw0rd!';
-    cookieName = 'auth';
+export namespace Config {
+    export const jwtSecret = '5uper5ecretP4ssw0rd!';
+    export const cookieSecret = '5uper5ecretP4ssw0rd!';
+    export const cookieName = 'auth';
 }
-
-export default new Config();

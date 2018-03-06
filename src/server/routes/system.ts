@@ -1,7 +1,7 @@
 import { Route } from '../tools/route';
-import { routing } from '../tools/routing';
-import status from '../system/status';
+import { Routing } from '../tools/routing';
+import { Status } from '../system/status';
 
-export default routing.setupRoutes([
-    new Route('get', '/system/status', status.status, true),
+export const SystemRoutes = Routing.setupRoutes([
+    new Route('get', '/system/status', Status.status, true),
 ]);

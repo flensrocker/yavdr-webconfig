@@ -2,7 +2,7 @@ import { RouteResponse } from '../tools/route';
 
 import { SystemStatusData } from '../../app/dashboard/dashboard.servicedata';
 
-const status: SystemStatusData = {
+const dummy_status: SystemStatusData = {
     cpu_usage: [
         90.1,
         51.0
@@ -245,14 +245,12 @@ const status: SystemStatusData = {
     uptime: '-1 day, 23:11:42'
 };
 
-class Status {
-    status(request: any): RouteResponse {
-        status.cpu_usage[0] = Math.round(10000 * Math.random()) / 100;
-        status.cpu_usage[1] = Math.round(10000 * Math.random()) / 100;
+export namespace Status {
+    export const status = (request: any): RouteResponse => {
+        dummy_status.cpu_usage[0] = Math.round(10000 * Math.random()) / 100;
+        dummy_status.cpu_usage[1] = Math.round(10000 * Math.random()) / 100;
         return {
-            response: status,
+            response: dummy_status,
         };
-    }
+    };
 }
-
-export default new Status();
