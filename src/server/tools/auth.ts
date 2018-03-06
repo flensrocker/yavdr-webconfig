@@ -131,7 +131,7 @@ const logoutUser = (username: string): void => {
 
 class Auth {
     authenticate(request: express.Request, response: express.Response, next: express.NextFunction): void {
-        const username = getUsername(request.headers, request.cookies);
+        const username = getUsername(request.headers, request.signedCookies);
         const user: User = findUser(username);
         if (user && user.isLoggedIn) {
             next();
