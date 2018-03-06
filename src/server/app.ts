@@ -11,13 +11,13 @@ import { AuthRoutes } from './routes/auth';
 import { SystemRoutes } from './routes/system';
 
 export namespace App {
-    export const createApp = (rootDir: string): Application => {
+    export const createApp = (): Application => {
         const app: Application = express();
-        const root = (rootDir && path.isAbsolute(rootDir) ? rootDir : path.join(__dirname, rootDir));
+        const root = (Config.root && path.isAbsolute(Config.root) ? Config.root : path.join(__dirname, Config.root));
 
         app.use(morgan('tiny'));
         app.use(bodyParser.json());
-        app.use(cookieParser(Config.cookieSecret));
+        app.use(cookieParser(Config.authSecret));
         app.use(express.static(root));
 
         // register api routes

@@ -60,13 +60,13 @@ const createToken = (user: User): string => {
         username: user.username,
         groups: user.groups,
     };
-    return jwt.sign(payload, Config.jwtSecret, { expiresIn: '60m' });
+    return jwt.sign(payload, Config.authSecret, { expiresIn: Config.authMaxAgeSec });
 };
 
 const getTokenPayload = (token: string): TokenPayload | null => {
     try {
         if (token) {
-            return jwt.verify(token, Config.jwtSecret) as TokenPayload;
+            return jwt.verify(token, Config.authSecret) as TokenPayload;
         }
     } catch (err) {
     }
@@ -95,8 +95,8 @@ const getUsernameFromHeaders = (headers: IncomingHttpHeaders): string | null => 
 };
 
 const getUsernameFromCookie = (cookies: any): string | null => {
-    if (cookies[Config.cookieName] && (typeof cookies[Config.cookieName] === 'string')) {
-        const token = cookies[Config.cookieName] as string;
+    if (cookies[Config.authCookieName] && (typeof cookies[Config.authCookieName] === 'string')) {
+        const token = cookies[Config.authCookieName] as string;
         if (token) {
             const payload = getTokenPayload(token);
             if (payload) {
@@ -166,7 +166,7 @@ export namespace Auth {
         const user: User = authenticateUser(request.username, request.password);
         if (user) {
             return {
-                cookieName: Config.cookieName,
+                cookieName: Config.authCookieName,
                 cookie: createToken(user),
                 response: {
                     msg: 'Login successfull',
@@ -206,7 +206,7 @@ export namespace Auth {
         const username = getUsername(headers, cookies);
         logoutUser(username);
         return {
-            cookieName: Config.cookieName,
+            cookieName: Config.authCookieName,
             response: {
                 msg: 'Logout successfull',
             }

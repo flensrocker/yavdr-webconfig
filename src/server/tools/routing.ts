@@ -1,6 +1,8 @@
 import * as express from 'express';
 import { Request, RequestHandler, Response, Router } from 'express';
 
+import { Config } from '../config';
+
 import { Route, RouteDelegate, RouteResponse } from './route';
 import { Auth } from './auth';
 
@@ -13,7 +15,7 @@ const createHandler = (delegate: RouteDelegate): RequestHandler => {
             }
             if (ret.cookieName) {
                 if (ret.cookie) {
-                    res.cookie(ret.cookieName, ret.cookie, { httpOnly: true, signed: true });
+                    res.cookie(ret.cookieName, ret.cookie, { httpOnly: true, signed: true, maxAge: Config.authMaxAgeSec * 1000 });
                 } else {
                     res.clearCookie(ret.cookieName);
                 }
