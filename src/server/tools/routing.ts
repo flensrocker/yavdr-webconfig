@@ -1,13 +1,13 @@
 import * as express from 'express';
-import { Router } from 'express-serve-static-core';
+import { Request, RequestHandler, Response, Router } from 'express';
 
 import { IncomingHttpHeaders, Route, RouteDelegate, RouteResponse } from './route';
 import auth from './auth';
 
-const createHandler = (logicFunc: RouteDelegate): express.RequestHandler => {
-    return (req: express.Request, res: express.Response) => {
+const createHandler = (logicFunc: RouteDelegate): RequestHandler => {
+    return (req: Request, res: Response) => {
         try {
-            const ret = logicFunc(req.body, req.headers, req.signedCookies);
+            const ret = logicFunc(req.body, req.headers, req.cookies);
             if (ret.status) {
                 res.status(ret.status);
             }
@@ -34,7 +34,6 @@ class Routing {
     setupRoutes(routes: Route[]): Router {
         const router: Router = express.Router();
         routes.forEach((r) => {
-            console.log('add route ' + r.method + ' ' + r.path + (r.needsAuthentication ? ' with authentication' : ''));
             const handlers = (r.needsAuthentication ? [auth.authenticate] : []);
             handlers.push(createHandler(r.logic));
             switch (r.method) {

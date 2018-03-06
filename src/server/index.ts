@@ -1,20 +1,21 @@
 import * as path from 'path';
 import * as express from 'express';
+import { Application, Router } from 'express';
 import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import * as morgan from 'morgan';
-import { Router } from 'express-serve-static-core';
 
 import config from './config';
 
 import authRoutes from './routes/auth';
+import systemRoutes from './routes/system';
 
 const routes: Router[] = [
     authRoutes,
-    require('./routes/system'),
+    systemRoutes,
 ];
 
-const app: express.Application = express();
+const app: Application = express();
 const root = path.join(__dirname, '../../dist');
 
 app.use(morgan('tiny'));
@@ -34,7 +35,6 @@ app.all('/api/*', (req, res) => {
 // send index.html for unknown files
 // (support for HTML5 Client-URLs)
 app.get('*', (req, res) => {
-    console.log('fallback to index.html for', req.url);
     res.sendFile(path.join(root, 'index.html'));
 });
 

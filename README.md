@@ -4,8 +4,9 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Development server
 
-Run `npm run server` for a dev server with a mocked api (restarts automatically on changes).
-Run `npm run client` in a second terminal (rebuilds app automatically on changes).
+Run `npm run build-server` for building the dev-server (rebuilds server automatically on changes).
+Run `npm run server` in a second terminal for starting the dev-server (restarts automatically on changes).
+Run `npm run client` in a third terminal for building the app (rebuilds app automatically on changes).
 Navigate to `http://localhost:4200/`.
 Hit the reload button of your browser to restart the app.
 
