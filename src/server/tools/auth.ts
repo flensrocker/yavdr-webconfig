@@ -18,8 +18,6 @@ const hashPassword = (password: string): string => {
 class User {
     private _hashedPassword: string;
 
-    public isLoggedIn = false;
-
     constructor(
         public username: string,
         password: string,
@@ -43,12 +41,8 @@ const findUser = (username: string): User => {
 
 const authenticateUser = (username: string, password: string): User | null => {
     const user: User = findUser(username);
-    if (user) {
-        if (user.checkPassword(password)) {
-            user.isLoggedIn = true;
-            return user;
-        }
-        user.isLoggedIn = false;
+    if (user && user.checkPassword(password)) {
+        return user;
     }
 
     return null;
@@ -121,18 +115,11 @@ const getUsername = (headers: IncomingHttpHeaders, cookies: any): string | null 
     return null;
 };
 
-const logoutUser = (username: string): void => {
-    const user: User = findUser(username);
-    if (user) {
-        user.isLoggedIn = false;
-    }
-};
-
 export namespace Auth {
     export const authenticate = (request: express.Request, response: express.Response, next: express.NextFunction): void => {
         const username = getUsername(request.headers, request.signedCookies);
         const user: User = findUser(username);
-        if (user && user.isLoggedIn) {
+        if (user) {
             next();
         } else {
             response.status(401)
@@ -143,7 +130,7 @@ export namespace Auth {
     export const validate = (request: any, headers: IncomingHttpHeaders, cookies: any): RouteResponse<ValidateResponse> => {
         const username = getUsername(headers, cookies);
         const user: User = findUser(username);
-        if (user && user.isLoggedIn) {
+        if (user) {
             return {
                 response: {
                     msg: 'Validation successfull',
@@ -202,8 +189,6 @@ export namespace Auth {
     };
 
     export const logout = (request: any, headers: IncomingHttpHeaders, cookies: any): RouteResponse<LogoutResponse> => {
-        const username = getUsername(headers, cookies);
-        logoutUser(username);
         return {
             cookieName: Config.authCookieName,
             response: {
