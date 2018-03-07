@@ -1,52 +1,13 @@
-import * as crypto from 'crypto';
-import * as express from 'express';
+import { Request, Response, NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
 
 import { LoginResponse, LoginTokenResponse, LogoutResponse, TokenPayload, ValidateResponse } from '../../api';
 
 import { Config } from '../config';
 import { IncomingHttpHeaders, Route, RouteDelegate, RouteResponse } from './route';
+import { User, Users } from './users';
 
 export { LoginResponse, LoginTokenResponse, LogoutResponse, ValidateResponse };
-
-const hashPassword = (password: string): string => {
-    return crypto.createHash('sha256')
-        .update(password)
-        .digest('hex');
-};
-
-class User {
-    private _hashedPassword: string;
-
-    constructor(
-        public username: string,
-        password: string,
-        public groups: string[]
-    ) {
-        this._hashedPassword = hashPassword(password);
-    }
-
-    checkPassword(password: string): boolean {
-        return (this._hashedPassword === hashPassword(password));
-    }
-}
-
-const users: User[] = [
-    new User('a', 'a', ['users', 'adm', 'sudo']),
-];
-
-const findUser = (username: string): User => {
-    return users.find((u) => u.username === username);
-};
-
-const authenticateUser = (username: string, password: string): User | null => {
-    const user: User = findUser(username);
-    if (user && user.checkPassword(password)) {
-        return user;
-    }
-
-    return null;
-};
 
 const createToken = (user: User): string => {
     const payload: TokenPayload = {
@@ -78,23 +39,11 @@ const getTokenFromHeaders = (headers: IncomingHttpHeaders): string | null => {
     return null;
 };
 
-const getUsernameFromHeaders = (headers: IncomingHttpHeaders): string | null => {
-    const payload: TokenPayload = getTokenPayload(getTokenFromHeaders(headers));
-    if (payload) {
-        return payload.username;
-    }
-
-    return null;
-};
-
-const getUsernameFromCookie = (cookies: any): string | null => {
+const getTokenFromCookie = (cookies: any): string | null => {
     if (cookies[Config.authCookieName] && (typeof cookies[Config.authCookieName] === 'string')) {
-        const token = cookies[Config.authCookieName] as string;
+        const token: string = cookies[Config.authCookieName];
         if (token) {
-            const payload = getTokenPayload(token);
-            if (payload) {
-                return payload.username;
-            }
+            return token;
         }
     }
 
@@ -102,23 +51,25 @@ const getUsernameFromCookie = (cookies: any): string | null => {
 };
 
 const getUsername = (headers: IncomingHttpHeaders, cookies: any): string | null => {
-    let username: string = getUsernameFromHeaders(headers);
-    if (username) {
-        return username;
+    let token: string = getTokenFromHeaders(headers);
+    if (!token) {
+        token = getTokenFromCookie(cookies);
     }
 
-    username = getUsernameFromCookie(cookies);
-    if (username) {
-        return username;
+    if (token) {
+        const payload: TokenPayload = getTokenPayload(token);
+        if (payload) {
+            return payload.username;
+        }
     }
 
     return null;
 };
 
 export namespace Auth {
-    export const authenticate = (request: express.Request, response: express.Response, next: express.NextFunction): void => {
+    export const authenticate = (request: Request, response: Response, next: NextFunction): void => {
         const username = getUsername(request.headers, request.signedCookies);
-        const user: User = findUser(username);
+        const user: User = Users.findUser(username);
         if (user) {
             next();
         } else {
@@ -129,7 +80,7 @@ export namespace Auth {
 
     export const validate = (request: any, headers: IncomingHttpHeaders, cookies: any): RouteResponse<ValidateResponse> => {
         const username = getUsername(headers, cookies);
-        const user: User = findUser(username);
+        const user: User = Users.findUser(username);
         if (user) {
             return {
                 response: {
@@ -149,7 +100,7 @@ export namespace Auth {
     };
 
     export const login = (request: any): RouteResponse<LoginResponse> => {
-        const user: User = authenticateUser(request.username, request.password);
+        const user: User = Users.authenticateUser(request.username, request.password);
         if (user) {
             return {
                 cookieName: Config.authCookieName,
@@ -170,7 +121,7 @@ export namespace Auth {
     };
 
     export const token = (request: any): RouteResponse<LoginTokenResponse> => {
-        const user: User = authenticateUser(request.username, request.password);
+        const user: User = Users.authenticateUser(request.username, request.password);
         if (user) {
             return {
                 response: {
