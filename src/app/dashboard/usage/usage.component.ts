@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
 
 import { UsageColors } from '../../tools';
-import { SystemStatusData, ValueUnitData } from '../dashboard.servicedata';
+import { SystemStatusData, ValueUnitData } from '../dashboard.service';
 
 class ChartData {
   data: number[] = [];

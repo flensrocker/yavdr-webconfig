@@ -1,9 +1,3 @@
-export enum AuthState {
-    NotValidated,
-    LoggedIn,
-    LoggedOut,
-}
-
 export class LoginRequest {
     constructor(
         public username: string,

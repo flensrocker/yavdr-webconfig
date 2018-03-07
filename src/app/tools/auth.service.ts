@@ -1,6 +1,13 @@
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { LoginResponse, LoginRequest, ValidateResponse, AuthState } from './auth.servicedata';
+import { LoginResponse, LoginRequest, ValidateResponse } from '../../api';
+
+export { LoginResponse, LoginRequest, ValidateResponse };
+export enum AuthState {
+    NotValidated,
+    LoggedIn,
+    LoggedOut,
+}
 
 export abstract class AuthService {
     private _authenticated: BehaviorSubject<AuthState> = new BehaviorSubject<AuthState>(AuthState.NotValidated);

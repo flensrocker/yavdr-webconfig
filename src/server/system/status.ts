@@ -1,6 +1,6 @@
 import { RouteResponse } from '../tools/route';
 
-import { SystemStatusData } from '../../app/dashboard/dashboard.servicedata';
+import { SystemStatusData } from '../../api';
 
 const dummy_status: SystemStatusData = {
     cpu_usage: [
@@ -247,8 +247,7 @@ const dummy_status: SystemStatusData = {
 
 export namespace Status {
     export const status = (request: any): RouteResponse => {
-        dummy_status.cpu_usage[0] = Math.round(10000 * Math.random()) / 100;
-        dummy_status.cpu_usage[1] = Math.round(10000 * Math.random()) / 100;
+        dummy_status.cpu_usage.forEach((u: number, i: number) => dummy_status.cpu_usage[i] = Math.round(10000 * Math.random()) / 100);
         return {
             response: dummy_status,
         };

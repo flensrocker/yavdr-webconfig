@@ -4,8 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/first';
 
-import { AuthService } from './auth.service';
-import { AuthState } from './auth.servicedata';
+import { AuthService, AuthState } from './auth.service';
 import { AuthOptions } from './auth-options';
 
 @Injectable()

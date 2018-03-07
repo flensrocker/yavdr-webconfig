@@ -5,8 +5,7 @@ import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/delay';
 import 'rxjs/add/operator/do';
 
-import { AuthService } from './auth.service';
-import { ValidateResponse, LoginRequest, LoginResponse } from './auth.servicedata';
+import { AuthService, LoginRequest, LoginResponse, ValidateResponse } from './auth.service';
 
 @Injectable()
 export class AuthServiceHttp extends AuthService {

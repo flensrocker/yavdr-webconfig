@@ -5,8 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ErrorData } from './error-data';
 import { SpinnerData } from './spinner-data';
 import { AuthOptions } from './auth-options';
-import { AuthService } from './auth.service';
-import { LoginRequest, LoginResponse } from './auth.servicedata';
+import { AuthService, LoginRequest, LoginResponse } from './auth.service';
 
 @Component({
   selector: 'app-login',
