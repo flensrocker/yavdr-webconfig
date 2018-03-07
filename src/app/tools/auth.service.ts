@@ -1,8 +1,16 @@
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { LoginResponse, LoginRequest, ValidateResponse } from '../../api';
+import { LoginResponse, LoginRequest } from '../../api';
 
-export { LoginResponse, LoginRequest, ValidateResponse };
+export {
+    LoginResponse,
+    LoginRequest,
+    LoginTokenResponse,
+    LogoutResponse,
+    TokenPayload,
+    ValidateResponse,
+} from '../../api';
+
 export enum AuthState {
     NotValidated,
     LoggedIn,

@@ -2,8 +2,12 @@ import * as crypto from 'crypto';
 import * as express from 'express';
 import * as jwt from 'jsonwebtoken';
 
+import { LoginResponse, LoginTokenResponse, LogoutResponse, TokenPayload, ValidateResponse } from '../../api';
+
 import { Config } from '../config';
 import { IncomingHttpHeaders, Route, RouteDelegate, RouteResponse } from './route';
+
+export { LoginResponse, LoginTokenResponse, LogoutResponse, ValidateResponse };
 
 const hashPassword = (password: string): string => {
     return crypto.createHash('sha256')
@@ -49,11 +53,6 @@ const authenticateUser = (username: string, password: string): User | null => {
 
     return null;
 };
-
-interface TokenPayload {
-    username: string;
-    groups: string[];
-}
 
 const createToken = (user: User): string => {
     const payload: TokenPayload = {
@@ -141,7 +140,7 @@ export namespace Auth {
         }
     };
 
-    export const validate = (request: any, headers: IncomingHttpHeaders, cookies: any): RouteResponse => {
+    export const validate = (request: any, headers: IncomingHttpHeaders, cookies: any): RouteResponse<ValidateResponse> => {
         const username = getUsername(headers, cookies);
         const user: User = findUser(username);
         if (user && user.isLoggedIn) {
@@ -162,7 +161,7 @@ export namespace Auth {
         };
     };
 
-    export const login = (request: any): RouteResponse => {
+    export const login = (request: any): RouteResponse<LoginResponse> => {
         const user: User = authenticateUser(request.username, request.password);
         if (user) {
             return {
@@ -183,7 +182,7 @@ export namespace Auth {
         };
     };
 
-    export const token = (request: any): RouteResponse => {
+    export const token = (request: any): RouteResponse<LoginTokenResponse> => {
         const user: User = authenticateUser(request.username, request.password);
         if (user) {
             return {
@@ -202,7 +201,7 @@ export namespace Auth {
         };
     };
 
-    export const logout = (request: any, headers: IncomingHttpHeaders, cookies: any): RouteResponse => {
+    export const logout = (request: any, headers: IncomingHttpHeaders, cookies: any): RouteResponse<LogoutResponse> => {
         const username = getUsername(headers, cookies);
         logoutUser(username);
         return {

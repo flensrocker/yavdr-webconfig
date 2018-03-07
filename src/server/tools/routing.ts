@@ -6,7 +6,7 @@ import { Config } from '../config';
 import { Route, RouteDelegate, RouteResponse } from './route';
 import { Auth } from './auth';
 
-const createHandler = (delegate: RouteDelegate): RequestHandler => {
+const createHandler = <T>(delegate: RouteDelegate<T>): RequestHandler => {
     return (req: Request, res: Response) => {
         try {
             const ret = delegate(req.body, req.headers, req.signedCookies);
@@ -33,7 +33,7 @@ const createHandler = (delegate: RouteDelegate): RequestHandler => {
 };
 
 export namespace Routing {
-    export const setupRoutes = (routes: Route[]): Router => {
+    export const setupRoutes = <T>(routes: Route<T>[]): Router => {
         const router: Router = express.Router();
         routes.forEach((r) => {
             const handlers = (r.needsAuthentication ? [Auth.authenticate] : []);

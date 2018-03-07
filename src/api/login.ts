@@ -11,6 +11,20 @@ export class LoginResponse {
     groups?: string[];
 }
 
+export class LoginTokenResponse {
+    msg: string;
+    token?: string;
+}
+
+export class LogoutResponse {
+    msg: string;
+}
+
+export interface TokenPayload {
+    username: string;
+    groups: string[];
+}
+
 export class ValidateResponse {
     msg: string;
     username?: string;

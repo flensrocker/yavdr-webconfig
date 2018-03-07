@@ -4,8 +4,17 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/delay';
 import 'rxjs/add/operator/do';
+import * as jwt_decode from 'jwt-decode';
 
-import { AuthService, LoginRequest, LoginResponse, ValidateResponse } from './auth.service';
+import {
+  AuthService,
+  LoginRequest,
+  LoginResponse,
+  LoginTokenResponse,
+  LogoutResponse,
+  TokenPayload,
+  ValidateResponse,
+} from './auth.service';
 
 @Injectable()
 export class AuthServiceHttp extends AuthService {
@@ -37,10 +46,26 @@ export class AuthServiceHttp extends AuthService {
     return loginSubject.asObservable();
   }
 
+  loginToken(request: LoginRequest): Observable<LoginTokenResponse> {
+    const loginSubject: Subject<LoginTokenResponse> = new Subject<LoginTokenResponse>();
+    this._http.post<LoginTokenResponse>('/api/login/token', request)
+      .subscribe((response: LoginTokenResponse) => {
+        const tokenPayload: TokenPayload = jwt_decode(response.token);
+        this.setLoggedIn(request.username, tokenPayload.groups);
+        loginSubject.next(response);
+      }, (err: any) => {
+        this.setLoggedOut();
+        loginSubject.error(err);
+      }, () => {
+        loginSubject.complete();
+      });
+    return loginSubject.asObservable();
+  }
+
   logout(): Observable<true> {
     const logoutSubject: Subject<true> = new Subject<true>();
     this.setLoggedOut();
-    this._http.post('/api/logout', {}).subscribe(() => {
+    this._http.post<LogoutResponse>('/api/logout', {}).subscribe(() => {
       logoutSubject.next(true);
     }, (err: any) => {
       logoutSubject.error(err);
