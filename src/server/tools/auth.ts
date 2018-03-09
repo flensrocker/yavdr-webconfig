@@ -17,15 +17,20 @@ const createToken = (user: User): string => {
     return jwt.sign(payload, Config.authSecret, { expiresIn: Config.authMaxAgeSec });
 };
 
-const getTokenPayload = (token: string): TokenPayload | null => {
-    try {
+const getTokenPayload = async (token: string): Promise<TokenPayload | null> => {
+    return new Promise<TokenPayload | null>((resolve, reject) => {
         if (token) {
-            return jwt.verify(token, Config.authSecret) as TokenPayload;
+            jwt.verify(token, Config.authSecret, (err, decoded) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(decoded as TokenPayload);
+                }
+            });
+        } else {
+            resolve(null);
         }
-    } catch (err) {
-    }
-
-    return null;
+    });
 };
 
 const getTokenFromHeaders = (headers: IncomingHttpHeaders): string | null => {
@@ -50,14 +55,14 @@ const getTokenFromCookie = (cookies: any): string | null => {
     return null;
 };
 
-const getUsername = (headers: IncomingHttpHeaders, cookies: any): string | null => {
+const getUsername = async (headers: IncomingHttpHeaders, cookies: any): Promise<string | null> => {
     let token: string = getTokenFromHeaders(headers);
     if (!token) {
         token = getTokenFromCookie(cookies);
     }
 
     if (token) {
-        const payload: TokenPayload = getTokenPayload(token);
+        const payload: TokenPayload = await getTokenPayload(token);
         if (payload) {
             return payload.username;
         }
@@ -67,8 +72,8 @@ const getUsername = (headers: IncomingHttpHeaders, cookies: any): string | null 
 };
 
 export namespace Auth {
-    export const authenticate = (request: Request, response: Response, next: NextFunction): void => {
-        const username = getUsername(request.headers, request.signedCookies);
+    export const authenticate = async (request: Request, response: Response, next: NextFunction): Promise<void> => {
+        const username = await getUsername(request.headers, request.signedCookies);
         const user: User = Users.findUser(username);
         if (user) {
             next();
@@ -78,8 +83,8 @@ export namespace Auth {
         }
     };
 
-    export const validate = (request: any, headers: IncomingHttpHeaders, cookies: any): RouteResponse<ValidateResponse> => {
-        const username = getUsername(headers, cookies);
+    export const validate = async (request: any, headers: IncomingHttpHeaders, cookies: any): Promise<RouteResponse<ValidateResponse>> => {
+        const username = await getUsername(headers, cookies);
         const user: User = Users.findUser(username);
         if (user) {
             return {
