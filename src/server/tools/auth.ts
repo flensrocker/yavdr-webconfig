@@ -9,22 +9,30 @@ import { User, Users } from './users';
 
 export { LoginResponse, LoginTokenResponse, LogoutResponse, ValidateResponse };
 
-const createToken = (user: User): string => {
-    const payload: TokenPayload = {
-        username: user.username,
-        groups: user.groups,
-    };
-    return jwt.sign(payload, Config.authSecret, { expiresIn: Config.authMaxAgeSec });
+const createToken = async (user: User): Promise<string> => {
+    return new Promise<string>((resolve, reject) => {
+        const payload: TokenPayload = {
+            username: user.username,
+            groups: user.groups,
+        };
+        jwt.sign(payload, Config.authSecret, { expiresIn: Config.authMaxAgeSec }, (err, token) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(token as string);
+            }
+        });
+    });
 };
 
 const getTokenPayload = async (token: string): Promise<TokenPayload | null> => {
     return new Promise<TokenPayload | null>((resolve, reject) => {
         if (token) {
-            jwt.verify(token, Config.authSecret, (err, decoded) => {
+            jwt.verify(token, Config.authSecret, (err, payload) => {
                 if (err) {
                     reject(err);
                 } else {
-                    resolve(decoded as TokenPayload);
+                    resolve(payload as TokenPayload);
                 }
             });
         } else {
@@ -104,12 +112,12 @@ export namespace Auth {
         };
     };
 
-    export const login = (request: any): RouteResponse<LoginResponse> => {
+    export const login = async (request: any): Promise<RouteResponse<LoginResponse>> => {
         const user: User = Users.authenticateUser(request.username, request.password);
         if (user) {
             return {
                 cookieName: Config.authCookieName,
-                cookie: createToken(user),
+                cookie: await createToken(user),
                 response: {
                     msg: 'Login successfull',
                     groups: user.groups,
@@ -125,13 +133,13 @@ export namespace Auth {
         };
     };
 
-    export const token = (request: any): RouteResponse<LoginTokenResponse> => {
+    export const token = async (request: any): Promise<RouteResponse<LoginTokenResponse>> => {
         const user: User = Users.authenticateUser(request.username, request.password);
         if (user) {
             return {
                 response: {
                     msg: 'Login successfull',
-                    token: createToken(user),
+                    token: await createToken(user),
                 }
             };
         }
