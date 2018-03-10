@@ -22,9 +22,9 @@ export class AuthInterceptor implements HttpInterceptor {
     }
 
     private needsLogin(request: HttpRequest<any>, err: any): boolean {
-        return ((request.url !== '/api/login')
+        return !request.url.startsWith('/api/login')
             && (err instanceof HttpErrorResponse)
-            && (err.status === 401));
+            && (err.status === 401);
     }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
