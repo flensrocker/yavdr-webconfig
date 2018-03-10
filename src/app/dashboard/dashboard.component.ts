@@ -40,7 +40,7 @@ export class DashboardComponent implements OnDestroy {
           .getSystemStatus()
           .catch((err: any) => {
             this.error.addError(err);
-            return Observable.of<SystemStatusData>(new SystemStatusData());
+            return Observable.of<SystemStatusData>(undefined);
           })
           .finally(() => {
             this.spinner.dec();

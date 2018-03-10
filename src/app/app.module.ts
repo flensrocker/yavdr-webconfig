@@ -4,15 +4,14 @@ import { NgModule } from '@angular/core';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
+import { ToolsModule } from './tools/tools.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 import { AppRoutingModule } from './app-routing.module';
 
-import { DashboardModule } from './dashboard/dashboard.module';
-import { ToolsModule } from './tools/tools.module';
+import { AuthOptions } from './tools';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home.component';
-
-import { AuthOptions } from './tools';
 
 const _authOptions: AuthOptions = {
   homeUrl: '/home',

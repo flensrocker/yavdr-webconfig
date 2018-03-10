@@ -1,3 +1,5 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import { SystemStatusData } from '../../api';
@@ -14,6 +16,14 @@ export {
   SystemStatusData,
 } from '../../api';
 
-export abstract class DashboardService {
-  abstract getSystemStatus(): Observable<SystemStatusData>;
+@Injectable()
+export class DashboardService {
+  constructor(
+    private _http: HttpClient,
+  ) {
+  }
+
+  getSystemStatus(): Observable<SystemStatusData> {
+    return this._http.get<SystemStatusData>('/api/system/status');
+  }
 }
