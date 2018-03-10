@@ -71,7 +71,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   logout(): void {
     this._authService.logout()
       .subscribe(() => {
-        this._router.navigateByUrl(this._authOptions.loginUrl);
+        this._router.navigateByUrl(this._authOptions.homeUrl);
       }, (err: any) => {
         this.error.addError(err);
       });

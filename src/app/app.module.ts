@@ -15,7 +15,7 @@ import { HomeComponent } from './home.component';
 import { AuthOptions } from './tools';
 
 const _authOptions: AuthOptions = {
-  homeUrl: '/dashboard',
+  homeUrl: '/home',
   loginUrl: '/login',
 };
 
