@@ -6,7 +6,7 @@ import { Config } from '../config';
 import { Route, AsyncRouteHandler, SyncRouteHandler, RouteHandler, RouteResponse } from './route';
 import { Auth } from './auth';
 
-const handleResponse = (ret: any, res: Response) => {
+const sendResponse = (ret: any, res: Response) => {
     if (ret.status) {
         res.status(ret.status);
     }
@@ -24,15 +24,17 @@ const handleResponse = (ret: any, res: Response) => {
     }
 };
 
+const sendError = (err: any, res: Response) => {
+    res.status(500)
+        .json({ msg: 'Error: ' + (err.message ? err.message : '(one of the unexpected kind...)') });
+};
+
 const wrapHandler = <T>(handler: RouteHandler<T>): RequestHandler => {
     if (handler instanceof AsyncRouteHandler) {
         return (req: Request, res: Response) => {
             handler.handle(req.body, req.headers, req.signedCookies)
-                .then((ret: any) => handleResponse(ret, res))
-                .catch((err) =>
-                    res.status(500)
-                        .json({ msg: 'Error: ' + (err.message ? err.message : '') })
-                );
+                .then((ret: any) => sendResponse(ret, res))
+                .catch((err) => sendError(err, res));
         };
     }
 
@@ -40,18 +42,14 @@ const wrapHandler = <T>(handler: RouteHandler<T>): RequestHandler => {
         return (req: Request, res: Response) => {
             try {
                 const ret = handler.handle(req.body, req.headers, req.signedCookies);
-                handleResponse(ret, res);
+                sendResponse(ret, res);
             } catch (err) {
-                res.status(500)
-                    .json({ msg: 'Error: ' + (err.message ? err.message : '') });
+                sendError(err, res);
             }
         };
     }
 
-    return (req: Request, res: Response, next: NextFunction) => {
-        console.error('unknown subclass of RouteHandler');
-        next();
-    };
+    throw new Error('unknown subclass of RouteHandler');
 };
 
 export namespace Routing {
