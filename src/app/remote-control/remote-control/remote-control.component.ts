@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 
-import { RemoteControlService } from '../remote-control.service';
+import {
+  ErrorData,
+} from '../../tools';
+
+import { RemoteControlService, KeyName, HitkeyRequest } from '../remote-control.service';
 
 @Component({
   selector: 'app-remote-control',
@@ -8,6 +12,16 @@ import { RemoteControlService } from '../remote-control.service';
   styleUrls: ['./remote-control.component.scss']
 })
 export class RemoteControlComponent {
+  public error = new ErrorData();
+
   constructor(private _service: RemoteControlService) {
+  }
+
+  hitkey(key: KeyName): void {
+    this._service.hitkey(new HitkeyRequest(key))
+      .subscribe(() => {
+      }, (err: any) => {
+        this.error.addError(err);
+      });
   }
 }

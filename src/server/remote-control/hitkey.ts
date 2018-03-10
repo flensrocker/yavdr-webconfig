@@ -16,6 +16,7 @@ export {
 
 export namespace RemoteControl {
     export const hitkey = (request: HitkeyRequest): RouteResponse<HitkeyResponse> => {
+        console.log('hit key:', request.key);
         return {
             response: {
                 msg: 'ok',
@@ -25,6 +26,7 @@ export namespace RemoteControl {
     };
 
     export const hitkeys = (request: HitkeysRequest): RouteResponse<HitkeysResponse> => {
+        console.log('hit keys:', request.keys.join(','));
         return {
             response: {
                 msg: 'ok',
