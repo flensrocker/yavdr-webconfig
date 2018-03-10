@@ -1,12 +1,13 @@
 import { Server } from 'http';
 import { Application } from 'express';
+import * as crypto from 'crypto';
 
 import { Config } from './config';
 import { App } from './app';
 
 const config: Config = new Config(
     '../../dist',
-    '5uper5ecretP4ssw0rd!',
+    crypto.randomBytes(64).toString('hex'),
     'auth',
     60 * 60 // 60m
 );
