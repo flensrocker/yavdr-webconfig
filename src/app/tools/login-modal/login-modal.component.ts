@@ -1,18 +1,17 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialogRef } from '@angular/material';
 
-import { ErrorData } from './error-data';
-import { SpinnerData } from './spinner-data';
-import { AuthOptions } from './auth-options';
-import { AuthService, LoginRequest, LoginResponse } from './auth.service';
+import { ErrorData } from '../error/error-data';
+import { SpinnerData } from '../spinner/spinner-data';
+import { AuthService, LoginRequest, LoginResponse } from '../auth/auth.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  selector: 'app-login-modal',
+  templateUrl: './login-modal.component.html',
+  styleUrls: ['./login-modal.component.scss']
 })
-export class LoginComponent {
+export class LoginModalComponent {
   private _username: FormControl = new FormControl('', [Validators.required]);
   private _password: FormControl = new FormControl('', [Validators.required]);
 
@@ -21,10 +20,8 @@ export class LoginComponent {
   public error: ErrorData = new ErrorData();
 
   constructor(
+    private _dialogRef: MatDialogRef<LoginModalComponent>,
     private _formBuilder: FormBuilder,
-    private _route: ActivatedRoute,
-    private _router: Router,
-    private _authOptions: AuthOptions,
     private _authService: AuthService,
   ) {
     this.loginForm = this._formBuilder.group({
@@ -42,11 +39,7 @@ export class LoginComponent {
     this._authService.login(loginRequest)
       .subscribe((response: LoginResponse) => {
         this.spinner.dec();
-        let url: string = this._authOptions.homeUrl;
-        if (this._route.snapshot.paramMap.has('returnUrl')) {
-          url = this._route.snapshot.paramMap.get('returnUrl');
-        }
-        this._router.navigateByUrl(url);
+        this._dialogRef.close();
       }, (err: any) => {
         this.spinner.dec();
         this.error.addError(err);

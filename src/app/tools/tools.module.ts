@@ -1,11 +1,12 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {
   MatButtonModule,
   MatCardModule,
+  MatDialogModule,
   MatFormFieldModule,
   MatInputModule,
   MatListModule,
@@ -18,15 +19,16 @@ import { ChartsModule } from 'ng2-charts';
 
 import { ToolsRoutingModule } from './tools-routing.module';
 
-import { AuthGuard } from './auth-guard';
-import { AuthService } from './auth.service';
-import { AuthServiceHttp } from './auth.service.http';
-import { UpdateService } from './update.service';
+import { AuthGuard } from './auth/auth-guard';
+import { AuthInterceptor } from './auth/auth-interceptor';
+import { AuthService } from './auth/auth.service';
+import { UpdateService } from './update/update.service';
 
-import { ErrorComponent } from './error.component';
-import { LoginComponent } from './login.component';
-import { SpinnerComponent } from './spinner.component';
-import { UpdateComponent } from './update.component';
+import { ErrorComponent } from './error/error.component';
+import { LoginComponent } from './login/login.component';
+import { LoginModalComponent } from './login-modal/login-modal.component';
+import { SpinnerComponent } from './spinner/spinner.component';
+import { UpdateComponent } from './update/update.component';
 
 @NgModule({
   imports: [
@@ -36,6 +38,7 @@ import { UpdateComponent } from './update.component';
     FlexLayoutModule,
     MatButtonModule,
     MatCardModule,
+    MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
     MatListModule,
@@ -53,6 +56,7 @@ import { UpdateComponent } from './update.component';
     FlexLayoutModule,
     MatButtonModule,
     MatCardModule,
+    MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
     MatListModule,
@@ -63,14 +67,19 @@ import { UpdateComponent } from './update.component';
     ChartsModule,
     ErrorComponent,
     LoginComponent,
+    LoginModalComponent,
     SpinnerComponent,
     UpdateComponent,
   ],
   declarations: [
     ErrorComponent,
     LoginComponent,
+    LoginModalComponent,
     SpinnerComponent,
     UpdateComponent,
+  ],
+  entryComponents: [
+    LoginModalComponent,
   ],
   providers: [
   ]
@@ -80,7 +89,8 @@ export class ToolsModule {
     return {
       ngModule: ToolsModule, providers: [
         AuthGuard,
-        { provide: AuthService, useClass: AuthServiceHttp },
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+        AuthService,
         UpdateService,
       ]
     };

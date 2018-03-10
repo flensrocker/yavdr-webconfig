@@ -6,9 +6,12 @@ import { environment } from '../environments/environment';
 
 import { AppRoutingModule } from './app-routing.module';
 
-import { AppComponent } from './app.component';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { ToolsModule } from './tools/tools.module';
+
+import { AppComponent } from './app.component';
+import { HomeComponent } from './home.component';
+
 import { AuthOptions } from './tools';
 
 const _authOptions: AuthOptions = {
@@ -19,6 +22,7 @@ const _authOptions: AuthOptions = {
 @NgModule({
   declarations: [
     AppComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
