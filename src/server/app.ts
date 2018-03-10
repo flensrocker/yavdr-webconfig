@@ -8,6 +8,7 @@ import * as morgan from 'morgan';
 import { Config } from './config';
 
 import { AuthRoutes } from './routes/auth';
+import { RemoteControlRoutes } from './routes/remote-control';
 import { SystemRoutes } from './routes/system';
 
 export namespace App {
@@ -23,6 +24,7 @@ export namespace App {
         // register api routes
         [
             AuthRoutes,
+            RemoteControlRoutes,
             SystemRoutes,
         ].forEach((r) => app.use('/api', r));
 

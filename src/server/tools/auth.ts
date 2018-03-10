@@ -1,7 +1,14 @@
 import { Request, Response, NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
 
-import { LoginResponse, LoginTokenResponse, LogoutResponse, TokenPayload, ValidateResponse } from '../../api';
+import {
+    LoginRequest,
+    LoginResponse,
+    LoginTokenResponse,
+    LogoutResponse,
+    TokenPayload,
+    ValidateResponse,
+} from '../../api';
 
 import { Config } from '../config';
 import { IncomingHttpHeaders, Route, RouteDelegate, RouteResponse } from './route';
@@ -112,7 +119,7 @@ export namespace Auth {
         };
     };
 
-    export const login = async (request: any): Promise<RouteResponse<LoginResponse>> => {
+    export const login = async (request: LoginRequest): Promise<RouteResponse<LoginResponse>> => {
         const user: User = Users.authenticateUser(request.username, request.password);
         if (user) {
             return {
@@ -133,7 +140,7 @@ export namespace Auth {
         };
     };
 
-    export const token = async (request: any): Promise<RouteResponse<LoginTokenResponse>> => {
+    export const token = async (request: LoginRequest): Promise<RouteResponse<LoginTokenResponse>> => {
         const user: User = Users.authenticateUser(request.username, request.password);
         if (user) {
             return {

@@ -6,6 +6,15 @@ export {
     TokenPayload,
     ValidateResponse,
 } from './login';
+
+export {
+    HitkeyRequest,
+    HitkeyResponse,
+    HitkeysRequest,
+    HitkeysResponse,
+    KeyName,
+} from './remote-control';
+
 export {
     CpuData,
     DiskUsageData,

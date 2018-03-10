@@ -6,6 +6,7 @@ import { environment } from '../environments/environment';
 
 import { ToolsModule } from './tools/tools.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { RemoteControlModule } from './remote-control/remote-control.module';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AuthOptions } from './tools';
@@ -29,6 +30,7 @@ const _authOptions: AuthOptions = {
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
     ToolsModule.forRoot(),
     DashboardModule,
+    RemoteControlModule,
     AppRoutingModule,
   ],
   providers: [
