@@ -3,11 +3,12 @@
 
   <app-error [error]="error"></app-error>
 
-  <div fxLayout="column" fxLayoutGap="10px" style="max-width: 400px">
+  <div fxLayout="column" fxLayoutGap="10px">
     <div fxLayout="row" fxLayoutGap="10px">
       <div fxFlex fxLayoutAlign="center center" fxLayoutGap="10px">
         <button type="button" mat-fab (click)="hitkey('KEY_POWER')">POW</button>
-        <div fxFlex></div>
+        <button type="button" mat-fab disabled></button>
+        <button type="button" mat-fab disabled></button>
         <button type="button" mat-fab (click)="hitkey('KEY_PROG2')">Kodi</button>
         <button type="button" mat-fab (click)="hitkey('KEY_PROG1')">VDR</button>
       </div>
@@ -32,61 +33,31 @@
     </div>
     <div fxLayout="row" fxLayoutGap="10px">
     </div>
-    <div fxLayout="row">
-      <div fxFlex fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center">
-        <div fxFlex>
-          <button type="button" mat-fab (click)="hitkey('KEY_MUTE')">MUTE</button>
-        </div>
-        <div fxFlex>
-          <button type="button" mat-fab (click)="hitkey('KEY_VOLUMEUP')">VUP</button>
-        </div>
-        <div fxFlex>
-          <button type="button" mat-fab (click)="hitkey('KEY_VOLUMEDOWN')">VDOWN</button>
-        </div>
+    <div fxLayout="row" fxLayoutGap="10px">
+      <div fxFlex fxLayoutAlign="center center" fxLayoutGap="10px">
+        <button type="button" mat-fab (click)="hitkey('KEY_MUTE')">MUTE</button>
+        <button type="button" mat-fab disabled></button>
+        <button type="button" mat-fab (click)="hitkey('KEY_UP')">UP</button>
+        <button type="button" mat-fab disabled></button>
+        <button type="button" mat-fab (click)="hitkey('KEY_INFO')">INFO</button>
       </div>
-      <div fxFlex fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center">
-        <div fxFlex fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center">
-          <div fxFlex>
-          </div>
-          <div fxFlex>
-            <button type="button" mat-fab (click)="hitkey('KEY_UP')">UP</button>
-          </div>
-          <div fxFlex>
-          </div>
-        </div>
-        <div fxFlex fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center">
-          <div fxFlex>
-            <button type="button" mat-fab (click)="hitkey('KEY_LEFT')">LEFT</button>
-          </div>
-          <div fxFlex>
-            <button type="button" mat-fab (click)="hitkey('KEY_OK')">OK</button>
-          </div>
-          <div fxFlex>
-            <button type="button" mat-fab (click)="hitkey('KEY_RIGHT')">RIGHT</button>
-          </div>
-        </div>
-        <div fxFlex fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center">
-          <div fxFlex>
-            <button type="button" mat-fab (click)="hitkey('KEY_ESC')">ESC</button>
-          </div>
-          <div fxFlex>
-            <button type="button" mat-fab (click)="hitkey('KEY_DOWN')">DOWN</button>
-          </div>
-          <div fxFlex>
-            <button type="button" mat-fab (click)="hitkey('KEY_MENU')">MENU</button>
-          </div>
-        </div>
+    </div>
+    <div fxLayout="row" fxLayoutGap="10px">
+      <div fxFlex fxLayoutAlign="center center" fxLayoutGap="10px">
+        <button type="button" mat-fab (click)="hitkey('KEY_VOLUMEUP')">VUP</button>
+        <button type="button" mat-fab (click)="hitkey('KEY_LEFT')">LEFT</button>
+        <button type="button" mat-fab (click)="hitkey('KEY_OK')">OK</button>
+        <button type="button" mat-fab (click)="hitkey('KEY_RIGHT')">RIGHT</button>
+        <button type="button" mat-fab (click)="hitkey('KEY_CHANNELUP')">CUP</button>
       </div>
-      <div fxFlex fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center">
-        <div fxFlex>
-          <button type="button" mat-fab (click)="hitkey('KEY_INFO')">INFO</button>
-        </div>
-        <div fxFlex>
-          <button type="button" mat-fab (click)="hitkey('KEY_CHANNELUP')">CUP</button>
-        </div>
-        <div fxFlex>
-          <button type="button" mat-fab (click)="hitkey('KEY_CHANNELDOWN')">CDOWN</button>
-        </div>
+    </div>
+    <div fxLayout="row" fxLayoutGap="10px">
+      <div fxFlex fxLayoutAlign="center center" fxLayoutGap="10px">
+        <button type="button" mat-fab (click)="hitkey('KEY_VOLUMEDOWN')">VDOWN</button>
+        <button type="button" mat-fab (click)="hitkey('KEY_ESC')">ESC</button>
+        <button type="button" mat-fab (click)="hitkey('KEY_DOWN')">DOWN</button>
+        <button type="button" mat-fab (click)="hitkey('KEY_MENU')">MENU</button>
+        <button type="button" mat-fab (click)="hitkey('KEY_CHANNELDOWN')">CDOWN</button>
       </div>
     </div>
     <div fxLayout="row" fxLayoutGap="10px">
