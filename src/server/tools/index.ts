@@ -7,6 +7,8 @@ export {
     AsyncRouteHandler,
 } from './async-route';
 export { AuthConfig } from './auth-config';
+export { AuthController } from './auth-controller';
+export { AuthRouter } from './auth-router';
 export { AuthTools } from './auth-tools';
 export {
     Route,

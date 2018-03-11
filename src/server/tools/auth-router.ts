@@ -1,7 +1,9 @@
 import { Router } from 'express';
 
-import { AsyncRoute, SyncRoute, Routing } from '../tools';
-import { AuthController, LoginResponse, LoginTokenResponse, LogoutResponse, ValidateResponse } from '../controllers/auth';
+import { AsyncRoute } from './async-route';
+import { SyncRoute } from './sync-route';
+import { Routing } from './routing';
+import { AuthController, LoginResponse, LoginTokenResponse, LogoutResponse, ValidateResponse } from './auth-controller';
 
 export const AuthRouter: Router = Routing.setupRoutes([
     new AsyncRoute<ValidateResponse>('get', '/login', AuthController.validate, false),
