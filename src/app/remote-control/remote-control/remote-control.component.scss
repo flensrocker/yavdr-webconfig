@@ -1,0 +1,30 @@
+// colors for buttons of remote control
+.mat-rc-default {
+    background-color: #a0a0a0;
+}
+
+.mat-rc-power {
+    background-color: #e00000;
+}
+
+.mat-rc-record {
+    @extend .mat-rc-default;
+    color: #e00000;
+}
+
+.mat-rc-red {
+    @extend .mat-rc-default;
+    color: #e00000;
+}
+.mat-rc-green {
+    @extend .mat-rc-default;
+    color: #00e000;
+}
+.mat-rc-yellow {
+    @extend .mat-rc-default;
+    color: #e0e000;
+}
+.mat-rc-blue {
+    @extend .mat-rc-default;
+    color: #0000e0;
+}

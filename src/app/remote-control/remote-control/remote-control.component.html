@@ -6,96 +6,96 @@
   <div fxLayout="column" fxLayoutGap="10px">
     <div fxLayout="row" fxLayoutGap="10px">
       <div fxFlex fxLayoutAlign="center center" fxLayoutGap="10px">
-        <button type="button" mat-fab (click)="hitkey('KEY_POWER')">POW</button>
+        <button type="button" mat-fab color="rc-power" (click)="hitkey('KEY_POWER')"><i class="fa fa-power-off"></i></button>
         <button type="button" mat-fab disabled></button>
         <button type="button" mat-fab disabled></button>
-        <button type="button" mat-fab (click)="hitkey('KEY_PROG2')">Kodi</button>
-        <button type="button" mat-fab (click)="hitkey('KEY_PROG1')">VDR</button>
+        <button type="button" mat-fab color="rc-default" (click)="hitkey('KEY_PROG2')">Kodi</button>
+        <button type="button" mat-fab color="rc-default" (click)="hitkey('KEY_PROG1')">VDR</button>
       </div>
     </div>
     <div fxLayout="row" fxLayoutGap="10px">
     </div>
     <div fxLayout="row" fxLayoutGap="10px">
       <div fxFlex fxLayoutAlign="center center" fxLayoutGap="10px">
-        <button type="button" mat-fab (click)="hitkey('KEY_REWIND')">REW</button>
-        <button type="button" mat-fab (click)="hitkey('KEY_PLAY')">PLAY</button>
-        <button type="button" mat-fab (click)="hitkey('KEY_PAUSE')">PAUSE</button>
-        <button type="button" mat-fab (click)="hitkey('KEY_FASTFORWARD')">FF</button>
+        <button type="button" mat-fab color="rc-default" (click)="hitkey('KEY_REWIND')"><i class="fa fa-backward"></i></button>
+        <button type="button" mat-fab color="rc-default" (click)="hitkey('KEY_PLAY')"><i class="fa fa-play"></i></button>
+        <button type="button" mat-fab color="rc-default" (click)="hitkey('KEY_PAUSE')"><i class="fa fa-pause"></i></button>
+        <button type="button" mat-fab color="rc-default" (click)="hitkey('KEY_FASTFORWARD')"><i class="fa fa-forward"></i></button>
       </div>
     </div>
     <div fxLayout="row" fxLayoutGap="10px">
       <div fxFlex fxLayoutAlign="center center" fxLayoutGap="10px">
-        <button type="button" mat-fab (click)="hitkey('KEY_BACK')">BACK</button>
-        <button type="button" mat-fab (click)="hitkey('KEY_RECORD')">REC</button>
-        <button type="button" mat-fab (click)="hitkey('KEY_STOP')">STOP</button>
-        <button type="button" mat-fab (click)="hitkey('KEY_NEXT')">NEXT</button>
+        <button type="button" mat-fab color="rc-default" (click)="hitkey('KEY_BACK')"><i class="fa fa-step-backward"></i></button>
+        <button type="button" mat-fab color="rc-record" (click)="hitkey('KEY_RECORD')"><b>REC</b></button>
+        <button type="button" mat-fab color="rc-default" (click)="hitkey('KEY_STOP')"><i class="fa fa-stop"></i></button>
+        <button type="button" mat-fab color="rc-default" (click)="hitkey('KEY_NEXT')"><i class="fa fa-step-forward"></i></button>
       </div>
     </div>
     <div fxLayout="row" fxLayoutGap="10px">
     </div>
     <div fxLayout="row" fxLayoutGap="10px">
       <div fxFlex fxLayoutAlign="center center" fxLayoutGap="10px">
-        <button type="button" mat-fab (click)="hitkey('KEY_MUTE')">MUTE</button>
+        <button type="button" mat-fab color="rc-default" (click)="hitkey('KEY_MUTE')"><i class="fa fa-volume-off"></i></button>
         <button type="button" mat-fab disabled></button>
-        <button type="button" mat-fab (click)="hitkey('KEY_UP')">UP</button>
+        <button type="button" mat-fab color="rc-default" (click)="hitkey('KEY_UP')"><i class="fa fa-caret-up"></i></button>
         <button type="button" mat-fab disabled></button>
-        <button type="button" mat-fab (click)="hitkey('KEY_INFO')">INFO</button>
+        <button type="button" mat-fab color="rc-default" (click)="hitkey('KEY_INFO')"><i class="fa fa-info"></i></button>
       </div>
     </div>
     <div fxLayout="row" fxLayoutGap="10px">
       <div fxFlex fxLayoutAlign="center center" fxLayoutGap="10px">
-        <button type="button" mat-fab (click)="hitkey('KEY_VOLUMEUP')">VUP</button>
-        <button type="button" mat-fab (click)="hitkey('KEY_LEFT')">LEFT</button>
-        <button type="button" mat-fab (click)="hitkey('KEY_OK')">OK</button>
-        <button type="button" mat-fab (click)="hitkey('KEY_RIGHT')">RIGHT</button>
-        <button type="button" mat-fab (click)="hitkey('KEY_CHANNELUP')">CUP</button>
+        <button type="button" mat-fab color="rc-default" (click)="hitkey('KEY_VOLUMEUP')"><i class="fa fa-volume-up"></i></button>
+        <button type="button" mat-fab color="rc-default" (click)="hitkey('KEY_LEFT')"><i class="fa fa-caret-left"></i></button>
+        <button type="button" mat-fab color="rc-default" (click)="hitkey('KEY_OK')"><i class="fa fa-check"></i></button>
+        <button type="button" mat-fab color="rc-default" (click)="hitkey('KEY_RIGHT')"><i class="fa fa-caret-right"></i></button>
+        <button type="button" mat-fab color="rc-default" (click)="hitkey('KEY_CHANNELUP')"><i class="fa fa-plus"></i></button>
       </div>
     </div>
     <div fxLayout="row" fxLayoutGap="10px">
       <div fxFlex fxLayoutAlign="center center" fxLayoutGap="10px">
-        <button type="button" mat-fab (click)="hitkey('KEY_VOLUMEDOWN')">VDOWN</button>
-        <button type="button" mat-fab (click)="hitkey('KEY_ESC')">ESC</button>
-        <button type="button" mat-fab (click)="hitkey('KEY_DOWN')">DOWN</button>
-        <button type="button" mat-fab (click)="hitkey('KEY_MENU')">MENU</button>
-        <button type="button" mat-fab (click)="hitkey('KEY_CHANNELDOWN')">CDOWN</button>
-      </div>
-    </div>
-    <div fxLayout="row" fxLayoutGap="10px">
-    </div>
-    <div fxLayout="row" fxLayoutGap="10px">
-      <div fxFlex fxLayoutAlign="center center" fxLayoutGap="10px">
-        <button type="button" mat-fab (click)="hitkey('KEY_RED')">RED</button>
-        <button type="button" mat-fab (click)="hitkey('KEY_GREEN')">GREEN</button>
-        <button type="button" mat-fab (click)="hitkey('KEY_YELLOW')">YELLOW</button>
-        <button type="button" mat-fab (click)="hitkey('KEY_BLUE')">BLUE</button>
+        <button type="button" mat-fab color="rc-default" (click)="hitkey('KEY_VOLUMEDOWN')"><i class="fa fa-volume-down"></i></button>
+        <button type="button" mat-fab color="rc-default" (click)="hitkey('KEY_ESC')"><i class="fa fa-times"></i></button>
+        <button type="button" mat-fab color="rc-default" (click)="hitkey('KEY_DOWN')"><i class="fa fa-caret-down"></i></button>
+        <button type="button" mat-fab color="rc-default" (click)="hitkey('KEY_MENU')"><i class="fa fa-bars"></i></button>
+        <button type="button" mat-fab color="rc-default" (click)="hitkey('KEY_CHANNELDOWN')"><i class="fa fa-minus"></i></button>
       </div>
     </div>
     <div fxLayout="row" fxLayoutGap="10px">
     </div>
     <div fxLayout="row" fxLayoutGap="10px">
       <div fxFlex fxLayoutAlign="center center" fxLayoutGap="10px">
-        <button type="button" mat-fab (click)="hitkey('KEY_1')">1</button>
-        <button type="button" mat-fab (click)="hitkey('KEY_2')">2</button>
-        <button type="button" mat-fab (click)="hitkey('KEY_3')">3</button>
+        <button type="button" mat-fab color="rc-red" (click)="hitkey('KEY_RED')"><i class="fa fa-circle"></i></button>
+        <button type="button" mat-fab color="rc-green" (click)="hitkey('KEY_GREEN')"><i class="fa fa-circle"></i></button>
+        <button type="button" mat-fab color="rc-yellow" (click)="hitkey('KEY_YELLOW')"><i class="fa fa-circle"></i></button>
+        <button type="button" mat-fab color="rc-blue" (click)="hitkey('KEY_BLUE')"><i class="fa fa-circle"></i></button>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayoutGap="10px">
+    </div>
+    <div fxLayout="row" fxLayoutGap="10px">
+      <div fxFlex fxLayoutAlign="center center" fxLayoutGap="10px">
+        <button type="button" mat-fab color="rc-default" (click)="hitkey('KEY_1')">1</button>
+        <button type="button" mat-fab color="rc-default" (click)="hitkey('KEY_2')">2</button>
+        <button type="button" mat-fab color="rc-default" (click)="hitkey('KEY_3')">3</button>
       </div>
     </div>
     <div fxLayout="row" fxLayoutGap="10px">
       <div fxFlex fxLayoutAlign="center center" fxLayoutGap="10px">
-        <button type="button" mat-fab (click)="hitkey('KEY_4')">4</button>
-        <button type="button" mat-fab (click)="hitkey('KEY_5')">5</button>
-        <button type="button" mat-fab (click)="hitkey('KEY_6')">6</button>
+        <button type="button" mat-fab color="rc-default" (click)="hitkey('KEY_4')">4</button>
+        <button type="button" mat-fab color="rc-default" (click)="hitkey('KEY_5')">5</button>
+        <button type="button" mat-fab color="rc-default" (click)="hitkey('KEY_6')">6</button>
       </div>
     </div>
     <div fxLayout="row" fxLayoutGap="10px">
       <div fxFlex fxLayoutAlign="center center" fxLayoutGap="10px">
-        <button type="button" mat-fab (click)="hitkey('KEY_7')">7</button>
-        <button type="button" mat-fab (click)="hitkey('KEY_8')">8</button>
-        <button type="button" mat-fab (click)="hitkey('KEY_9')">9</button>
+        <button type="button" mat-fab color="rc-default" (click)="hitkey('KEY_7')">7</button>
+        <button type="button" mat-fab color="rc-default" (click)="hitkey('KEY_8')">8</button>
+        <button type="button" mat-fab color="rc-default" (click)="hitkey('KEY_9')">9</button>
       </div>
     </div>
     <div fxLayout="row" fxLayoutGap="10px">
       <div fxFlex fxLayoutAlign="center center" fxLayoutGap="10px">
-        <button type="button" mat-fab (click)="hitkey('KEY_0')">0</button>
+        <button type="button" mat-fab color="rc-default" (click)="hitkey('KEY_0')">0</button>
       </div>
     </div>
   </div>
