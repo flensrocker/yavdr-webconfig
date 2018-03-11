@@ -1,4 +1,4 @@
-import { RouteResponse } from '../tools/route';
+import { SyncRouteDelegate, RouteResponse } from '../tools/route-sync';
 
 import { SystemStatusData } from '../../api';
 
@@ -248,10 +248,11 @@ const dummy_status: SystemStatusData = {
 };
 
 export namespace Status {
-    export const status = (request: any): RouteResponse<SystemStatusData> => {
-        dummy_status.cpu_usage.forEach((u: number, i: number) => dummy_status.cpu_usage[i] = Math.round(10000 * Math.random()) / 100);
-        return {
-            response: dummy_status,
+    export const status: SyncRouteDelegate<SystemStatusData> =
+        (request: any): RouteResponse<SystemStatusData> => {
+            dummy_status.cpu_usage.forEach((u: number, i: number) => dummy_status.cpu_usage[i] = Math.round(10000 * Math.random()) / 100);
+            return {
+                response: dummy_status,
+            };
         };
-    };
 }

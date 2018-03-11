@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, RequestHandler, Response, NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
 
 import {
@@ -11,7 +11,9 @@ import {
 } from '../../api';
 
 import { Config } from '../config';
-import { IncomingHttpHeaders, Route, RouteDelegate, RouteResponse } from './route';
+import { IncomingHttpHeaders, RouteResponse } from './route';
+import { AsyncRouteDelegate } from './route-async';
+import { SyncRouteDelegate } from './route-sync';
 import { User, Users } from './users';
 
 export { LoginResponse, LoginTokenResponse, LogoutResponse, ValidateResponse };
@@ -87,84 +89,89 @@ const getUsername = async (headers: IncomingHttpHeaders, cookies: any): Promise<
 };
 
 export namespace Auth {
-    export const authenticate = async (request: Request, response: Response, next: NextFunction): Promise<void> => {
-        const username = await getUsername(request.headers, request.signedCookies);
-        const user: User = Users.findUser(username);
-        if (user) {
-            next();
-        } else {
-            response.status(401)
-                .json({ msg: 'Access denied' });
-        }
-    };
-
-    export const validate = async (request: any, headers: IncomingHttpHeaders, cookies: any): Promise<RouteResponse<ValidateResponse>> => {
-        const username = await getUsername(headers, cookies);
-        const user: User = Users.findUser(username);
-        if (user) {
-            return {
-                response: {
-                    msg: 'Validation successfull',
-                    username: user.username,
-                    groups: user.groups,
-                }
-            };
-        }
-
-        return {
-            status: 401,
-            response: {
-                msg: 'invalid authorization, please log in and try again',
+    export const authenticate: RequestHandler =
+        async (request: Request, response: Response, next: NextFunction): Promise<void> => {
+            const username = await getUsername(request.headers, request.signedCookies);
+            const user: User = Users.findUser(username);
+            if (user) {
+                next();
+            } else {
+                response.status(401)
+                    .json({ msg: 'Access denied' });
             }
         };
-    };
 
-    export const login = async (request: LoginRequest): Promise<RouteResponse<LoginResponse>> => {
-        const user: User = Users.authenticateUser(request.username, request.password);
-        if (user) {
+    export const validate: AsyncRouteDelegate<ValidateResponse> =
+        async (request: any, headers: IncomingHttpHeaders, cookies: any): Promise<RouteResponse<ValidateResponse>> => {
+            const username = await getUsername(headers, cookies);
+            const user: User = Users.findUser(username);
+            if (user) {
+                return {
+                    response: {
+                        msg: 'Validation successfull',
+                        username: user.username,
+                        groups: user.groups,
+                    }
+                };
+            }
+
+            return {
+                status: 401,
+                response: {
+                    msg: 'invalid authorization, please log in and try again',
+                }
+            };
+        };
+
+    export const login: AsyncRouteDelegate<LoginResponse> =
+        async (request: LoginRequest): Promise<RouteResponse<LoginResponse>> => {
+            const user: User = Users.authenticateUser(request.username, request.password);
+            if (user) {
+                return {
+                    cookieName: Config.authCookieName,
+                    cookie: await createToken(user),
+                    response: {
+                        msg: 'Login successfull',
+                        groups: user.groups,
+                    },
+                };
+            }
+
+            return {
+                status: 401,
+                response: {
+                    msg: 'invalid username or password',
+                }
+            };
+        };
+
+    export const token: AsyncRouteDelegate<LoginTokenResponse> =
+        async (request: LoginRequest): Promise<RouteResponse<LoginTokenResponse>> => {
+            const user: User = Users.authenticateUser(request.username, request.password);
+            if (user) {
+                return {
+                    response: {
+                        msg: 'Login successfull',
+                        token: await createToken(user),
+                    }
+                };
+            }
+
+            return {
+                status: 401,
+                response: {
+                    msg: 'invalid username or password',
+                }
+            };
+        };
+
+    export const logout: SyncRouteDelegate<LogoutResponse> =
+        (request: any, headers: IncomingHttpHeaders, cookies: any): RouteResponse<LogoutResponse> => {
             return {
                 cookieName: Config.authCookieName,
-                cookie: await createToken(user),
                 response: {
-                    msg: 'Login successfull',
-                    groups: user.groups,
-                },
-            };
-        }
-
-        return {
-            status: 401,
-            response: {
-                msg: 'invalid username or password',
-            }
-        };
-    };
-
-    export const token = async (request: LoginRequest): Promise<RouteResponse<LoginTokenResponse>> => {
-        const user: User = Users.authenticateUser(request.username, request.password);
-        if (user) {
-            return {
-                response: {
-                    msg: 'Login successfull',
-                    token: await createToken(user),
+                    msg: 'Logout successfull',
                 }
             };
-        }
-
-        return {
-            status: 401,
-            response: {
-                msg: 'invalid username or password',
-            }
         };
-    };
-
-    export const logout = (request: any, headers: IncomingHttpHeaders, cookies: any): RouteResponse<LogoutResponse> => {
-        return {
-            cookieName: Config.authCookieName,
-            response: {
-                msg: 'Logout successfull',
-            }
-        };
-    };
 }

@@ -1,5 +1,11 @@
 import { IncomingHttpHeaders } from 'http';
-export { IncomingHttpHeaders };
+import { Request, RequestHandler, Response } from 'express';
+
+import { Config } from '../config';
+
+export { IncomingHttpHeaders, Request, RequestHandler, Response };
+
+export type RouteMethod = 'get' | 'post';
 
 export interface RouteResponse<T> {
     status?: number;
@@ -8,34 +14,32 @@ export interface RouteResponse<T> {
     response: T;
 }
 
-export type RouteDelegateAsync<T> = (body: any, headers: IncomingHttpHeaders, cookies: any) => Promise<RouteResponse<T>>;
-export type RouteDelegateSync<T> = (body: any, headers: IncomingHttpHeaders, cookies: any) => RouteResponse<T>;
+export abstract class RouteHandler<T> {
+    abstract getHandler(): RequestHandler;
 
-export interface RouteHandler<T> {
-    handle: RouteDelegateAsync<T> | RouteDelegateSync<T>;
+    protected sendResponse(ret: RouteResponse<T>, res: Response): void {
+        if (ret.status) {
+            res.status(ret.status);
+        }
+        if (ret.cookieName) {
+            if (ret.cookie) {
+                res.cookie(ret.cookieName, ret.cookie, { httpOnly: true, signed: true, maxAge: Config.authMaxAgeSec * 1000 });
+            } else {
+                res.clearCookie(ret.cookieName);
+            }
+        }
+        if (ret.response) {
+            res.json(ret.response);
+        } else {
+            throw new Error('No Response');
+        }
+    }
+
+    protected sendError(err: any, res: Response): void {
+        res.status(500)
+            .json({ msg: 'Error: ' + (err.message ? err.message : '(one of the unexpected kind...)') });
+    }
 }
-
-export class AsyncRouteHandler<T> implements RouteHandler<T> {
-    constructor(private _delegate: RouteDelegateAsync<T>) {
-    }
-
-    handle(body: any, headers: IncomingHttpHeaders, cookies: any): Promise<RouteResponse<T>> {
-        return this._delegate(body, headers, cookies);
-    }
-}
-
-export class SyncRouteHandler<T> implements RouteHandler<T> {
-    constructor(private _delegate: RouteDelegateSync<T>) {
-    }
-
-    handle(body: any, headers: IncomingHttpHeaders, cookies: any): RouteResponse<T> {
-        return this._delegate(body, headers, cookies);
-    }
-}
-
-export type RouteDelegate<T> = RouteDelegateSync<T> | RouteDelegateAsync<T>;
-
-export type RouteMethod = 'get' | 'post';
 
 export class Route<T> {
     constructor(

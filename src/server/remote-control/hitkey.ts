@@ -1,4 +1,4 @@
-import { RouteResponse } from '../tools/route';
+import { SyncRouteDelegate, RouteResponse } from '../tools/route-sync';
 
 import {
     HitkeyRequest,
@@ -15,23 +15,25 @@ export {
 };
 
 export namespace RemoteControl {
-    export const hitkey = (request: HitkeyRequest): RouteResponse<HitkeyResponse> => {
-        console.log('hit key:', request.key);
-        return {
-            response: {
-                msg: 'ok',
-                key: request.key,
-            },
+    export const hitkey: SyncRouteDelegate<HitkeyResponse> =
+        (request: HitkeyRequest): RouteResponse<HitkeyResponse> => {
+            console.log('hit key:', request.key);
+            return {
+                response: {
+                    msg: 'ok',
+                    key: request.key,
+                },
+            };
         };
-    };
 
-    export const hitkeys = (request: HitkeysRequest): RouteResponse<HitkeysResponse> => {
-        console.log('hit keys:', request.keys.join(','));
-        return {
-            response: {
-                msg: 'ok',
-                keys: request.keys,
-            },
+    export const hitkeys: SyncRouteDelegate<HitkeysResponse> =
+        (request: HitkeysRequest): RouteResponse<HitkeysResponse> => {
+            console.log('hit keys:', request.keys.join(','));
+            return {
+                response: {
+                    msg: 'ok',
+                    keys: request.keys,
+                },
+            };
         };
-    };
 }

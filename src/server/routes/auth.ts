@@ -1,10 +1,11 @@
-import { Route, AsyncRouteHandler, SyncRouteHandler } from '../tools/route';
+import { AsyncRoute } from '../tools/route-async';
+import { SyncRoute } from '../tools/route-sync';
 import { Routing } from '../tools/routing';
 import { Auth, LoginResponse, LoginTokenResponse, LogoutResponse, ValidateResponse } from '../tools/auth';
 
 export const AuthRoutes = Routing.setupRoutes([
-        new Route<ValidateResponse>('get', '/login', new AsyncRouteHandler(Auth.validate), false),
-        new Route<LoginResponse>('post', '/login', new AsyncRouteHandler(Auth.login), false),
-        new Route<LoginTokenResponse>('post', '/login/token', new AsyncRouteHandler(Auth.token), false),
-        new Route<LogoutResponse>('post', '/logout', new SyncRouteHandler(Auth.logout), false),
+        new AsyncRoute<ValidateResponse>('get', '/login', Auth.validate, false),
+        new AsyncRoute<LoginResponse>('post', '/login', Auth.login, false),
+        new AsyncRoute<LoginTokenResponse>('post', '/login/token', Auth.token, false),
+        new SyncRoute<LogoutResponse>('post', '/logout', Auth.logout, false),
     ]);
