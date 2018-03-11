@@ -1,4 +1,4 @@
-import { SyncRouteDelegate, RouteResponse } from '../tools/sync-route';
+import { SyncRouteDelegate, RouteResponse } from '../tools';
 
 import {
     HitkeyRequest,
@@ -14,7 +14,7 @@ export {
     HitkeysResponse,
 };
 
-export namespace RemoteControl {
+export namespace RemoteControlController {
     export const hitkey: SyncRouteDelegate<HitkeyResponse> =
         (request: HitkeyRequest): RouteResponse<HitkeyResponse> => {
             console.log('hit key:', request.key);

@@ -1,15 +1,13 @@
 import * as path from 'path';
 import * as express from 'express';
-import { Application, Router } from 'express';
+import { Application } from 'express';
 import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import * as morgan from 'morgan';
 
 import { Config } from './config';
 
-import { AuthRoutes } from './routes/auth';
-import { RemoteControlRoutes } from './routes/remote-control';
-import { SystemRoutes } from './routes/system';
+import { AppRouters } from './routes';
 
 export namespace App {
     export const createApp = (): Application => {
@@ -22,11 +20,7 @@ export namespace App {
         app.use(express.static(root));
 
         // register api routes
-        [
-            AuthRoutes,
-            RemoteControlRoutes,
-            SystemRoutes,
-        ].forEach((r) => app.use('/api', r));
+        AppRouters.forEach((r) => app.use('/api', r));
 
         // don't send index.html for unknown api requests
         app.all('/api/*', (req, res) => {

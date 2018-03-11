@@ -1,24 +1,11 @@
+import { IncomingHttpHeaders } from 'http';
+import { Request, RequestHandler, Response } from 'express';
 import {
-    IncomingHttpHeaders,
-    Request,
-    RequestHandler,
-    Response,
     Route,
     RouteMethod,
     RouteHandler,
     RouteResponse,
 } from './route';
-
-export {
-    IncomingHttpHeaders,
-    Request,
-    RequestHandler,
-    Response,
-    Route,
-    RouteMethod,
-    RouteHandler,
-    RouteResponse,
-};
 
 export type SyncRouteDelegate<T> = (body: any, headers: IncomingHttpHeaders, cookies: any) => RouteResponse<T>;
 

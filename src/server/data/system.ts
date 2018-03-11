@@ -1,10 +1,8 @@
-import { SyncRouteDelegate, RouteResponse } from '../tools/sync-route';
-
 import { SystemStatusData } from '../../api';
 
 export { SystemStatusData };
 
-const dummy_status: SystemStatusData = {
+export const statusData: SystemStatusData = {
     cpu_usage: [
         90.1,
         51.0
@@ -246,13 +244,3 @@ const dummy_status: SystemStatusData = {
     ],
     uptime: '-1 day, 23:11:42'
 };
-
-export namespace Status {
-    export const status: SyncRouteDelegate<SystemStatusData> =
-        (request: any): RouteResponse<SystemStatusData> => {
-            dummy_status.cpu_usage.forEach((u: number, i: number) => dummy_status.cpu_usage[i] = Math.round(10000 * Math.random()) / 100);
-            return {
-                response: dummy_status,
-            };
-        };
-}

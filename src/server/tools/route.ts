@@ -1,9 +1,6 @@
-import { IncomingHttpHeaders } from 'http';
-import { Request, RequestHandler, Response } from 'express';
+import { RequestHandler, Response } from 'express';
 
 import { Config } from '../config';
-
-export { IncomingHttpHeaders, Request, RequestHandler, Response };
 
 export type RouteMethod = 'get' | 'post';
 

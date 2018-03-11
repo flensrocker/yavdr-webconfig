@@ -2,13 +2,13 @@ import * as express from 'express';
 import { Router } from 'express';
 
 import { Route } from './route';
-import { Auth } from './auth';
+import { AuthTools } from './auth-tools';
 
 export namespace Routing {
     export const setupRoutes = (routes: Route<any>[]): Router => {
         const router: Router = express.Router();
         routes.forEach((r) => {
-            const handlers = (r.needsAuthentication ? [Auth.authenticate] : []);
+            const handlers = (r.needsAuthentication ? [AuthTools.authHandler] : []);
             handlers.push(r.handler.getHandler());
             switch (r.method) {
                 case 'get': {
