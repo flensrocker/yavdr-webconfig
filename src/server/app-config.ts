@@ -2,7 +2,7 @@ export class AppConfig {
     private static _config: AppConfig;
     public static get config(): AppConfig {
         if (!AppConfig._config) {
-            throw new Error('Config must be setup on app initialization!');
+            throw new Error('AppConfig must be setup on app initialization!');
         }
         return AppConfig._config;
     }
@@ -14,7 +14,7 @@ export class AppConfig {
         public readonly root: string,
     ) {
         if (AppConfig._config) {
-            throw new Error('Config can only be instantiated once!');
+            throw new Error('AppConfig can only be instantiated once!');
         }
         AppConfig._config = this;
     }
