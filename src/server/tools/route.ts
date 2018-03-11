@@ -1,6 +1,6 @@
 import { RequestHandler, Response } from 'express';
 
-import { Config } from '../config';
+import { AuthConfig } from './auth-config';
 
 export type RouteMethod = 'get' | 'post';
 
@@ -20,7 +20,7 @@ export abstract class RouteHandler<T> {
         }
         if (ret.cookieName) {
             if (ret.cookie) {
-                res.cookie(ret.cookieName, ret.cookie, { httpOnly: true, signed: true, maxAge: Config.authMaxAgeSec * 1000 });
+                res.cookie(ret.cookieName, ret.cookie, { httpOnly: true, signed: true, maxAge: AuthConfig.maxAgeSec * 1000 });
             } else {
                 res.clearCookie(ret.cookieName);
             }

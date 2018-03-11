@@ -6,6 +6,7 @@ export {
     AsyncRouteDelegate,
     AsyncRouteHandler,
 } from './async-route';
+export { AuthConfig } from './auth-config';
 export { AuthTools } from './auth-tools';
 export {
     Route,

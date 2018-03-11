@@ -1,6 +1,6 @@
-import { Config } from '../config';
 import {
     IncomingHttpHeaders,
+    AuthConfig,
     AuthTools,
     AsyncRouteDelegate,
     SyncRouteDelegate,
@@ -48,7 +48,7 @@ export namespace AuthController {
             const user: User = Users.authenticateUser(request.username, request.password);
             if (user) {
                 return {
-                    cookieName: Config.authCookieName,
+                    cookieName: AuthConfig.cookieName,
                     cookie: await AuthTools.createToken(user),
                     response: {
                         msg: 'Login successfull',
@@ -88,7 +88,7 @@ export namespace AuthController {
     export const logout: SyncRouteDelegate<LogoutResponse> =
         (request: any, headers: IncomingHttpHeaders, cookies: any): RouteResponse<LogoutResponse> => {
             return {
-                cookieName: Config.authCookieName,
+                cookieName: AuthConfig.cookieName,
                 response: {
                     msg: 'Logout successfull',
                 }

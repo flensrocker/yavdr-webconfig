@@ -5,18 +5,19 @@ import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import * as morgan from 'morgan';
 
-import { Config } from './config';
+import { AuthConfig } from './tools';
 
+import { AppConfig } from './app-config';
 import { AppRouters } from './routes';
 
 export namespace App {
     export const createApp = (): Application => {
         const app: Application = express();
-        const root = (Config.root && path.isAbsolute(Config.root) ? Config.root : path.join(__dirname, Config.root));
+        const root = (AppConfig.root && path.isAbsolute(AppConfig.root) ? AppConfig.root : path.join(__dirname, AppConfig.root));
 
         app.use(morgan('tiny'));
         app.use(bodyParser.json());
-        app.use(cookieParser(Config.authSecret));
+        app.use(cookieParser(AuthConfig.secret));
         app.use(express.static(root));
 
         // register api routes

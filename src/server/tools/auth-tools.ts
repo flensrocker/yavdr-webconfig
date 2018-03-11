@@ -4,7 +4,7 @@ import * as jwt from 'jsonwebtoken';
 
 import { TokenPayload } from '../../api';
 
-import { Config } from '../config';
+import { AuthConfig } from './auth-config';
 import { User, Users } from './users';
 
 export namespace AuthTools {
@@ -15,7 +15,7 @@ export namespace AuthTools {
                     username: user.username,
                     groups: user.groups,
                 };
-                jwt.sign(payload, Config.authSecret, { expiresIn: Config.authMaxAgeSec }, (err, token) => {
+                jwt.sign(payload, AuthConfig.secret, { expiresIn: AuthConfig.maxAgeSec }, (err, token) => {
                     if (err) {
                         reject(err);
                     } else {
@@ -29,7 +29,7 @@ export namespace AuthTools {
         async (token: string): Promise<TokenPayload | null> => {
             return new Promise<TokenPayload | null>((resolve, reject) => {
                 if (token) {
-                    jwt.verify(token, Config.authSecret, (err, payload) => {
+                    jwt.verify(token, AuthConfig.secret, (err, payload) => {
                         if (err) {
                             reject(err);
                         } else {
@@ -56,8 +56,8 @@ export namespace AuthTools {
 
     export const getTokenFromCookie =
         (cookies: any): string | null => {
-            if (cookies[Config.authCookieName] && (typeof cookies[Config.authCookieName] === 'string')) {
-                const token: string = cookies[Config.authCookieName];
+            if (cookies[AuthConfig.cookieName] && (typeof cookies[AuthConfig.cookieName] === 'string')) {
+                const token: string = cookies[AuthConfig.cookieName];
                 if (token) {
                     return token;
                 }

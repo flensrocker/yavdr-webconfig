@@ -2,14 +2,19 @@ import { Server } from 'http';
 import { Application } from 'express';
 import * as crypto from 'crypto';
 
-import { Config } from './config';
+import { AuthConfig } from './tools';
+
+import { AppConfig } from './app-config';
 import { App } from './app';
 
-const config: Config = new Config(
-    '../../dist',
+const authConfig: AuthConfig = new AuthConfig(
     crypto.randomBytes(64).toString('hex'),
     'auth',
-    60 * 60 // 60m
+    60 * 60, // 60m
+);
+
+const config: AppConfig = new AppConfig(
+    '../../dist',
 );
 
 const app: Application = App.createApp();
