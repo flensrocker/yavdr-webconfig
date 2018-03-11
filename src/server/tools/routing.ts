@@ -53,7 +53,7 @@ const wrapHandler = <T>(handler: RouteHandler<T>): RequestHandler => {
 };
 
 export namespace Routing {
-    export const setupRoutes = <T>(routes: Route<T>[]): Router => {
+    export const setupRoutes = (routes: Route<any>[]): Router => {
         const router: Router = express.Router();
         routes.forEach((r) => {
             const handlers = (r.needsAuthentication ? [Auth.authenticate] : []);
