@@ -9,9 +9,21 @@ export class AppConfig {
     public static get root(): string {
         return AppConfig.config.root;
     }
+    public static get port(): number {
+        return AppConfig.config.port;
+    }
+    public static get apiBaseUrl(): string {
+        return AppConfig.config.apiBaseUrl;
+    }
+    public static get fallbackUrl(): string {
+        return AppConfig.config.fallbackUrl;
+    }
 
     constructor(
         public readonly root: string,
+        public readonly port: number = 4200,
+        public readonly apiBaseUrl: string = '/api',
+        public readonly fallbackUrl: string = 'index.html',
     ) {
         if (AppConfig._config) {
             throw new Error('AppConfig can only be instantiated once!');

@@ -1,6 +1,7 @@
 import { Server } from 'http';
 import { Application } from 'express';
 import * as crypto from 'crypto';
+import * as path from 'path';
 
 import { AuthConfig } from './tools';
 
@@ -14,10 +15,13 @@ const authConfig: AuthConfig = new AuthConfig(
 );
 
 const config: AppConfig = new AppConfig(
-    '../../dist',
+    path.join(__dirname, '../../dist'),
+    4200,
+    '/api',
+    'index.html',
 );
 
 const app: Application = App.createApp();
-const server: Server = app.listen(4200, () => console.log('Server listening on port 4200'));
+const server: Server = app.listen(AppConfig.port, () => console.log(`Server listening on port ${AppConfig.port}`));
 
 export default server;

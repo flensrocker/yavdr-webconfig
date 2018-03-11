@@ -18,8 +18,8 @@ export class AuthConfig {
 
     constructor(
         public readonly secret: string,
-        public readonly cookieName: string,
-        public readonly maxAgeSec: number,
+        public readonly cookieName: string = 'auth',
+        public readonly maxAgeSec: number = 60 * 60, // 60m
     ) {
         if (AuthConfig._config) {
             throw new Error('AuthConfig can only be instantiated once!');

@@ -13,27 +13,30 @@ import { AppRouters } from './routes';
 export namespace App {
     export const createApp = (): Application => {
         const app: Application = express();
-        const root = (AppConfig.root && path.isAbsolute(AppConfig.root) ? AppConfig.root : path.join(__dirname, AppConfig.root));
 
         app.use(morgan('tiny'));
         app.use(bodyParser.json());
         app.use(cookieParser(AuthConfig.secret));
-        app.use(express.static(root));
+        app.use(express.static(AppConfig.root));
 
         // register api routes
-        AppRouters.forEach((r) => app.use('/api', r));
+        if (AppRouters && (AppRouters.length > 0) && AppConfig.apiBaseUrl) {
+            AppRouters.forEach((r) => app.use(AppConfig.apiBaseUrl, r));
 
-        // don't send index.html for unknown api requests
-        app.all('/api/*', (req, res) => {
-            res.status(404)
-                .json({ msg: 'api not found' });
-        });
+            // don't send fallback for unknown api requests
+            app.all(`${AppConfig.apiBaseUrl}/*`, (req, res) => {
+                res.status(404)
+                    .json({ msg: 'api not found' });
+            });
+        }
 
-        // send index.html for unknown files
+        // send fallback for unknown files
         // (support for HTML5 Client-URLs)
-        app.get('*', (req, res) => {
-            res.sendFile(path.join(root, 'index.html'));
-        });
+        if (AppConfig.fallbackUrl) {
+            app.get('*', (req, res) => {
+                res.sendFile(path.join(AppConfig.root, AppConfig.fallbackUrl));
+            });
+        }
 
         return app;
     };
