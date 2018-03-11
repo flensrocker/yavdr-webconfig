@@ -1,4 +1,4 @@
-import { SyncRoute } from '../tools/route-sync';
+import { SyncRoute } from '../tools/sync-route';
 import { Routing } from '../tools/routing';
 import { Status, SystemStatusData } from '../system/status';
 

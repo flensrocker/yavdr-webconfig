@@ -12,8 +12,8 @@ import {
 
 import { Config } from '../config';
 import { IncomingHttpHeaders, RouteResponse } from './route';
-import { AsyncRouteDelegate } from './route-async';
-import { SyncRouteDelegate } from './route-sync';
+import { AsyncRouteDelegate } from './async-route';
+import { SyncRouteDelegate } from './sync-route';
 import { User, Users } from './users';
 
 export { LoginResponse, LoginTokenResponse, LogoutResponse, ValidateResponse };

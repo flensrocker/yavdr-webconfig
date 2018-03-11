@@ -1,5 +1,5 @@
-import { AsyncRoute } from '../tools/route-async';
-import { SyncRoute } from '../tools/route-sync';
+import { AsyncRoute } from '../tools/async-route';
+import { SyncRoute } from '../tools/sync-route';
 import { Routing } from '../tools/routing';
 import { Auth, LoginResponse, LoginTokenResponse, LogoutResponse, ValidateResponse } from '../tools/auth';
 

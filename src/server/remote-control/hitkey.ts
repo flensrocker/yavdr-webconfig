@@ -1,4 +1,4 @@
-import { SyncRouteDelegate, RouteResponse } from '../tools/route-sync';
+import { SyncRouteDelegate, RouteResponse } from '../tools/sync-route';
 
 import {
     HitkeyRequest,
