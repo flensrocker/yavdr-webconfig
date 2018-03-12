@@ -1,12 +1,9 @@
 import { Component, Input, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
+import { ChartDataSets, ChartOptions } from 'chart.js';
 
 import { UsageColors } from '../../tools';
+import { NumberChartDataSets } from '../dashboard.datatypes';
 import { FanData } from '../dashboard.service';
-
-class ChartData {
-  data: number[] = [];
-  backgroundColor: string[] = [];
-}
 
 interface InputFanData {
   [key: string]: FanData[];
@@ -20,8 +17,8 @@ interface InputFanData {
 export class FanComponent implements OnChanges {
   @Input() fanData: InputFanData;
 
-  public chartData: ChartData[] = [];
-  public chartOptions = {
+  public chartData: ChartDataSets[] = [];
+  public chartOptions: ChartOptions = {
     legend: {
       display: false,
     },
@@ -38,7 +35,7 @@ export class FanComponent implements OnChanges {
       const newData: InputFanData = changes['fanData'].currentValue as InputFanData;
       if (newData) {
         const chartLabels: string[] = [];
-        const chartData: ChartData = new ChartData();
+        const chartData: NumberChartDataSets = { data: [] };
 
         for (const key of Object.keys(newData)) {
           for (const f of newData[key]) {

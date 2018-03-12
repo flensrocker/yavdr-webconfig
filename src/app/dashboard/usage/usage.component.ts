@@ -1,12 +1,10 @@
 import { Component, Input, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
+import { ChartColor, ChartDataSets, ChartOptions } from 'chart.js';
+import { Color } from 'ng2-charts';
 
 import { UsageColors } from '../../tools';
+import { ColoredNumberChartDataSets, NumberChartDataSets } from '../dashboard.datatypes';
 import { SystemStatusData, ValueUnitData } from '../dashboard.service';
-
-class ChartData {
-  data: number[] = [];
-  backgroundColor: string[] = [];
-}
 
 @Component({
   selector: 'app-dashboard-usage',
@@ -16,8 +14,8 @@ class ChartData {
 export class UsageComponent implements OnChanges {
   @Input() usageData: SystemStatusData;
 
-  public chartData: ChartData[] = [];
-  public chartOptions = {
+  public chartData: ChartDataSets[] = [];
+  public chartOptions: ChartOptions = {
     legend: {
       display: false,
     },
@@ -34,7 +32,6 @@ export class UsageComponent implements OnChanges {
       }],
       yAxes: [{
         ticks: {
-          beginAtZero: true,
           min: 0.0,
           max: 100.0,
           callback: (value, index, values) => `${value}%`,
@@ -43,7 +40,7 @@ export class UsageComponent implements OnChanges {
     }
   };
   public chartLabels: string[] = [];
-  public chartColors: any[] = [];
+  public chartColors: Color[] = [];
 
   private _loadLabels: string[] = ['1 min', '5 min', '15 min'];
   private _usageColors: UsageColors = new UsageColors();
@@ -59,7 +56,7 @@ export class UsageComponent implements OnChanges {
     return `${this.getValueString(data.used_human)} / ${this.getValueString(data.total_human)}`;
   }
 
-  pushData(labels: string[], data: ChartData, label: string, usage: number): void {
+  pushData(labels: string[], data: ColoredNumberChartDataSets, label: string, usage: number): void {
     labels.push(label);
     data.data.push(usage);
     data.backgroundColor.push(this._usageColors.getColor(usage));
@@ -70,7 +67,7 @@ export class UsageComponent implements OnChanges {
       const newData: SystemStatusData = changes['usageData'].currentValue as SystemStatusData;
       if (newData) {
         const chartLabels: string[] = [];
-        const chartData: ChartData = new ChartData();
+        const chartData: ColoredNumberChartDataSets = new ColoredNumberChartDataSets();
         const labelIndex = new Set<number>();
 
         labelIndex.add(chartLabels.length);

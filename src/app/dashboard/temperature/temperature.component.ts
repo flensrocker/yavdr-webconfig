@@ -1,12 +1,10 @@
 import { Component, Input, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
+import { ChartColor, ChartDataSets, ChartOptions } from 'chart.js';
+import { Color } from 'ng2-charts';
 
 import { UsageColors } from '../../tools';
+import { ColoredNumberChartDataSets, NumberChartDataSets } from '../dashboard.datatypes';
 import { TemperatureData } from '../dashboard.service';
-
-class ChartData {
-  data: number[] = [];
-  backgroundColor: string[] = [];
-}
 
 interface InputTemperatureData {
   [key: string]: TemperatureData[];
@@ -20,8 +18,8 @@ interface InputTemperatureData {
 export class TemperatureComponent implements OnChanges {
   @Input() temperatureData: InputTemperatureData;
 
-  public chartData: ChartData[] = [];
-  public chartOptions = {
+  public chartData: ChartDataSets[] = [];
+  public chartOptions: ChartOptions = {
     legend: {
       display: false,
     },
@@ -38,17 +36,17 @@ export class TemperatureComponent implements OnChanges {
       }],
       yAxes: [{
         ticks: {
-          beginAtZero: true,
+          min: 0,
         }
       }],
     }
   };
   public chartLabels: string[] = [];
-  public chartColors: any[] = [];
+  public chartColors: Color[] = [];
 
   private _usageColors: UsageColors = new UsageColors();
 
-  pushData(labels: string[], data: ChartData, label: string, usage: number, colors: UsageColors): void {
+  pushData(labels: string[], data: ColoredNumberChartDataSets, label: string, usage: number, colors: UsageColors): void {
     labels.push(label);
     data.data.push(usage);
     data.backgroundColor.push(colors.getColor(usage));
@@ -59,8 +57,8 @@ export class TemperatureComponent implements OnChanges {
       const newData: InputTemperatureData = changes['temperatureData'].currentValue as InputTemperatureData;
       if (newData) {
         const chartLabels: string[] = [];
-        const chartData: ChartData = new ChartData();
-        const highData: any = {
+        const chartData: ColoredNumberChartDataSets = new ColoredNumberChartDataSets();
+        const highData: NumberChartDataSets = {
           label: 'high',
           type: 'line',
           pointStyle: 'line',
@@ -72,7 +70,7 @@ export class TemperatureComponent implements OnChanges {
           borderColor: this._usageColors.highColor,
           borderWidth: 3,
         };
-        const criticalData: any = {
+        const criticalData: NumberChartDataSets = {
           label: 'critical',
           type: 'line',
           pointStyle: 'line',

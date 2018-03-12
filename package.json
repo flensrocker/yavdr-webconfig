@@ -42,6 +42,7 @@
     "@angular/compiler-cli": "^5.2.0",
     "@angular/language-service": "^5.2.0",
     "@types/body-parser": "^1.16.8",
+    "@types/chart.js": "^2.7.10",
     "@types/cookie-parser": "^1.4.1",
     "@types/express": "^4.11.1",
     "@types/jasmine": "~2.8.3",
