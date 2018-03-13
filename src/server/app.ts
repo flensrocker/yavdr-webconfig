@@ -8,7 +8,7 @@ import * as morgan from 'morgan';
 import { AuthConfig } from './tools';
 
 import { AppConfig } from './app-config';
-import { AppRouters } from './routes';
+import { AppRouters } from './routers';
 
 export namespace App {
     export const createApp = (): Application => {
