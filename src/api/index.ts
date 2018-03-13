@@ -5,7 +5,7 @@ export {
     LogoutResponse,
     TokenPayload,
     ValidateResponse,
-} from './login';
+} from './auth';
 
 export {
     HitkeyRequest,
