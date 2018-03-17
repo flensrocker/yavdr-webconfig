@@ -1,21 +1,23 @@
 import { IncomingHttpHeaders } from 'http';
 import { Request, RequestHandler, Response, NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
+import { Container } from 'typedi';
 
 import { TokenPayload } from '../../api';
 
-import { AuthConfig } from './auth-config';
-import { User, Users } from './users';
+import { AuthConfig, AuthConfigToken } from './auth-config';
+import { BaseUser, UserManager, UserManagerToken } from './users';
 
 export namespace AuthTools {
     export const createToken =
-        async (user: User): Promise<string> => {
+        async (user: BaseUser): Promise<string> => {
+            const authConfig: AuthConfig = Container.get<AuthConfig>(AuthConfigToken);
             return new Promise<string>((resolve, reject) => {
                 const payload: TokenPayload = {
                     username: user.username,
                     groups: user.groups,
                 };
-                jwt.sign(payload, AuthConfig.secret, { expiresIn: AuthConfig.maxAgeSec }, (err, token) => {
+                jwt.sign(payload, authConfig.secret, { expiresIn: authConfig.maxAgeSec }, (err, token) => {
                     if (err) {
                         reject(err);
                     } else {
@@ -27,9 +29,10 @@ export namespace AuthTools {
 
     export const getTokenPayload =
         async (token: string): Promise<TokenPayload | null> => {
+            const authConfig: AuthConfig = Container.get<AuthConfig>(AuthConfigToken);
             return new Promise<TokenPayload | null>((resolve, reject) => {
                 if (token) {
-                    jwt.verify(token, AuthConfig.secret, (err, payload) => {
+                    jwt.verify(token, authConfig.secret, (err, payload) => {
                         if (err) {
                             reject(err);
                         } else {
@@ -56,8 +59,9 @@ export namespace AuthTools {
 
     export const getTokenFromCookie =
         (cookies: any): string | null => {
-            if (cookies[AuthConfig.cookieName] && (typeof cookies[AuthConfig.cookieName] === 'string')) {
-                const token: string = cookies[AuthConfig.cookieName];
+            const authConfig: AuthConfig = Container.get<AuthConfig>(AuthConfigToken);
+            if (cookies[authConfig.cookieName] && (typeof cookies[authConfig.cookieName] === 'string')) {
+                const token: string = cookies[authConfig.cookieName];
                 if (token) {
                     return token;
                 }
@@ -85,8 +89,9 @@ export namespace AuthTools {
 
     export const authHandler: RequestHandler =
         async (request: Request, response: Response, next: NextFunction): Promise<void> => {
+            const userManager: UserManager = Container.get<UserManager>(UserManagerToken);
             const username = await getUsernameFromRequest(request.headers, request.signedCookies);
-            const user: User = Users.findUser(username);
+            const user: BaseUser = userManager.findUser(username);
             if (user) {
                 next();
             } else {

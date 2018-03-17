@@ -1,6 +1,7 @@
 import { RequestHandler, Response } from 'express';
+import { Container } from 'typedi';
 
-import { AuthConfig } from './auth-config';
+import { AuthConfig, AuthConfigToken } from './auth-config';
 
 export type RouteMethod = 'get' | 'post';
 
@@ -15,12 +16,13 @@ export abstract class RouteHandler<T> {
     abstract getHandler(): RequestHandler;
 
     protected sendResponse(ret: RouteResponse<T>, res: Response): void {
+        const authConfig: AuthConfig = Container.get<AuthConfig>(AuthConfigToken);
         if (ret.status) {
             res.status(ret.status);
         }
         if (ret.cookieName) {
             if (ret.cookie) {
-                res.cookie(ret.cookieName, ret.cookie, { httpOnly: true, signed: true, maxAge: AuthConfig.maxAgeSec * 1000 });
+                res.cookie(ret.cookieName, ret.cookie, { httpOnly: true, signed: true, maxAge: authConfig.maxAgeSec * 1000 });
             } else {
                 res.clearCookie(ret.cookieName);
             }

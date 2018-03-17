@@ -1,13 +1,12 @@
-import {
-    IncomingHttpHeaders,
-    AuthConfig,
-    AuthTools,
-    AsyncRouteDelegate,
-    SyncRouteDelegate,
-    RouteResponse,
-    User,
-    Users,
-} from '../tools';
+import { IncomingHttpHeaders } from 'http';
+import { Container } from 'typedi';
+
+import { AuthConfig, AuthConfigToken } from './auth-config';
+import { AuthTools } from './auth-tools';
+import { AsyncRouteDelegate } from './async-route';
+import { SyncRouteDelegate } from './sync-route';
+import { RouteResponse } from './route';
+import { BaseUser, UserManager, UserManagerToken } from './users';
 
 import {
     LoginRequest,
@@ -23,8 +22,9 @@ export { LoginResponse, LoginTokenResponse, LogoutResponse, ValidateResponse };
 export namespace AuthController {
     export const validate: AsyncRouteDelegate<ValidateResponse> =
         async (request: any, headers: IncomingHttpHeaders, cookies: any): Promise<RouteResponse<ValidateResponse>> => {
+            const userManager: UserManager = Container.get<UserManager>(UserManagerToken);
             const username = await AuthTools.getUsernameFromRequest(headers, cookies);
-            const user: User = Users.findUser(username);
+            const user: BaseUser = userManager.findUser(username);
             if (user) {
                 return {
                     response: {
@@ -45,10 +45,12 @@ export namespace AuthController {
 
     export const login: AsyncRouteDelegate<LoginResponse> =
         async (request: LoginRequest): Promise<RouteResponse<LoginResponse>> => {
-            const user: User = Users.authenticateUser(request.username, request.password);
+            const authConfig: AuthConfig = Container.get<AuthConfig>(AuthConfigToken);
+            const userManager: UserManager = Container.get<UserManager>(UserManagerToken);
+            const user: BaseUser = userManager.authenticateUser(request.username, request.password);
             if (user) {
                 return {
-                    cookieName: AuthConfig.cookieName,
+                    cookieName: authConfig.cookieName,
                     cookie: await AuthTools.createToken(user),
                     response: {
                         msg: 'Login successfull',
@@ -67,7 +69,8 @@ export namespace AuthController {
 
     export const token: AsyncRouteDelegate<LoginTokenResponse> =
         async (request: LoginRequest): Promise<RouteResponse<LoginTokenResponse>> => {
-            const user: User = Users.authenticateUser(request.username, request.password);
+            const userManager: UserManager = Container.get<UserManager>(UserManagerToken);
+            const user: BaseUser = userManager.authenticateUser(request.username, request.password);
             if (user) {
                 return {
                     response: {
@@ -87,8 +90,9 @@ export namespace AuthController {
 
     export const logout: SyncRouteDelegate<LogoutResponse> =
         (request: any, headers: IncomingHttpHeaders, cookies: any): RouteResponse<LogoutResponse> => {
+            const authConfig: AuthConfig = Container.get<AuthConfig>(AuthConfigToken);
             return {
-                cookieName: AuthConfig.cookieName,
+                cookieName: authConfig.cookieName,
                 response: {
                     msg: 'Logout successfull',
                 }

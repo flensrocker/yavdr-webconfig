@@ -4,27 +4,30 @@ import { Application } from 'express';
 import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import * as morgan from 'morgan';
+import { Container } from 'typedi';
 
-import { AuthConfig } from './tools';
+import { AuthConfig, AuthConfigToken } from './tools';
 
-import { AppConfig } from './app-config';
+import { AppConfig, AppConfigToken } from './app-config';
 import { AppRouters } from './routers';
 
 export namespace App {
     export const createApp = (): Application => {
+        const authConfig: AuthConfig = Container.get<AuthConfig>(AuthConfigToken);
+        const appConfig: AppConfig = Container.get<AppConfig>(AppConfigToken);
         const app: Application = express();
 
         app.use(morgan('tiny'));
         app.use(bodyParser.json());
-        app.use(cookieParser(AuthConfig.secret));
-        app.use(express.static(AppConfig.root));
+        app.use(cookieParser(authConfig.secret));
+        app.use(express.static(appConfig.root));
 
         // register api routes
-        if (AppRouters && (AppRouters.length > 0) && AppConfig.apiBaseUrl) {
-            AppRouters.forEach((r) => app.use(AppConfig.apiBaseUrl, r));
+        if (AppRouters && (AppRouters.length > 0) && appConfig.apiBaseUrl) {
+            AppRouters.forEach((r) => app.use(appConfig.apiBaseUrl, r));
 
             // don't send fallback for unknown api requests
-            app.all(`${AppConfig.apiBaseUrl}/*`, (req, res) => {
+            app.all(`${appConfig.apiBaseUrl}/*`, (req, res) => {
                 res.status(404)
                     .json({ msg: 'api not found' });
             });
@@ -32,9 +35,9 @@ export namespace App {
 
         // send fallback for unknown files
         // (support for HTML5 Client-URLs)
-        if (AppConfig.fallbackUrl) {
+        if (appConfig.fallbackUrl) {
             app.get('*', (req, res) => {
-                res.sendFile(path.join(AppConfig.root, AppConfig.fallbackUrl));
+                res.sendFile(path.join(appConfig.root, appConfig.fallbackUrl));
             });
         }
 

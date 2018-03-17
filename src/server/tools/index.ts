@@ -6,7 +6,7 @@ export {
     AsyncRouteDelegate,
     AsyncRouteHandler,
 } from './async-route';
-export { AuthConfig } from './auth-config';
+export { AuthConfig, AuthConfigToken } from './auth-config';
 export { AuthController } from './auth-controller';
 export { AuthRouter } from './auth-router';
 export { AuthTools } from './auth-tools';
@@ -22,4 +22,5 @@ export {
     SyncRouteDelegate,
     SyncRouteHandler,
 } from './sync-route';
-export { User, Users } from './users';
+
+export { BaseUser, UserManager, UserManagerToken } from './users';
