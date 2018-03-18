@@ -1,6 +1,7 @@
 import * as crypto from 'crypto';
+import { Service } from 'typedi';
 
-import { BaseUser, UserManager } from './tools';
+import { BaseUser, UserManager, UserManagerToken } from './tools';
 
 export class AppUser implements BaseUser {
     private _hashedPassword: string;
@@ -28,6 +29,7 @@ const users: AppUser[] = [
     new AppUser('a', 'a', ['users', 'adm', 'sudo']),
 ];
 
+@Service(UserManagerToken)
 export class AppUserManager implements UserManager {
     findUser(username: string): AppUser | null {
         if (username) {

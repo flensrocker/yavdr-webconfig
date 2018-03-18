@@ -10,4 +10,4 @@ export interface UserManager {
     findUser(username: string): BaseUser | null;
 }
 
-export const UserManagerToken: Token<UserManager> = new Token<UserManager>();
+export const UserManagerToken: Token<UserManager> = new Token<UserManager>('UserManager');

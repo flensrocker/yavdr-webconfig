@@ -8,8 +8,10 @@ import * as path from 'path';
 import { AuthConfig, AuthConfigToken, UserManager, UserManagerToken } from './tools';
 
 import { AppConfig, AppConfigToken } from './app-config';
-import { AppUserManager, AppUser } from './app-users';
 import { App } from './app';
+
+// to force execution of the decorators so the services get registered
+import './app-users';
 
 const authConfig: AuthConfig = {
     secret: crypto.randomBytes(64).toString('hex'),
@@ -25,8 +27,6 @@ const appConfig: AppConfig = {
     fallbackUrl: 'index.html',
 };
 Container.set(AppConfigToken, appConfig);
-
-Container.set(UserManagerToken, new AppUserManager());
 
 const app: Application = App.createApp();
 const server: Server = app.listen(appConfig.port, () => console.log(`Server listening on port ${appConfig.port}`));
