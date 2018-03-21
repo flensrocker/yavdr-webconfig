@@ -60,7 +60,7 @@ export namespace AuthController {
             }
 
             return {
-                status: 401,
+                status: 400,
                 response: {
                     msg: 'invalid username or password',
                 }
@@ -81,7 +81,7 @@ export namespace AuthController {
             }
 
             return {
-                status: 401,
+                status: 400,
                 response: {
                     msg: 'invalid username or password',
                 }
